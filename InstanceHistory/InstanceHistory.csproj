@@ -19,6 +19,9 @@
 		<Reference Include="UnityEngine.TextRenderingModule">
 		  <HintPath>$(VRChatPath)MelonLoader\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
 		</Reference>
+		<Reference Include="Unity.TextMeshPro">
+		  <HintPath>$(VRChatPath)MelonLoader\Managed\Unity.TextMeshPro.dll</HintPath>
+		</Reference>
 		<Reference Include="UnityEngine.UI">
 		  <HintPath>$(VRChatPath)MelonLoader\Managed\UnityEngine.UI.dll</HintPath>
 		</Reference>
