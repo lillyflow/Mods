@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using VRC.Core;
-using VRChatUtilityKit.Utilities;
 using VRChatUtilityKit.Ui;
+using VRChatUtilityKit.Utilities;
 
 namespace AskToPortal
 {
@@ -21,7 +21,7 @@ namespace AskToPortal
                 .Where(mb => mb.Name.StartsWith("Method_Public_Void_String_WorldTransitionInfo_")).First().GetParameters()[1].ParameterType;
             portalInfoEnum = portalInfo.GetNestedTypes().First();
             enterWorld = typeof(VRCFlowManager).GetMethods()
-                .Where(mb => mb.Name.StartsWith($"Method_Public_Void_String_String_{portalInfo.Name}_Action_1_String_Boolean_") && !mb.Name.Contains("PDM") && XrefUtils.CheckMethod(mb, "EnterWorld called with an invalid world id.")).First();
+                .Where(mb => mb.Name.StartsWith($"Method_Public_Void_String_String_{portalInfo.Name}_Action_1_String_Boolean_") && !mb.Name.Contains("PDM") && XrefUtils.CheckStrings(mb, "EnterWorld called with an invalid world id.")).First();
             enterPortal = typeof(PortalInternal).GetMethods()
                 .Where(mb => mb.Name.StartsWith("Method_Public_Void_") && mb.Name.Length <= 21 && XrefUtils.CheckUsedBy(mb, "OnTriggerEnter")).First();
 
