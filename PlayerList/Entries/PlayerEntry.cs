@@ -12,11 +12,11 @@ using PlayerList.Utilities;
 using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 using VRC.Core;
+using VRC.DataModel;
 using VRC.SDKBase;
 using VRChatUtilityKit.Ui;
 using VRChatUtilityKit.Utilities;
 using VRCSDK2.Validation.Performance;
-
 using Player = VRC.Player;
 
 namespace PlayerList.Entries
@@ -45,8 +45,8 @@ namespace PlayerList.Entries
         protected static int highestPhotonIdLength = 0;
         protected static int highestOwnedObjectsLength = 0;
         protected static int totalObjects = 0;
-        
-        public PerformanceRating perf;
+
+        public AvatarPerformanceRating perf;
         public string perfString;
         public int ping;
         public int fps;

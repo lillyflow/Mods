@@ -63,6 +63,9 @@
 		<Reference Include="VRCSDKBase">
 			<HintPath>$(VRChatPath)MelonLoader\Managed\VRCSDKBase.dll</HintPath>
 		</Reference>
+	  <Reference Include="DataModel">
+	    <HintPath>$(VRChatPath)MelonLoader\Managed\DataModel.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

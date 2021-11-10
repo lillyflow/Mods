@@ -1,5 +1,5 @@
 ﻿using VRC;
-using VRCSDK2.Validation.Performance;
+using VRC.DataModel;
 
 namespace PlayerList.Utilities
 {
@@ -42,21 +42,21 @@ namespace PlayerList.Utilities
             else
                 return "#ff0000";
         }
-        public static string ParsePerformanceText(PerformanceRating rating)
+        public static string ParsePerformanceText(AvatarPerformanceRating rating)
         {
             switch (rating)
             {
-                case PerformanceRating.VeryPoor:
+                case AvatarPerformanceRating.VeryPoor:
                     return "Awful";
-                case PerformanceRating.Poor:
+                case AvatarPerformanceRating.Poor:
                     return "Poor".PadRight(5);
-                case PerformanceRating.Medium:
+                case AvatarPerformanceRating.Medium:
                     return "Med".PadRight(5);
-                case PerformanceRating.Good:
+                case AvatarPerformanceRating.Good:
                     return "Good".PadRight(5);
-                case PerformanceRating.Excellent:
+                case AvatarPerformanceRating.Excellent:
                     return "Great";
-                case PerformanceRating.None:
+                case AvatarPerformanceRating.None:
                     return "?¿?¿?";
                 default:
                     return rating.ToString().PadRight(5);
