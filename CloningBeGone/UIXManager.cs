@@ -25,7 +25,7 @@ namespace CloningBeGone
             enableAlwaysOnButton.OnValueChangedUntyped += OnPrefChanged;
             enableAlwaysOffButton.OnValueChangedUntyped += OnPrefChanged;
 
-            UiManager.OnQuickMenuIndexSet += OnSetMenuIndexCalled;
+            UiManager.OnQuickMenuOpened += OnQuickMenuOpened;
 
             ICustomLayoutedMenu menu = ExpansionKitApi.GetExpandedMenu(ExpandedMenu.QuickMenu);
             menu.AddToggleButton("Always have cloning on with this avatar", new Action<bool>((state) => 
@@ -59,11 +59,8 @@ namespace CloningBeGone
             }), null, new Action<GameObject>((gameObject) => { alwaysOffButton = gameObject; alwaysOffButton?.SetActive(enableAlwaysOnButton.Value); }));
         }
 
-        public static void OnSetMenuIndexCalled(int index)
+        public static void OnQuickMenuOpened()
         {
-            if (index != 0)
-                return;
-
             ignore = true;
             if (alwaysOnButton.active)
                 alwaysOnButton.GetComponent<Toggle>().isOn = CloningBeGoneMod.cloningOnAvatars.Value.Contains(Player.prop_Player_0.prop_ApiAvatar_0.id);
