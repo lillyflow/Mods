@@ -73,13 +73,15 @@ namespace InstanceHistory
             var butAction = new System.Action(() => OpenInstanceHistoryMenu());
             openButton.name = "InstanceHistory_UI";
             openButton.SetParent(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/Header_H1"));
-            openButton.localPosition = new Vector3(200f, -60f, 0f);
+            openButton.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value, 0f); //200f, -60f
             openButton.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             openButton.GetComponent<Button>().onClick.AddListener(butAction);
             openButton.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = "InstanceHistory";
             openButton.GetComponentInChildren<Image>().overrideSprite = LoadAssets.instanceHistoryIcon;
 
             openButton.gameObject.SetActive(!(InstanceHistoryMod.HasUIX && Config.useUIX.Value));
+            Config.openButtonX.OnValueChanged += OnPositionChange;
+            Config.openButtonY.OnValueChanged += OnPositionChange;
 
             instanceHistorySub = new SubMenu("InstanceHistory", "InstanceHistorySubMenu", "InstanceHistory");
             ButtonGroup buttgroup = null;
@@ -115,11 +117,11 @@ namespace InstanceHistory
             InstanceIndex = 0;
         }
 
-        //private static void OnPositionChange(float oldValue, float newValue)
-        //{
-        //    if (oldValue == newValue) return;
-        //
-        //    openButton.gameObject.transform.localPosition = Converters.ConvertToUnityUnits(new Vector3(Config.openButtonX.Value, Config.openButtonY.Value));
-        //}
+        private static void OnPositionChange(float oldValue, float newValue)
+        {
+            if (oldValue == newValue) return;
+        
+            openButton.gameObject.transform.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value);
+        }
     }
 }
