@@ -3,7 +3,6 @@ using MelonLoader;
 using UnityEngine;
 using UnityEngine.UI;
 using VRChatUtilityKit.Ui;
-using VRChatUtilityKit.Utilities;
 
 namespace InstanceHistory
 {
@@ -24,7 +23,6 @@ namespace InstanceHistory
 
                 for (int i = 0; i < 12; i++)
                 {
-
                     if (_instanceIndex + i >= InstanceManager.instances.Count)
                     {
                         buttons[i].TextComponent.text = "N/A";
@@ -34,22 +32,21 @@ namespace InstanceHistory
                     else
                     {
                         InstanceManager.WorldInstance instance = InstanceManager.instances[InstanceIndex + i];
-                        buttons[i].TextComponent.text = (instance.worldName + ": " + instance.instanceId.Split('~')[0]).Truncate(30); //Tune?
+                        buttons[i].TextComponent.text = (instance.worldName + ": " + instance.instanceId.Split('~')[0]).Truncate(60);
                         buttons[i].Tooltip.field_Public_String_0 = instance.worldName + ": " + instance.instanceId.Split('~')[0];
                         buttons[i].ButtonComponent.onClick = new Button.ButtonClickedEvent();
                         buttons[i].ButtonComponent.onClick.AddListener(new Action(() => WorldManager.EnterWorld(instance.worldId + ":" + instance.instanceId)));
-
                     }
                 }
             }
         }
         public static int PageNum
         {
-            get { return Mathf.CeilToInt((_instanceIndex + 1) / 9f); }
+            get { return Mathf.CeilToInt((_instanceIndex + 1) / 12f); }
         }
         public static int LastPageNum
         {
-            get { return Mathf.CeilToInt(InstanceManager.instances.Count / 9f); }
+            get { return Mathf.CeilToInt(InstanceManager.instances.Count / 12f); }
         }
 
         public static Transform openButton;
@@ -66,8 +63,7 @@ namespace InstanceHistory
             LoadAssets.loadAssets();
 
             MelonLogger.Msg("Loading UI...");
-
-            worlds = UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickLinks/Button_Worlds/Icon").GetComponent<Image>().sprite;
+            //worlds = UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickLinks/Button_Worlds/Icon").GetComponent<Image>().sprite;
 
             openButton = UnityEngine.Object.Instantiate(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer/Button_QM_Expand"));
             var butAction = new System.Action(() => OpenInstanceHistoryMenu());
@@ -76,14 +72,14 @@ namespace InstanceHistory
             openButton.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value, 0f); //200f, -60f
             openButton.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             openButton.GetComponent<Button>().onClick.AddListener(butAction);
-            openButton.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = "InstanceHistory";
+            openButton.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = "Instance History";
             openButton.GetComponentInChildren<Image>().overrideSprite = LoadAssets.instanceHistoryIcon;
 
             openButton.gameObject.SetActive(!(InstanceHistoryMod.HasUIX && Config.useUIX.Value));
             Config.openButtonX.OnValueChanged += OnPositionChange;
             Config.openButtonY.OnValueChanged += OnPositionChange;
 
-            instanceHistorySub = new SubMenu("InstanceHistory", "InstanceHistorySubMenu", "InstanceHistory");
+            instanceHistorySub = new SubMenu("InstanceHistory", "InstanceHistorySubMenu", "Instance History");
             ButtonGroup buttgroup = null;
             var allButtons = new System.Collections.Generic.List<IButtonGroupElement>();
             int b = 0;
@@ -94,10 +90,12 @@ namespace InstanceHistory
                 {
                     case 4: pageUp = new SingleButton(new Action(() => InstanceIndex -= 9), LoadAssets.UpArrow, "Go up a page", $"UpPageButton", "Go up a page", (butt) => allButtons.Add(butt)); break;
                     case 8: pageDown = new SingleButton(new Action(() => InstanceIndex += 9), LoadAssets.DownArrow, "Go down a page", $"DownPageButton", "Go down a page", (butt) => allButtons.Add(butt)); break;
-                    case 12: pageNumLabel = new Label($"Page: 1 of {LastPageNum}", "", "InstanceHistoryPageLabel", (butt) => allButtons.Add(butt)); break;
+                    case 12: pageNumLabel = new Label($"Page: 1 of {LastPageNum}", "", "InstanceHistoryPageLabel", (butt) => allButtons.Add(butt));
+                             pageNumLabel.gameObject.transform.Find("Text_H1").localPosition = new Vector3(0f, 40f, 0f); break;
                     case 16: new Label($"Blank", "subtext", "Blank", (butt) => allButtons.Add(butt)); break;
                     default:
-                        buttons[b] = new SingleButton(null, worlds, "Placeholder", $"InstanceHistoryButton-{b}", "tooltip", (butt) => allButtons.Add(butt));
+                        buttons[b] = new SingleButton(null, LoadAssets.Trans, "Placeholder", $"InstanceHistoryButton-{b}", "tooltip", (butt) => allButtons.Add(butt));
+                        buttons[b].gameObject.transform.Find("Text_H4").localPosition = new Vector3(0f, -20f, 0f);
                         b++;
                         break;
                 }
@@ -122,6 +120,14 @@ namespace InstanceHistory
             if (oldValue == newValue) return;
         
             openButton.gameObject.transform.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value);
+        }
+    }
+    public static class StringExt
+    {
+        public static string Truncate(this string value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength) + "...";
         }
     }
 }

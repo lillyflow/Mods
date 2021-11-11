@@ -7,12 +7,13 @@ namespace InstanceHistory
 {
     class LoadAssets
     {
-        public static Sprite instanceHistoryIcon, UpArrow, DownArrow;
+        public static Sprite instanceHistoryIcon, UpArrow, DownArrow, Trans;
         public static void loadAssets()
         {
             instanceHistoryIcon = LoadEmbeddedImages("instanceHistoryIcon.png");
             UpArrow = LoadEmbeddedImages("UpArrow.png");
             DownArrow = LoadEmbeddedImages("DownArrow.png");
+            Trans = LoadEmbeddedImages("Trans.png");
         }
 
         private static Sprite LoadEmbeddedImages(string imageName)
@@ -36,15 +37,6 @@ namespace InstanceHistory
                 return s;
             }
             catch (System.Exception ex) { MelonLogger.Error("Failed to load image from asset bundle: " + imageName + "\n" + ex.ToString()); return null; }
-        }
-    }
-
-    public static class StringExt
-    {
-        public static string Truncate(this string value, int maxLength)
-        {
-            if (string.IsNullOrEmpty(value)) return value;
-            return value.Length <= maxLength ? value : value.Substring(0, maxLength);
         }
     }
 }
