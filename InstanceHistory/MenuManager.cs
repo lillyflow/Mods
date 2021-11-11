@@ -88,8 +88,8 @@ namespace InstanceHistory
                 //MelonLogger.Msg($"i:{i}, b:{b}");
                 switch (i)
                 {
-                    case 4: pageUp = new SingleButton(new Action(() => InstanceIndex -= 9), LoadAssets.UpArrow, "Go up a page", $"UpPageButton", "Go up a page", (butt) => allButtons.Add(butt)); break;
-                    case 8: pageDown = new SingleButton(new Action(() => InstanceIndex += 9), LoadAssets.DownArrow, "Go down a page", $"DownPageButton", "Go down a page", (butt) => allButtons.Add(butt)); break;
+                    case 4: pageUp = new SingleButton(new Action(() => InstanceIndex -= 12), LoadAssets.UpArrow, "Go up a page", $"UpPageButton", "Go up a page", (butt) => allButtons.Add(butt)); break;
+                    case 8: pageDown = new SingleButton(new Action(() => InstanceIndex += 12), LoadAssets.DownArrow, "Go down a page", $"DownPageButton", "Go down a page", (butt) => allButtons.Add(butt)); break;
                     case 12: pageNumLabel = new Label($"Page: 1 of {LastPageNum}", "", "InstanceHistoryPageLabel", (butt) => allButtons.Add(butt));
                              pageNumLabel.gameObject.transform.Find("Text_H1").localPosition = new Vector3(0f, 40f, 0f); break;
                     case 16: new Label($"Blank", "subtext", "Blank", (butt) => allButtons.Add(butt)); break;
