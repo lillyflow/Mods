@@ -41,10 +41,10 @@ namespace PlayerList
 
         public static void ToggleMenu()
         {
-            if (!playerListMenus.Any(subMenu => subMenu.gameObject.active) && !Constants.shortcutMenu.active) return;
+            if (!playerListMenus.Any(subMenu => subMenu.gameObject.active) && !Constants.quickMenu.gameObject.active) return;
             menuToggleButton.ToggleComponent.isOn = shouldStayHidden;
             shouldStayHidden = !shouldStayHidden;
-            if (playerListMenus.Any(subMenu => subMenu.gameObject.active) || Constants.shortcutMenu.active) playerList.SetActive(!playerList.activeSelf);
+            if (playerListMenus.Any(subMenu => subMenu.gameObject.active) || Constants.quickMenu.gameObject.active) playerList.SetActive(!playerList.activeSelf);
         }
 
         public static void LoadAssetBundle()
@@ -86,8 +86,8 @@ namespace PlayerList
                 });
             }
             else
-            { 
-                EnableDisableListener shortcutMenuListener = Constants.shortcutMenu.AddComponent<EnableDisableListener>();
+            {
+                EnableDisableListener shortcutMenuListener = Constants.quickMenu.gameObject.AddComponent<EnableDisableListener>();
                 shortcutMenuListener.OnEnableEvent += new Action(() => playerList.SetActive(!shouldStayHidden && !PlayerListConfig.onlyEnabledInConfig.Value));
                 shortcutMenuListener.OnDisableEvent += new Action(() => playerList.SetActive(false));
             }

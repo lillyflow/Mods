@@ -5,22 +5,20 @@ namespace PlayerList.Utilities
 {
     public class Constants
     {
-        public static GameObject shortcutMenu;
         public static GameObject quickMenu;
         public static VerticalLayoutGroup playerListLayout;
         public static VerticalLayoutGroup generalInfoLayout;
-        public static Vector2 quickMenuColliderSize;
+        public static Vector2 quickMenuColliderSize = new Vector2(1, 1);
 
         public static void UIInit()
         {
-            shortcutMenu = GameObject.Find("UserInterface/QuickMenu/ShortcutMenu");
-            quickMenu = QuickMenu.prop_QuickMenu_0.gameObject;
+            quickMenu = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)").gameObject;
         }
 
         public static void OnSceneWasLoaded()
         {
-            if (quickMenuColliderSize != null)
-                quickMenuColliderSize = quickMenu.GetComponent<BoxCollider>().size;
+            //if (quickMenuColliderSize != null)
+            //    quickMenuColliderSize = quickMenu.GetComponent<BoxCollider>().size;
         }
     }
 }

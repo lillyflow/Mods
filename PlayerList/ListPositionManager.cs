@@ -28,7 +28,7 @@ namespace PlayerList
         {
             GameObject temp = new GameObject("temp", new UnhollowerBaseLib.Il2CppReferenceArray<Il2CppSystem.Type>(new Il2CppSystem.Type[] { Il2CppType.Of<RectTransform>() }));
             RectTransform furthestTransform = temp.GetComponent<RectTransform>(); // Create new gameobject with recttransform on it
-            foreach (var child in Constants.shortcutMenu.transform)
+            foreach (var child in Constants.quickMenu.transform)
             {
                 RectTransform childRect = child.Cast<RectTransform>();
                 if (childRect.gameObject.activeSelf && childRect.anchoredPosition.x + childRect.rect.width > furthestTransform.anchoredPosition.x + furthestTransform.rect.width)
@@ -47,10 +47,10 @@ namespace PlayerList
             {
                 PlayerListConfig.playerListPosition.Value = MenuManager.playerListRect.anchoredPosition;
                 gameObject.SetActive(!MenuManager.shouldStayHidden);
-                UiManager.OpenSubMenu(MenuManager.playerListMenus[1].Path);
+                //UiManager.OpenSubMenu(MenuManager.playerListMenus[1].Path);
                 MenuManager.playerListRect.localPosition = MenuManager.playerListRect.localPosition.SetZ(25);
             })));
-            UiManager.OpenSubMenu("UserInterface/QuickMenu/ShortcutMenu");
+            //UiManager.OpenSubMenu("UserInterface/QuickMenu/ShortcutMenu");
             MenuManager.playerList.SetActive(true);
         }
         private static System.Collections.IEnumerator WaitForPress(GameObject movingGameObject, Action<GameObject> onComplete = null)
