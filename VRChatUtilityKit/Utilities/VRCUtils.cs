@@ -11,6 +11,7 @@ using VRC.Core;
 using VRC.DataModel;
 using VRC.Management;
 using VRC.UI;
+using VRC.UI.Elements.Menus;
 using VRChatUtilityKit.Ui;
 
 #pragma warning disable IDE0051 // Remove unused private members
@@ -59,11 +60,41 @@ namespace VRChatUtilityKit.Utilities
         /// </summary>
         public static PageUserInfo UserInfoInstance { get; private set; }
 
-        private static PropertyInfo _activeUserInUserInfoMenuField;
+        /// <summary>
+        ///  Returns the instance of the MenuController.
+        /// </summary>
+        public static MenuController MenuControllerInstance => UserInfoInstance.field_Public_MenuController_0;
+
         /// <summary>
         /// Returns the active user in the user info menu.
         /// </summary>
-        public static APIUser ActiveUserInUserInfoMenu => (APIUser)_activeUserInUserInfoMenuField.GetValue(UiManager._selectedUserManagerObject);
+        public static APIUser ActiveUserInUserInfoMenu => UserInfoInstance.field_Public_APIUser_0;
+        /// <summary>
+        /// Returns the active player in the user info menu.
+        /// Will be null if the player isn't in the instance.
+        /// </summary>
+        // If the user in the userinfo menu is null or isn't the same as the on in menucontroller
+        // we know the active player in menu controller is either null or active player in the quick menu, not userinfo page
+        public static VRCPlayer ActivePlayerInUserInfoMenu => ActiveUserInUserInfoMenu == null || ActiveUserInUserInfoMenu.id != MenuControllerInstance.activeUserId ? null : MenuControllerInstance.activePlayer;
+
+        private static PropertyInfo _activeUserInUserSelectMenuField;
+        /// <summary>
+        /// Returns the user selected via the cursor.
+        /// </summary>
+        public static APIUser SelectedUser => (APIUser)_activeUserInUserSelectMenuField.GetValue(UiManager._selectedUserManagerObject);
+
+        /// <summary>
+        /// Returns the player selected via the cursor.
+        /// </summary>
+        public static VRCPlayer SelectedPlayer => SelectedUser == null || SelectedUser.id != MenuControllerInstance.activeUserId ? null : MenuControllerInstance.activePlayer;
+        
+        private static VRC.UI.Elements.QuickMenu _quickMenuInstance;
+        /// <summary>
+        /// Returns the active user in the user select menu.
+        /// </summary>
+        public static IUser ActiveUserInUserSelectMenu => _quickMenuInstance.field_Private_UIPage_1.gameObject.active ?
+                                                              _quickMenuInstance.field_Private_UIPage_1.Cast<SelectedUserMenuQM>().field_Private_IUser_0 :
+                                                              _quickMenuInstance.field_Private_UIPage_2.gameObject.active ? _quickMenuInstance.field_Private_UIPage_2.Cast<SelectedUserMenuQM>().field_Private_IUser_0 : null;                                                                
 
         private static MethodInfo _loadAvatarMethod;
         private static MethodInfo _reloadAllAvatarsMethod;
@@ -91,7 +122,8 @@ namespace VRChatUtilityKit.Utilities
 
             OnUiManagerInit?.Invoke();
 
-            _activeUserInUserInfoMenuField = typeof(UserSelectionManager).GetProperty("field_Private_APIUser_1");
+            _activeUserInUserSelectMenuField = typeof(UserSelectionManager).GetProperty("field_Private_APIUser_1");
+            _quickMenuInstance = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)").GetComponent<VRC.UI.Elements.QuickMenu>();
         }
 
         // Completely stolen from Psychloor's PlayerRotator (https://github.com/Psychloor/PlayerRotater)
