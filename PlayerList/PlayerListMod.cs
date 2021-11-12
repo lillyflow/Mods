@@ -53,15 +53,15 @@ namespace PlayerList
             MenuManager.LoadAssetBundle();
 
             // Initialize submenu for the list 
-            MenuManager.CreateMainSubMenu();
+            //MenuManager.CreateMainSubMenu();
 
             // This is kinda a mess but whatever
             MenuManager.AddMenuListeners();
-            MenuManager.CreateSortPages();
-            MenuManager.CreateSubMenus();
+            //MenuManager.CreateSortPages();
+            //MenuManager.CreateSubMenus();
             EntryManager.AddGeneralInfoEntries();
-            MenuManager.CreateGeneralInfoSubMenus();
-            MenuManager.AdjustSubMenus();
+            //MenuManager.CreateGeneralInfoSubMenus();
+            //MenuManager.AdjustSubMenus();
 
             PlayerListConfig.OnConfigChange(false);
 
@@ -80,7 +80,7 @@ namespace PlayerList
             if (MelonHandler.Mods.Any(mod => mod.Info.Name == "emmVRCLoader"))
                 typeof(EmmManager).GetMethod("OnSceneWasLoaded").Invoke(null, null);
 
-            MenuManager.OnSceneWasLoaded();
+            //MenuManager.OnSceneWasLoaded();
             Constants.OnSceneWasLoaded();
             EntryManager.OnSceneWasLoaded();
         }
