@@ -19,6 +19,7 @@ using VRChatUtilityKit.Utilities;
 using VRCSDK2.Validation.Performance;
 using Player = VRC.Player;
 
+
 namespace PlayerList.Entries
 {
     [RegisterTypeInIl2Cpp]
@@ -88,10 +89,10 @@ namespace PlayerList.Entries
             userId = apiUser.id;
             
             platform = platform = PlayerUtils.GetPlatform(player).PadRight(2);
-            perf = PerformanceRating.None;
-            perfString = "<color=#" + ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.Method_Private_Static_Color_AvatarPerformanceCategory_PerformanceRating_0(AvatarPerformanceCategory.Overall, perf)) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
+            perf = AvatarPerformanceRating.None;
+            perfString = PlayerUtils.CreatePerformanceString(perf);
 
-            gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(new Action(() => UiManager.OpenUserInQuickMenu(player)));
+            gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(new Action(() => UiManager.OpenUserInQuickMenu(apiUser)));
 
             isFriend = APIUser.IsFriendsWith(apiUser.id);
             GetPlayerColor(false);
@@ -143,8 +144,9 @@ namespace PlayerList.Entries
             if (manager.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id != userId)
                 return;
 
-            perf = manager.prop_AvatarPerformanceStats_0.field_Private_ArrayOf_PerformanceRating_0[(int)AvatarPerformanceCategory.Overall];
-            perfString = "<color=#" + ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.Method_Private_Static_Color_AvatarPerformanceCategory_PerformanceRating_0(AvatarPerformanceCategory.Overall, perf)) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
+            // TODO: Xref scanning?
+            perf = (AvatarPerformanceRating)manager.prop_AvatarPerformanceStats_0.field_Private_ArrayOf_EnumPublicSealedvaNoExGoMePoVe7v0_0[(int)AvatarPerformanceCategory.Overall];
+            perfString = PlayerUtils.CreatePerformanceString(perf);
             
             if (player.prop_PlayerNet_0 != null)
                 UpdateEntry(player.prop_PlayerNet_0, this, true);
@@ -158,7 +160,7 @@ namespace PlayerList.Entries
             if (loadingBar.field_Public_PlayerNameplate_0.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id != userId)
                 return;
 
-            perf = PerformanceRating.None;
+            perf = AvatarPerformanceRating.None;
             if (downloadPercentage < 1)
                 perfString = ((downloadPercentage * 100).ToString("N1") + "%").PadRight(5);
             else

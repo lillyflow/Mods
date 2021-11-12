@@ -1,5 +1,7 @@
-﻿using VRC;
+﻿using UnityEngine;
+using VRC;
 using VRC.DataModel;
+using VRCSDK2.Validation.Performance;
 
 namespace PlayerList.Utilities
 {
@@ -61,6 +63,11 @@ namespace PlayerList.Utilities
                 default:
                     return rating.ToString().PadRight(5);
             }
+        }
+
+        public static string CreatePerformanceString(AvatarPerformanceRating rating)
+        {
+            return "<color=#" + ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.Method_Private_Static_Color_AvatarPerformanceCategory_EnumPublicSealedvaNoExGoMePoVe7v0_0(AvatarPerformanceCategory.Overall, (EnumPublicSealedvaNoExGoMePoVe7v0)rating)) + ">" + ParsePerformanceText(rating) + "</color>";
         }
     }
 }
