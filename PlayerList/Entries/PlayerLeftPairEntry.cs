@@ -25,6 +25,7 @@ namespace PlayerList.Entries
                 _playerEntry.transform.SetParent(transform);
                 value.transform.localPosition.SetZ(0);
                 value.playerLeftPairEntry = this;
+                
             }
         }
 
@@ -49,13 +50,36 @@ namespace PlayerList.Entries
 
         public static void SwapPlayerEntries(PlayerLeftPairEntry lEntry, PlayerLeftPairEntry rEntry)
         {
+            
+            
             PlayerEntry temp = lEntry._playerEntry;
             lEntry.playerEntry = rEntry._playerEntry;
+
             rEntry.playerEntry = temp;
+            
+
+            
         }
 
         public override void Remove()
         {
+            MelonLogger.Msg("PLPE: Removing " + _playerEntry.apiUser.displayName);
+            /*try
+            {
+                if (_playerEntry.player != null)
+                {
+                    MelonLogger.Msg("PLAYER MAY STILL EXIST! Aborting.");
+                    //return;
+                }
+                else
+                {
+                    MelonLogger.Msg("Player is probably gone. Removing.");
+                }
+            }
+            catch
+            {
+                MelonLogger.Msg("Player is probably gone. Removing.");
+            }*/
             EntryManager.playerLeftPairsEntries.Remove(this);
             EntryManager.idToEntryTable.Remove(playerEntry.userId);
             EntryManager.playerEntries.Remove(_playerEntry);

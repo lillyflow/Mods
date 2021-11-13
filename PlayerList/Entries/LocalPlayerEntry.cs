@@ -45,7 +45,7 @@ namespace PlayerList.Entries
 
             platform = PlayerUtils.GetPlatform(player).PadRight(2);
             // Join event runs after avatar instantiation event so perf calculations *should* be finished (also not sure if this will throw null refs so gonna release without a check and hope for the best)
-            perf = PerformanceRating.None;
+            perf = player.prop_VRCPlayer_0.prop_VRCAvatarManager_0.prop_AvatarPerformanceStats_0.field_Private_ArrayOf_PerformanceRating_0[(int)AvatarPerformanceCategory.Overall];
             perfString = "<color=#" + ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.Method_Private_Static_Color_AvatarPerformanceCategory_PerformanceRating_0(AvatarPerformanceCategory.Overall, perf)) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
 
             NetworkEvents.OnPlayerJoined += new Action<Player>((player) =>
@@ -72,6 +72,8 @@ namespace PlayerList.Entries
                 updateDelegate += AddPlatform;
             if (PlayerListConfig.perfToggle.Value)
                 updateDelegate += AddPerf;
+            if (PlayerListConfig.jeffToggle.Value)
+                updateDelegate += AddJeff;
             if (PlayerListConfig.distanceToggle.Value)
                 updateDelegate += AddDistance;
             if (PlayerListConfig.photonIdToggle.Value)
@@ -162,6 +164,10 @@ namespace PlayerList.Entries
         private static void AddPerf(Player player, LocalPlayerEntry entry, ref StringBuilder tempString)
         {
             tempString.Append(entry.perfString + separator);
+        }
+        private static void AddJeff(Player player, LocalPlayerEntry entry, ref StringBuilder tempString)
+        {
+            tempString.Append(entry.jeffString + separator);
         }
         private static void AddDistance(Player player, LocalPlayerEntry entry, ref StringBuilder tempString)
         {

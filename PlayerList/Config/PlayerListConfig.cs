@@ -31,6 +31,7 @@ namespace PlayerList.Config
         public static EntryWrapper<bool> photonIdToggle;
         public static EntryWrapper<bool> ownedObjectsToggle;
         public static EntryWrapper<bool> displayNameToggle;
+        public static EntryWrapper<bool> jeffToggle;
 
         public static EntryWrapper<PlayerEntry.DisplayNameColorMode> displayNameColorMode;
 
@@ -42,6 +43,12 @@ namespace PlayerList.Config
         public static EntryWrapper<bool> reverseHighestSort;
         public static EntryWrapper<EntrySortManager.SortType> currentHighestSort;
         public static EntryWrapper<bool> showSelfAtTop;
+
+        public static EntryWrapper<int> polyLimit;
+        public static EntryWrapper<int> meshLimit;
+        public static EntryWrapper<int> matLimit;
+        public static EntryWrapper<float> boundsMagLimit;
+
 
         public static EntryWrapper<MenuManager.MenuButtonPositionEnum> menuButtonPosition;
 
@@ -66,6 +73,7 @@ namespace PlayerList.Config
             photonIdToggle = CreateEntry(nameof(photonIdToggle), false, is_hidden: true);
             ownedObjectsToggle = CreateEntry(nameof(ownedObjectsToggle), false, is_hidden: true);
             displayNameToggle = CreateEntry(nameof(displayNameToggle), true, is_hidden: true);
+            jeffToggle = CreateEntry(nameof(jeffToggle), true, is_hidden: true);
             displayNameColorMode = CreateEntry(nameof(displayNameColorMode), PlayerEntry.DisplayNameColorMode.TrustAndFriends, is_hidden: true);
 
 			freezeSortWhenVisible = CreateEntry(nameof(freezeSortWhenVisible), false, is_hidden: true);
@@ -77,9 +85,14 @@ namespace PlayerList.Config
             currentHighestSort = CreateEntry(nameof(currentHighestSort), EntrySortManager.SortType.None, is_hidden: true);
             showSelfAtTop = CreateEntry(nameof(showSelfAtTop), true, is_hidden: true);
 
-            menuButtonPosition = CreateEntry(nameof(menuButtonPosition), MenuManager.MenuButtonPositionEnum.TopRight, is_hidden: true);
+            polyLimit = CreateEntry(nameof(polyLimit), 150000, is_hidden: false);
+            meshLimit = CreateEntry(nameof(meshLimit), 6, is_hidden: false);
+            matLimit = CreateEntry(nameof(matLimit), 10, is_hidden: false);
+            boundsMagLimit = CreateEntry(nameof(boundsMagLimit), 17.3f, is_hidden: false);
 
-            playerListPosition = CreateEntry(nameof(playerListPosition), new Vector2(2100, 0), is_hidden: true);
+            menuButtonPosition = CreateEntry(nameof(menuButtonPosition), MenuManager.MenuButtonPositionEnum.TopRight, is_hidden: false);
+
+            playerListPosition = CreateEntry(nameof(playerListPosition), new Vector2(2100, 0), is_hidden: false);
 
             foreach (EntryWrapper entry in entries)
                 entry.OnValueChangedUntyped += new Action(() => OnConfigChange());

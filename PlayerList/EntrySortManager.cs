@@ -31,6 +31,10 @@ namespace PlayerList
         {
             return lEntry.perf.CompareTo(rEntry.perf);
         };
+        private static readonly Comparison<PlayerEntry> jeffSort = (lEntry, rEntry) =>
+        {
+            return lEntry.partyFouls.CompareTo(rEntry.partyFouls);
+        };
         private static readonly Comparison<PlayerEntry> defaultSort = (lEntry, rEntry) =>
         {
             return lEntry.player.prop_PlayerNet_0.prop_PhotonView_0.field_Private_Int32_0.CompareTo(rEntry.player.prop_PlayerNet_0.prop_VRCPlayer_0.prop_PhotonView_0.field_Private_Int32_0);
@@ -100,6 +104,9 @@ namespace PlayerList
                 case SortType.AvatarPerf:
                     currentBaseComparison = avatarPerfSort;
                     break;
+                case SortType.Jeff:
+                    currentBaseComparison = jeffSort;
+                    break;
                 case SortType.Distance:
                     if (VRCUtils.AreRiskyFunctionsAllowed)
                         currentBaseComparison = distanceSort;
@@ -131,6 +138,9 @@ namespace PlayerList
                 case SortType.AvatarPerf:
                     currentUpperComparison = avatarPerfSort;
                     break;
+                case SortType.Jeff:
+                    currentUpperComparison = jeffSort;
+                    break;
                 case SortType.Distance:
                     if (VRCUtils.AreRiskyFunctionsAllowed)
                         currentUpperComparison = distanceSort;
@@ -161,6 +171,9 @@ namespace PlayerList
                     break;
                 case SortType.AvatarPerf:
                     currentHighestComparison = avatarPerfSort;
+                    break;
+                case SortType.Jeff:
+                    currentHighestComparison = jeffSort;
                     break;
                 case SortType.Distance:
                     if (VRCUtils.AreRiskyFunctionsAllowed)
@@ -308,6 +321,7 @@ namespace PlayerList
             Default,
             Alphabetical,
             AvatarPerf,
+            Jeff,
             Distance,
             Friends,
             NameColor,
