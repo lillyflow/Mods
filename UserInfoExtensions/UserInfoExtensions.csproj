@@ -34,9 +34,6 @@
     <Reference Include="DataModel">
       <HintPath>$(VRChatPath)MelonLoader\Managed\DataModel.dll</HintPath>
     </Reference>
-    <Reference Include="VRC.UI.Core">
-      <HintPath>$(VRChatPath)MelonLoader\Managed\VRC.UI.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
