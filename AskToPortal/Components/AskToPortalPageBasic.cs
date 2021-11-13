@@ -36,7 +36,7 @@ namespace AskToPortal.Components
             {
                 try
                 {
-                    avatarImage.texture = AskToPortalMod.cachedDroppers[portal.GetInstanceID()].prop_VRCPlayer_0.field_Private_Texture2D_1;
+                    avatarImage.texture = AskToPortalMod.cachedDroppers[portal.GetInstanceID()].prop_VRCPlayer_0.field_Private_Texture2D_0;
                     if (avatarImage.texture == null)
                         avatarImage.texture = AskToPortalMod.cachedDroppers[portal.GetInstanceID()].prop_VRCPlayer_0.field_Private_Texture2D_0;
                 }
