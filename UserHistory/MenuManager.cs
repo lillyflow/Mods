@@ -68,7 +68,7 @@ namespace UserHistory
         private static void OnUserReceived(APIUser user)
         {
             UiManager.OpenBigMenu(false);
-            UiManager.OpenUserInUserInfoPage(user);
+            UiManager.OpenUserInUserInfoPage(user.ToIUser());
         }
 
         public static int PageNum
