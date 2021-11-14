@@ -13,6 +13,16 @@ I do my abselute best to make sure none of my mods, verified or unverified, will
 And in fact, only one of my mods could trigger any anticheat in any way (UserInfoExtensions), but there are limits in place that completely prevent this.
 **But**, no matter how small, there is always a chance.
 
+## Status
+
+Loukylor has said that they do not have enough time to keep maintaining their mods.
+And that is totally fine.
+Since the mods are open source, I've tried to fork the project and fix them to a working order.
+
+I've tried to apply easy enough fixes myself and merge changes from others that've fixed some things.
+That being said tho, just like loukylor, I don't have too much time to spend on modding.
+So please please do create forks, so that I can scoop up your changes and try to keep loukylor's awesome creations working!
+
 ## Installation
 
 1. Simply follow the instructions on the [MelonLoader wiki](https://melonwiki.xyz/#/) on installing MelonLoader **0.4.0** (MelonLoader is the mod loader which will allow my mods to run).
