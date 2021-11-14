@@ -62,6 +62,7 @@ namespace VRChatUtilityKit.Ui
         {
             Header = new ButtonHeader(rectTransform.parent, text, gameObjectName);
             rectTransform.SetSiblingIndex(rectTransform.GetSiblingIndex() + 1);
+
             return this;
         }
 
@@ -72,6 +73,7 @@ namespace VRChatUtilityKit.Ui
         {
             GameObject.DestroyImmediate(Header.gameObject);
             Header = null;
+
             return this;
         }
 
@@ -83,6 +85,7 @@ namespace VRChatUtilityKit.Ui
         {
             button.rectTransform.parent = ButtonLayoutGroup.transform;
             _buttons.Add(button);
+
             return this;
         }
 
@@ -105,6 +108,7 @@ namespace VRChatUtilityKit.Ui
         {
             _buttons.Remove(button);
             GameObject.DestroyImmediate(button.gameObject);
+
             return this;
         }
 
@@ -113,9 +117,10 @@ namespace VRChatUtilityKit.Ui
         /// </summary>
         public ButtonGroup ClearButtons()
         {
-            foreach (SingleButton button in _buttons)
+            foreach (IButtonGroupElement button in _buttons)
                 GameObject.DestroyImmediate(button.gameObject);
             _buttons.Clear();
+
             return this;
         }
     }

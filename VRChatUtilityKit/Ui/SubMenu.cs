@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.UI.Elements;
-using VRC.UI.Elements.Controls;
 
 #pragma warning disable IDE1006 // Naming Styles
 
@@ -65,6 +64,7 @@ namespace VRChatUtilityKit.Ui
             PageLayoutGroup = rectTransform.Find("ScrollRect/Viewport/VerticalLayoutGroup").GetComponent<VerticalLayoutGroup>();
             for (int i = PageLayoutGroup.rectTransform.childCount - 1; i >= 0; i--)
                 GameObject.DestroyImmediate(PageLayoutGroup.transform.GetChild(i).gameObject);
+            PageLayoutGroup.childControlHeight = true;
 
             BackButton = rectTransform.Find("Header_H1/LeftItemContainer/Button_Back").gameObject;
             BackButton.gameObject.SetActive(true);
