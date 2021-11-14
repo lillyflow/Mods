@@ -5,9 +5,12 @@
 		<RootNamespace>InstanceHistory</RootNamespace>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<OutputPath></OutputPath>
-	</PropertyGroup>
+    <ItemGroup>
+        <None Remove="instanceHistoryIcon.png" />
+        <None Remove="Trans.png" />
+        <None Remove="UpArrow.png" />
+        <None Remove="DownArrow.png" />
+    </ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="Newtonsoft.Json">
