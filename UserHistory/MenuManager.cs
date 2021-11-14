@@ -50,7 +50,7 @@ namespace UserHistory
                     {
                         UserManager.CachedPlayer player = UserManager.cachedPlayers[PlayerIndex + i];
                         buttons[i].TextComponent.text = player.name;
-                        buttons[i].TooltipComponent.field_Public_String_0 = $"User: {player.name} joined on {player.timeJoined:G}";
+                        buttons[i].Tooltip.field_Public_String_0 = $"User: {player.name} joined on {player.timeJoined:G}";
                         buttons[i].ButtonComponent.onClick = new Button.ButtonClickedEvent();
                         buttons[i].ButtonComponent.onClick.AddListener(new Action(() =>
                         {
@@ -80,7 +80,7 @@ namespace UserHistory
             get { return Mathf.CeilToInt(UserManager.cachedPlayers.Count / 9f); }
         }
 
-        public static SingleButton openButton;
+        public static Transform openButton;
         public static SubMenu menu;
         private static readonly SingleButton[] buttons = new SingleButton[9];
         private static SingleButton pageUp;
@@ -91,17 +91,50 @@ namespace UserHistory
         public static void UiInit()
         {
             MelonLogger.Msg("Loading UI...");
+            LoadAssets.Init();
 
-            menu = new SubMenu(QuickMenu.prop_QuickMenu_0.gameObject, "UserHistoryMenu");
+            menu = new SubMenu("UserHistoryMenu", "UserHistorySubMenu", "User History");
 
-            openButton = new SingleButton(QuickMenu.prop_QuickMenu_0.transform.FindChild("ShortcutMenu").gameObject, new Vector3(Config.openButtonX.Value, Config.openButtonY.Value), "User History", new Action(OpenUserHistoryMenu), "Open User history", "UserHistoryButton");
+            openButton = UnityEngine.Object.Instantiate(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer/Button_QM_Expand"));
+            openButton.name = "UserHistory_UI";
+            openButton.SetParent(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/Header_H1"));
+            openButton.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value, 0f);
+            openButton.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
+            openButton.GetComponent<Button>().onClick.AddListener(new Action(() => OpenUserHistoryMenu()));
+            openButton.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = "User History";
+            openButton.GetComponentInChildren<Image>().overrideSprite = LoadAssets.UserHistoryIcon;
+
+
             openButton.gameObject.SetActive(!(VRCUtils.IsUIXPresent && Config.useUIX.Value));
             Config.openButtonX.OnValueChanged += OnPositionChange;
             Config.openButtonY.OnValueChanged += OnPositionChange;
 
-            if (VRCUtils.IsUIXPresent)
-                typeof(UIXManager).GetMethod("AddOpenButtonToUIX").Invoke(null, null);
+            ButtonGroup buttgroup = null;
+            var allButtons = new System.Collections.Generic.List<IButtonGroupElement>();
+            int b = 0;
+            for (int i = 1; i < 16; i++)
+            {
+                //MelonLogger.Msg($"i:{i}, b:{b}");
+                switch (i)
+                {
+                    case 4: pageUp = new SingleButton(new Action(() => PlayerIndex -= 12), LoadAssets.UpArrow, "Go up a page", $"UpPageButton", "Go up a page", (butt) => allButtons.Add(butt)); break;
+                    case 8: pageDown = new SingleButton(new Action(() => PlayerIndex += 12), LoadAssets.DownArrow, "Go down a page", $"DownPageButton", "Go down a page", (butt) => allButtons.Add(butt)); break;
+                    case 12:
+                        pageNumLabel = new Label($"Page: 1 of {LastPageNum}", "", "UserHistoryPageLabel", (butt) => allButtons.Add(butt));
+                        pageNumLabel.gameObject.transform.Find("Text_H1").localPosition = new Vector3(0f, 40f, 0f); break;
+                    case 16: new Label($"Blank", "subtext", "Blank", (butt) => allButtons.Add(butt)); break;
+                    default:
+                        buttons[b] = new SingleButton(null, LoadAssets.Trans, "Placeholder", $"UserHistoryButton-{b}", "tooltip", (butt) => allButtons.Add(butt));
+                        buttons[b].gameObject.transform.Find("Text_H4").localPosition = new Vector3(0f, -20f, 0f);
+                        b++;
+                        break;
+                }
+            }
+            menu.AddButtonGroup(new ButtonGroup("InstanceHistoryButtons", "", allButtons, (group) => buttgroup = group));
+            buttgroup.RemoveButtonHeader();
 
+
+            /*
             pageUp = new SingleButton(menu.gameObject, GameObject.Find("UserInterface/QuickMenu/EmojiMenu/PageUp"), new Vector3(4, 0), "", new Action(() => PlayerIndex -= 9), $"Go up a page", "UpPageButton");
             pageDown = new SingleButton(menu.gameObject, GameObject.Find("UserInterface/QuickMenu/EmojiMenu/PageDown"), new Vector3(4, 2), "", new Action(() => PlayerIndex += 9), $"Go down a page", "DownPageButton");
             backButton = new SingleButton(menu.gameObject, new Vector3(4, 0), "Back", new Action(() => UiManager.OpenSubMenu("UserInterface/QuickMenu/ShortcutMenu")), "Press to go back to the Shortcut Menu", "BackButton", textColor: Color.yellow);
@@ -109,14 +142,17 @@ namespace UserHistory
             pageNumLabel = new Label(menu.gameObject, new Vector3(4, 1), $"Page: 1 of {LastPageNum}", "PageNumberLabel");
 
             for (int i = 0; i < 9; i++)
-                buttons[i] = new SingleButton(menu.gameObject, new Vector3((i % 3) + 1, Mathf.Floor(i / 3)), "Placeholder text", null, "Placeholder text", $"World Button {i + 1}", resize: true);
+                buttons[i] = new SingleButton(menu.gameObject, new Vector3((i % 3) + 1, Mathf.Floor(i / 3)), "Placeholder text", null, "Placeholder text", $"World Button {i + 1}", resize: true);*/
+
+            if (VRCUtils.IsUIXPresent)
+                typeof(UIXManager).GetMethod("AddOpenButtonToUIX").Invoke(null, null);
 
             MelonLogger.Msg("UI Loaded!");
         }
 
         public static void OpenUserHistoryMenu()
         {
-            menu.OpenSubMenu();
+            UiManager.OpenSubMenu(UiManager.QMStateController.field_Private_UIPage_0, menu.uiPage);
             PlayerIndex = 0;
         }
 

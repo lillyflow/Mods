@@ -5,6 +5,13 @@
 		<RootNamespace>UserHistory</RootNamespace>
 	</PropertyGroup>
 
+
+    <ItemGroup>
+        <None Remove="UserHistoryIcon.png" />
+        <None Remove="UpArrow.png" />
+        <None Remove="DownArrow.png" />
+    </ItemGroup>
+
 	<ItemGroup>
 		<Reference Include="UIExpansionKit">
 			<HintPath>$(VRChatPath)Mods\UIExpansionKit.dll</HintPath>
@@ -18,6 +25,9 @@
 		<Reference Include="Unity.TextMeshPro">
 		  <HintPath>$(VRChatPath)MelonLoader\Managed\Unity.TextMeshPro.dll</HintPath>
 		</Reference>
+		<Reference Include="UnityEngine.ImageConversion">
+		  <HintPath>$(VRChatPath)MelonLoader\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      </Reference>
 		<Reference Include="VRChatUtilityKit">
 			<HintPath>$(VRChatPath)Mods\VRChatUtilityKit.dll</HintPath>
 		</Reference>
