@@ -31,6 +31,9 @@
     <Reference Include="VRChatUtilityKit">
       <HintPath>$(VRChatPath)Mods\VRChatUtilityKit.dll</HintPath>
     </Reference>
+    <Reference Include="DataModel">
+      <HintPath>$(VRChatPath)MelonLoader\Managed\DataModel.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

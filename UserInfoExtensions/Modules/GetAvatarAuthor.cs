@@ -125,7 +125,7 @@ namespace UserInfoExtensions.Modules
                 return;
             }
 
-            UiManager.OpenUserInUserInfoPage(user);
+            UiManager.OpenUserInUserInfoPage(user.ToIUser());
             if (isFromSocialPage)
                 isFromSocialPage = false;
         }

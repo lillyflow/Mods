@@ -283,7 +283,7 @@ namespace VRChatUtilityKit.Ui
         /// <summary>
         /// Opens the QuickMenu.
         /// </summary>
-        public static void OpenQuickMenu() => _openQuickMenuMethod?.Invoke(UIManagerImpl.prop_UIManagerImpl_0, null);
+        public static void OpenQuickMenu() => _openQuickMenuMethod?.Invoke(UIManagerImpl.prop_UIManagerImpl_0, new object[1] { true });
 
         /// <summary>
         /// Closes the QuickMenu.

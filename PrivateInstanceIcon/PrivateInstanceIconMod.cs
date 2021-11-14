@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VRC.Core;
 
-[assembly: MelonInfo(typeof(PrivateInstanceIcon.PrivateInstanceIconMod), "PrivateInstanceIcon", "1.2.0", "loukylor", "https://github.com/loukylor/VRC-Mods")]
+[assembly: MelonInfo(typeof(PrivateInstanceIcon.PrivateInstanceIconMod), "PrivateInstanceIcon", "1.2.1", "loukylor", "https://github.com/loukylor/VRC-Mods")]
 [assembly: MelonGame("VRChat", "VRChat")]
 [assembly: MelonOptionalDependencies("UIExpansionKit")]
 
@@ -22,7 +22,7 @@ namespace PrivateInstanceIcon
 
         public override void OnApplicationStart()
         {
-            listEnum = typeof(UiUserList).GetProperties().First(pi => pi.Name.StartsWith("field_Public_Enum"));
+            listEnum = typeof(UiUserList).GetProperties().First(pi => pi.Name.StartsWith("field_Public_ListType"));
             pickerPrefabProp = typeof(UiUserList).GetProperties().First(pi => pi.PropertyType == typeof(GameObject));
 
             lockIconSprite = LoadSprite("PrivateInstanceIcon.lock.png");

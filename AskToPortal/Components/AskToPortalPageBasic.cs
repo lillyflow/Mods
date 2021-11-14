@@ -37,6 +37,8 @@ namespace AskToPortal.Components
                 try
                 {
                     avatarImage.texture = AskToPortalMod.cachedDroppers[portal.GetInstanceID()].prop_VRCPlayer_0.field_Private_Texture2D_0;
+                    if (avatarImage.texture == null)
+                        avatarImage.texture = AskToPortalMod.cachedDroppers[portal.GetInstanceID()].prop_VRCPlayer_0.field_Private_Texture2D_0;
                 }
                 catch (NullReferenceException)
                 {
@@ -52,7 +54,7 @@ namespace AskToPortal.Components
                 messageText.text = $"{dropper.displayName} has dropped a portal to {portal.field_Private_ApiWorld_0.name} #{roomInfo.instanceId} {roomInfo.instanceType}.";
             else
                 messageText.text = $"This is a world portal to {portal.field_Private_ApiWorld_0.name}.";
-            
+
             switch (roomInfo.errors.Count)
             {
                 case 0:
