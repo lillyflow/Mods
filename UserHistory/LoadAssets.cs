@@ -7,20 +7,46 @@ namespace UserHistory
 {
     class LoadAssets
     {
-        public static Sprite UserHistoryIcon, UpArrow, DownArrow, Trans;
-        public static void Init()
+        private static Sprite _menuIcon, _upArrow, _downArrow, _item;
+        public static Sprite MenuIcon
         {
-            UserHistoryIcon = LoadEmbeddedImages("UserHistoryIcon.png");
-            UpArrow = LoadEmbeddedImages("UpArrow.png");
-            DownArrow = LoadEmbeddedImages("DownArrow.png");
+            get
+            {
+                if (_menuIcon == null) _menuIcon = LoadEmbeddedImage("MenuIcon.png");
+                return _menuIcon;
+            }
+        }
+        public static Sprite UpArrow
+        {
+            get
+            {
+                if (_upArrow == null) _upArrow = LoadEmbeddedImage("UpArrow.png");
+                return _upArrow;
+            }
+        }
+        public static Sprite DownArrow
+        {
+            get
+            {
+                if (_downArrow == null) _downArrow = LoadEmbeddedImage("DownArrow.png");
+                return _downArrow;
+            }
+        }
+        public static Sprite Item
+        {
+            get
+            {
+                if (_item == null) _item = LoadEmbeddedImage("ItemIcon.png");
+                return _item;
+            }
         }
 
-        private static Sprite LoadEmbeddedImages(string imageName)
+        private static Sprite LoadEmbeddedImage(string imageName)
         {
             try
             {
                 //Load image into Texture
-                using var assetStream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("UserHistory.Images." + imageName);
+                using var assetStream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("UserHistory." + imageName);
                 using var tempStream = new MemoryStream((int)assetStream.Length);
                 assetStream.CopyTo(tempStream);
                 var Texture2 = new Texture2D(2, 2);

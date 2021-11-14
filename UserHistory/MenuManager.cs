@@ -31,12 +31,10 @@ namespace UserHistory
                 if (PageNum == 1)
                 {
                     pageUp.gameObject.SetActive(false);
-                    backButton.gameObject.SetActive(true);
                 }
                 else
                 {
                     pageUp.gameObject.SetActive(true);
-                    backButton.gameObject.SetActive(false);
                 }
 
                 for (int i = 0; i < 9; i++)
@@ -70,7 +68,7 @@ namespace UserHistory
             UiManager.OpenBigMenu(false);
             UiManager.OpenUserInUserInfoPage(user.ToIUser());
         }
-
+        // 
         public static int PageNum
         {
             get { return Mathf.CeilToInt((_playerIndex + 1) / 9f); }
@@ -85,13 +83,11 @@ namespace UserHistory
         private static readonly SingleButton[] buttons = new SingleButton[9];
         private static SingleButton pageUp;
         private static SingleButton pageDown;
-        private static SingleButton backButton;
         private static Label pageNumLabel;
 
         public static void UiInit()
         {
             MelonLogger.Msg("Loading UI...");
-            LoadAssets.Init();
 
             menu = new SubMenu("UserHistoryMenu", "UserHistorySubMenu", "User History");
 
@@ -102,7 +98,7 @@ namespace UserHistory
             openButton.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             openButton.GetComponent<Button>().onClick.AddListener(new Action(() => OpenUserHistoryMenu()));
             openButton.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = "User History";
-            openButton.GetComponentInChildren<Image>().overrideSprite = LoadAssets.UserHistoryIcon;
+            openButton.GetComponentInChildren<Image>().overrideSprite = LoadAssets.MenuIcon;
 
 
             openButton.gameObject.SetActive(!(VRCUtils.IsUIXPresent && Config.useUIX.Value));
@@ -124,7 +120,7 @@ namespace UserHistory
                         pageNumLabel.gameObject.transform.Find("Text_H1").localPosition = new Vector3(0f, 40f, 0f); break;
                     case 16: new Label($"Blank", "subtext", "Blank", (butt) => allButtons.Add(butt)); break;
                     default:
-                        buttons[b] = new SingleButton(null, LoadAssets.Trans, "Placeholder", $"UserHistoryButton-{b}", "tooltip", (butt) => allButtons.Add(butt));
+                        buttons[b] = new SingleButton(null, LoadAssets.Item, "Placeholder", $"UserHistoryButton-{b}", "tooltip", (butt) => allButtons.Add(butt));
                         buttons[b].gameObject.transform.Find("Text_H4").localPosition = new Vector3(0f, -20f, 0f);
                         b++;
                         break;

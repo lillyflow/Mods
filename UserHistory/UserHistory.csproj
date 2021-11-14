@@ -5,15 +5,16 @@
 		<RootNamespace>UserHistory</RootNamespace>
 	</PropertyGroup>
 
-
     <ItemGroup>
-        <None Remove="UserHistoryIcon.png" />
+        <None Remove="MenuIcon.png" />
+        <None Remove="ItemIcon.png" />
         <None Remove="UpArrow.png" />
         <None Remove="DownArrow.png" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="UserHistoryIcon.png" />
+        <EmbeddedResource Include="MenuIcon.png" />
+        <EmbeddedResource Include="ItemIcon.png" />
         <EmbeddedResource Include="UpArrow.png" />
         <EmbeddedResource Include="DownArrow.png" />
     </ItemGroup>
