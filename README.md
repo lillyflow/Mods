@@ -29,14 +29,14 @@ More detailed instructions and more mods can be found in the [VRChat Modding Gro
 - [ChairExitController](#chairexistcontroller)
 - [CloningBeGone](#cloningbegone)
 - [InstanceHistory](#instancehistory)
-- [PlayerList](#playerlist)
+- [PlayerList](#playerlist) Broken
 - [PreviewScroller](#previewscroller)
 - [PrivateInstanceIcon](#privateinstanceicon)
 - [ReloadAvatars](#reloadavatars)
 - [RememberMe](#rememberme)
 - [SelectYourself](#selectyourself)
 - [TriggerESP](#triggeresp)
-- [UserHistory](#userhistory)
+- [UserHistory](#userhistory) Broken
 - [UserInfoExtensions](#userinfoextensions)
 - [VRChatUtilityKit](#vrchatutilitykit)
 
