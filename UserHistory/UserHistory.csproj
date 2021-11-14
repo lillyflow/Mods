@@ -12,6 +12,12 @@
         <None Remove="DownArrow.png" />
     </ItemGroup>
 
+    <ItemGroup>
+        <EmbeddedResource Include="UserHistoryIcon.png" />
+        <EmbeddedResource Include="UpArrow.png" />
+        <EmbeddedResource Include="DownArrow.png" />
+    </ItemGroup>
+
 	<ItemGroup>
 		<Reference Include="UIExpansionKit">
 			<HintPath>$(VRChatPath)Mods\UIExpansionKit.dll</HintPath>
