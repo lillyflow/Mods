@@ -15,9 +15,15 @@
 		<Reference Include="VRCCore-Standalone">
 			<HintPath>$(VRChatPath)MelonLoader\Managed\VRCCore-Standalone.dll</HintPath>
 		</Reference>
+		<Reference Include="Unity.TextMeshPro">
+		  <HintPath>$(VRChatPath)MelonLoader\Managed\Unity.TextMeshPro.dll</HintPath>
+		</Reference>
 		<Reference Include="VRChatUtilityKit">
 			<HintPath>$(VRChatPath)Mods\VRChatUtilityKit.dll</HintPath>
 		</Reference>
+	  <Reference Include="DataModel">
+	    <HintPath>$(VRChatPath)MelonLoader\Managed\DataModel.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
