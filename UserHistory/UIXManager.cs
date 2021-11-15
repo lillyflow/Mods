@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace UserHistory
 {
-    public class UIXManager
+    class UIXManager
     {
+        public static void AddMethodToUIInit()
+        {
+            ExpansionKitApi.OnUiManagerInit += UserHistoryMod.Instance.OnUiManagerInit;
+        }
 
         private static GameObject openButton;
 

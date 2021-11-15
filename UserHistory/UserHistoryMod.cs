@@ -1,4 +1,5 @@
-﻿using MelonLoader;
+﻿using System.Linq;
+using MelonLoader;
 using VRChatUtilityKit.Utilities;
 
 [assembly: MelonInfo(typeof(UserHistory.UserHistoryMod), "UserHistory", "1.0.1", "loukylor", "https://github.com/loukylor/VRC-Mods")]
@@ -9,6 +10,8 @@ namespace UserHistory
 {
     public class UserHistoryMod : MelonMod
     {
+        internal static bool HasUIX { get { return MelonHandler.Mods.Any(x => x.Info.Name.Equals("UI Expansion Kit")); } }
+
         public static UserHistoryMod Instance { get; private set; }
         public override void OnApplicationStart()
         {
@@ -16,7 +19,18 @@ namespace UserHistory
             Config.Init();
             UserManager.Init();
 
-            VRCUtils.OnUiManagerInit += OnUiManagerInit;
+            if (HasUIX)
+                typeof(UIXManager).GetMethod("AddMethodToUIInit").Invoke(null, null);
+            else
+                MelonCoroutines.Start(StartUiManagerInitIEnumerator());
+        }
+
+        private System.Collections.IEnumerator StartUiManagerInitIEnumerator()
+        {
+            while (VRCUiManager.prop_VRCUiManager_0 == null)
+                yield return null;
+
+            OnUiManagerInit();
         }
 
         public void OnUiManagerInit()

@@ -156,7 +156,7 @@ namespace UserHistory
         {
             if (oldValue == newValue) return;
 
-            openButton.gameObject.transform.localPosition = Converters.ConvertToUnityUnits(new Vector3(Config.openButtonX.Value, Config.openButtonY.Value));
+            openButton.gameObject.transform.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value);
         }
     }
 }
