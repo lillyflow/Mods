@@ -18,6 +18,7 @@ using VRC.SDKBase;
 using VRChatUtilityKit.Ui;
 using VRChatUtilityKit.Utilities;
 using VRCSDK2.Validation.Performance;
+using VRC.DataModel;
 
 using Player = VRC.Player;
 
@@ -48,7 +49,7 @@ namespace PlayerList.Entries
         protected static int highestOwnedObjectsLength = 0;
         protected static int totalObjects = 0;
         
-        public PerformanceRating perf;
+        public AvatarPerformanceRating perf;
         public string perfString;
         public string jeffString;
         public int ping;
@@ -92,11 +93,11 @@ namespace PlayerList.Entries
             userId = apiUser.id;
             
             platform = platform = PlayerUtils.GetPlatform(player).PadRight(2);
-            perf = PerformanceRating.None;
-            perfString = "<color=#" + ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.Method_Private_Static_Color_AvatarPerformanceCategory_PerformanceRating_0(AvatarPerformanceCategory.Overall, perf)) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
+            perf = AvatarPerformanceRating.None;
+            perfString = "<color=#" + PlayerUtils.GetPerformanceColor(perf) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
             jeffString = "<color=#FFFF00>Unknown </color>";
             partyFouls = 1;
-            gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(new Action(() => UiManager.OpenUserInQuickMenu(player)));
+            gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(new Action(() => UiManager.OpenUserInQuickMenu(apiUser)));
 
             isFriend = APIUser.IsFriendsWith(apiUser.id);
             /*GetPlayerColor();
@@ -159,7 +160,8 @@ namespace PlayerList.Entries
             }*/
                 
             //manager
-            perf = player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.prop_AvatarPerformanceStats_0.field_Private_ArrayOf_PerformanceRating_0[(int)AvatarPerformanceCategory.Overall];
+
+            perf = (AvatarPerformanceRating)player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.prop_AvatarPerformanceStats_0.field_Private_ArrayOf_EnumPublicSealedvaNoExGoMePoVe7v0_0[(int)AvatarPerformanceCategory.Overall];
             List<string> perfdeets = player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.prop_AvatarPerformanceStats_0.ToString().Split('\n').ToList();
             int.TryParse(Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Poly Count")), @"\d+").Value, out int polycount);
             int.TryParse(Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Skinned Mesh Count")), @"\d+").Value, out int skinnedmeshcount);
@@ -194,7 +196,7 @@ namespace PlayerList.Entries
             }
             else failReasons += "  ";
 
-            perfString = "<color=#" + ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.Method_Private_Static_Color_AvatarPerformanceCategory_PerformanceRating_0(AvatarPerformanceCategory.Overall, perf)) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
+            perfString = "<color=#" +  PlayerUtils.GetPerformanceColor(perf) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
 
             //PyMsMtBd
             if (partyFouls == 0) jeffString = "<color=#00FF00>   OK   </color>";
@@ -218,7 +220,7 @@ namespace PlayerList.Entries
             if (loadingBar.field_Public_PlayerNameplate_0.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id != userId)
                 return;
 
-            perf = PerformanceRating.None;
+            perf = AvatarPerformanceRating.None;
 
             if (downloadPercentage < 1)
             {

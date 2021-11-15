@@ -39,6 +39,20 @@ namespace PlayerList
             while (VRCUiManager.prop_VRCUiManager_0 == null)
                 yield return null;
 
+            //Wait a little longer
+            while (GameObject.Find("UserInterface") == null)
+                yield return null;
+
+            //Even longer
+
+            while (GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)") == null)
+                yield return null;
+
+            //WAIT SOME MOAR
+
+            while (GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard") == null)
+                yield return null;
+
             OnUiManagerInit();
         }
 
@@ -53,7 +67,8 @@ namespace PlayerList
             MenuManager.LoadAssetBundle();
 
             // Initialize submenu for the list 
-            MenuManager.CreateMainSubMenu();
+            //MenuManager.CreateMainSubMenu();
+            MenuManager.OnUiManagerInit();
 
             // This is kinda a mess but whatever
             MenuManager.AddMenuListeners();
@@ -80,9 +95,16 @@ namespace PlayerList
             if (MelonHandler.Mods.Any(mod => mod.Info.Name == "emmVRCLoader"))
                 typeof(EmmManager).GetMethod("OnSceneWasLoaded").Invoke(null, null);
 
-            MenuManager.OnSceneWasLoaded();
-            Constants.OnSceneWasLoaded();
+            //MenuManager.OnSceneWasLoaded();
+            MelonCoroutines.Start(WaitForMenu());
+            //Constants.OnSceneWasLoaded();
             EntryManager.OnSceneWasLoaded();
+        }
+        private IEnumerator WaitForMenu()
+        {
+            while (Constants.quickMenu.GetComponent<BoxCollider>() == null)
+                yield return null;
+            Constants.OnSceneWasLoaded();
         }
     }
 }

@@ -9,6 +9,7 @@ using UnityEngine;
 using VRC;
 using VRC.Core;
 using VRChatUtilityKit.Utilities;
+using TMPro;
 
 using Object = UnityEngine.Object;
 
