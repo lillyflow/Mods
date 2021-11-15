@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using MelonLoader;
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,8 +66,7 @@ namespace InstanceHistory
             openButton = UnityEngine.Object.Instantiate(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer/Button_QM_Expand"));
             var butAction = new System.Action(() => OpenInstanceHistoryMenu());
             openButton.name = "InstanceHistory_UI";
-            openButton.SetParent(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/Header_H1"));
-            openButton.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value, 0f); //200f, -60f
+            openButton.SetParent(UiManager.QMStateController.transform.Find("Container/Window/QMParent/"));
             openButton.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             openButton.GetComponent<Button>().onClick.AddListener(butAction);
             openButton.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = "Instance History";
@@ -75,6 +75,8 @@ namespace InstanceHistory
             openButton.gameObject.SetActive(!(InstanceHistoryMod.HasUIX && Config.useUIX.Value));
             Config.openButtonX.OnValueChanged += OnPositionChange;
             Config.openButtonY.OnValueChanged += OnPositionChange;
+
+            MelonCoroutines.Start(WaitForQM());
 
             instanceHistorySub = new SubMenu("InstanceHistory", "InstanceHistorySubMenu", "Instance History");
             ButtonGroup buttgroup = null;
@@ -104,6 +106,16 @@ namespace InstanceHistory
                 typeof(UIXManager).GetMethod("AddOpenButtonToUIX").Invoke(null, null);
 
             MelonLogger.Msg("UI Loaded!");
+        }
+
+        public static IEnumerator WaitForQM()
+        {
+            //Wait for the QM to open before cloning the button onto the Dashboard/Launch Pad Menu. This is because VRCUK uses that menu as a basis for it's custom TabMenus
+            while (GameObject.Find("/UserInterface/Canvas_QuickMenu(Clone)/Container/Window/MicButton") == null)
+                yield return new WaitForSeconds(1f);
+            openButton.SetParent(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/Header_H1"));
+            openButton.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value, 0f); //200f, -60f
+            MelonLogger.Msg("Initialized QM Button!");
         }
 
         public static void OpenInstanceHistoryMenu()
