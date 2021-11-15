@@ -59,8 +59,6 @@ namespace InstanceHistory
 
         public static void UiInit()
         {
-            MelonLogger.Msg("Loading UI Assets...");
-
             MelonLogger.Msg("Loading UI...");
             //worlds = UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickLinks/Button_Worlds/Icon").GetComponent<Image>().sprite;
 
