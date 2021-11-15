@@ -1,0 +1,123 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<AssemblyName>PlayerList</AssemblyName>
+		<RootNamespace>PlayerList</RootNamespace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="playerlistmod.assetbundle" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="playerlistmod.assetbundle" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="DataModel">
+		  <HintPath>..\..\..\..\..\..\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\DataModel.dll</HintPath>
+		</Reference>
+		<Reference Include="emmVRC">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\Dependencies\emmVRC.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2Cppmscorlib">
+			<HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\Il2Cppmscorlib.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2CppSystem">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\Il2CppSystem.dll</HintPath>
+		</Reference>
+		<Reference Include="Il2CppSystem.Core">
+			<HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\Il2CppSystem.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="MelonLoader">
+			<HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\MelonLoader.dll</HintPath>
+		</Reference>
+		<Reference Include="Photon-DotNet">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\Photon-DotNet.dll</HintPath>
+		</Reference>
+		<Reference Include="UIExpansionKit">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\Mods\UIExpansionKit.dll</HintPath>
+		</Reference>
+		<Reference Include="UnhollowerBaseLib">
+			<HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\UnhollowerBaseLib.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.TextMeshPro">
+		  <HintPath>..\..\..\..\..\..\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\Unity.TextMeshPro.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AssetBundleModule">
+			<HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.InputLegacyModule">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.InputModule">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\UnityEngine.InputModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.PhysicsModule">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TextRenderingModule">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UI">
+			<HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\UnityEngine.UI.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UIModule">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\UnityEngine.UIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="VRC.UI.Elements">
+		  <HintPath>..\..\..\..\..\..\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\VRC.UI.Elements.dll</HintPath>
+		</Reference>
+		<Reference Include="VRCCore-Standalone">
+			<HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\VRCCore-Standalone.dll</HintPath>
+		</Reference>
+		<Reference Include="VRChatUtilityKit">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\Mods\VRChatUtilityKit.dll</HintPath>
+		</Reference>
+		<Reference Include="VRCSDK2">
+		  <HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\VRCSDK2.dll</HintPath>
+		</Reference>
+		<Reference Include="VRCSDKBase">
+			<HintPath>C:\SteamSSD\SteamApps\common\VRChat\MelonLoader\Managed\VRCSDKBase.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Properties\Settings.Designer.cs">
+	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Settings.settings</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
+	</ItemGroup>
+
+</Project>
