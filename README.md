@@ -38,15 +38,15 @@ More detailed instructions and more mods can be found in the [VRChat Modding Gro
 - [AvatarHider](#avatarhider)
 - [ChairExitController](#chairexistcontroller)
 - [CloningBeGone](#cloningbegone)
-- [InstanceHistory](#instancehistory)
-- [PlayerList](#playerlist) Broken
+- [InstanceHistory](#instancehistory) Merged [Nirv's version](https://github.com/Nirv-git/VRC-Mods).
+- [PlayerList](#playerlist) Merged [Adnezz's version](https://github.com/Adnezz/PlayerList).
 - [PreviewScroller](#previewscroller)
 - [PrivateInstanceIcon](#privateinstanceicon)
 - [ReloadAvatars](#reloadavatars)
 - [RememberMe](#rememberme)
 - [SelectYourself](#selectyourself)
 - [TriggerESP](#triggeresp)
-- [UserHistory](#userhistory) Broken
+- [UserHistory](#userhistory) Compiles but functionally broken still
 - [UserInfoExtensions](#userinfoextensions)
 - [VRChatUtilityKit](#vrchatutilitykit)
 
