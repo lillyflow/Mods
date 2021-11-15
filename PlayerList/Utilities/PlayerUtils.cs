@@ -1,7 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using VRC;
 using VRC.DataModel;
-using VRCSDK2.Validation.Performance;
 
 namespace PlayerList.Utilities
 {
@@ -64,10 +63,26 @@ namespace PlayerList.Utilities
                     return rating.ToString().PadRight(5);
             }
         }
-
-        public static string CreatePerformanceString(AvatarPerformanceRating rating)
+        public static string GetPerformanceColor(AvatarPerformanceRating rating)
         {
-            return "<color=#" + ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.Method_Private_Static_Color_AvatarPerformanceCategory_EnumPublicSealedvaNoExGoMePoVe7v0_0(AvatarPerformanceCategory.Overall, (EnumPublicSealedvaNoExGoMePoVe7v0)rating)) + ">" + ParsePerformanceText(rating) + "</color>";
+            switch (rating)
+            {
+                case AvatarPerformanceRating.VeryPoor:
+                    return ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.field_Private_Static_Color_4);
+                case AvatarPerformanceRating.Poor:
+                    return ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.field_Private_Static_Color_3);
+                case AvatarPerformanceRating.Medium:
+                    return ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.field_Private_Static_Color_2);
+                case AvatarPerformanceRating.Good:
+                    return ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.field_Private_Static_Color_1);
+                case AvatarPerformanceRating.Excellent:
+                    return ColorUtility.ToHtmlStringRGB(VRCUiAvatarStatsPanel.field_Private_Static_Color_0);
+                case AvatarPerformanceRating.None:
+                    return "888888";
+                default:
+                    return rating.ToString().PadRight(5);
+            }
+
         }
     }
 }

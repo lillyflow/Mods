@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Linq;
 using MelonLoader;
 using PlayerList.Config;
@@ -8,7 +8,7 @@ using UnhollowerRuntimeLib;
 using UnityEngine;
 using VRChatUtilityKit.Components;
 
-[assembly: MelonInfo(typeof(PlayerList.PlayerListMod), "PlayerList", "1.6.3", "loukylor", "https://github.com/loukylor/VRC-Mods")]
+[assembly: MelonInfo(typeof(PlayerList.PlayerListMod), "PlayerList_JEFFMOD", "1.6.3", "Adnezz", "https://github.com/loukylor/VRC-Mods")]
 [assembly: MelonGame("VRChat", "VRChat")]
 [assembly: MelonOptionalDependencies("UIExpansionKit", "emmVRC")]
 
@@ -39,6 +39,20 @@ namespace PlayerList
             while (VRCUiManager.prop_VRCUiManager_0 == null)
                 yield return null;
 
+            //Wait a little longer
+            while (GameObject.Find("UserInterface") == null)
+                yield return null;
+
+            //Even longer
+
+            while (GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)") == null)
+                yield return null;
+
+            //WAIT SOME MOAR
+
+            while (GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard") == null)
+                yield return null;
+
             OnUiManagerInit();
         }
 
@@ -54,14 +68,15 @@ namespace PlayerList
 
             // Initialize submenu for the list 
             //MenuManager.CreateMainSubMenu();
+            MenuManager.OnUiManagerInit();
 
             // This is kinda a mess but whatever
             MenuManager.AddMenuListeners();
-            //MenuManager.CreateSortPages();
-            //MenuManager.CreateSubMenus();
+            MenuManager.CreateSortPages();
+            MenuManager.CreateSubMenus();
             EntryManager.AddGeneralInfoEntries();
-            //MenuManager.CreateGeneralInfoSubMenus();
-            //MenuManager.AdjustSubMenus();
+            MenuManager.CreateGeneralInfoSubMenus();
+            MenuManager.AdjustSubMenus();
 
             PlayerListConfig.OnConfigChange(false);
 
@@ -81,8 +96,15 @@ namespace PlayerList
                 typeof(EmmManager).GetMethod("OnSceneWasLoaded").Invoke(null, null);
 
             //MenuManager.OnSceneWasLoaded();
-            Constants.OnSceneWasLoaded();
+            MelonCoroutines.Start(WaitForMenu());
+            //Constants.OnSceneWasLoaded();
             EntryManager.OnSceneWasLoaded();
+        }
+        private IEnumerator WaitForMenu()
+        {
+            while (Constants.quickMenu.GetComponent<BoxCollider>() == null)
+                yield return null;
+            Constants.OnSceneWasLoaded();
         }
     }
 }

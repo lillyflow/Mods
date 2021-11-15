@@ -1,8 +1,10 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using HarmonyLib;
 using MelonLoader;
 using Photon.Pun;
@@ -18,7 +20,6 @@ using VRChatUtilityKit.Ui;
 using VRChatUtilityKit.Utilities;
 using VRCSDK2.Validation.Performance;
 using Player = VRC.Player;
-
 
 namespace PlayerList.Entries
 {
@@ -49,12 +50,14 @@ namespace PlayerList.Entries
 
         public AvatarPerformanceRating perf;
         public string perfString;
+        public string jeffString;
         public int ping;
         public int fps;
         public float distance;
         public bool isFriend;
         public string playerColor;
         public int ownedObjects = 0;
+        public int partyFouls = 0;
 
         public readonly Stopwatch timeSinceLastUpdate = Stopwatch.StartNew();
 
@@ -78,7 +81,7 @@ namespace PlayerList.Entries
             VRCUtils.OnEmmWorldCheckCompleted += (allowed) => OnStaticConfigChanged();
 
             PlayerListMod.Instance.HarmonyInstance.Patch(typeof(PhotonView).GetMethods().First(mb => mb.Name.StartsWith("Method_FamOrAssem_set_Void_Int32_")), new HarmonyMethod(typeof(PlayerEntry).GetMethod(nameof(OnOwnerShipTransferred), BindingFlags.NonPublic | BindingFlags.Static)));
-            PlayerListMod.Instance.HarmonyInstance.Patch(typeof(APIUser).GetMethod("IsFriendsWith"), new HarmonyMethod(typeof(PlayerEntry).GetMethod(nameof(OnIsFriend), BindingFlags.NonPublic | BindingFlags.Static)));        
+            PlayerListMod.Instance.HarmonyInstance.Patch(typeof(APIUser).GetMethod("IsFriendsWith"), new HarmonyMethod(typeof(PlayerEntry).GetMethod(nameof(OnIsFriend), BindingFlags.NonPublic | BindingFlags.Static)));
         }
 
         [HideFromIl2Cpp]
@@ -87,14 +90,18 @@ namespace PlayerList.Entries
             player = (Player)parameters[0];
             apiUser = player.prop_APIUser_0;
             userId = apiUser.id;
-            
+
             platform = platform = PlayerUtils.GetPlatform(player).PadRight(2);
             perf = AvatarPerformanceRating.None;
-            perfString = PlayerUtils.CreatePerformanceString(perf);
-
+            perfString = "<color=#" + PlayerUtils.GetPerformanceColor(perf) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
+            jeffString = "<color=#FFFF00>Unknown </color>";
+            partyFouls = 1;
             gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(new Action(() => UiManager.OpenUserInQuickMenu(apiUser)));
 
             isFriend = APIUser.IsFriendsWith(apiUser.id);
+            /*GetPlayerColor();
+            if (player.prop_PlayerNet_0 != null)
+                UpdateEntry(player.prop_PlayerNet_0, this, true);*/
             GetPlayerColor(false);
         }
         public static void OnStaticConfigChanged()
@@ -108,6 +115,8 @@ namespace PlayerList.Entries
                 updateDelegate += AddPlatform;
             if (PlayerListConfig.perfToggle.Value)
                 updateDelegate += AddPerf;
+            if (PlayerListConfig.jeffToggle.Value)
+                updateDelegate += AddJeff;
             if (PlayerListConfig.distanceToggle.Value)
                 updateDelegate += AddDistance;
             if (PlayerListConfig.photonIdToggle.Value)
@@ -137,22 +146,72 @@ namespace PlayerList.Entries
             if (EntrySortManager.IsSortTypeInUse(EntrySortManager.SortType.Distance))
                 EntrySortManager.SortPlayer(playerLeftPairEntry);
         }
+
         public override void OnAvatarInstantiated(VRCAvatarManager manager, ApiAvatar avatar, GameObject gameObject)
         {
+            //JEFF time
             apiUser = player.prop_APIUser_0;
             userId = apiUser.id;
-            if (manager.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id != userId)
+            /*if (manager.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id != userId)
+            {
+                MelonLogger.Msg("PE: OnAvInst: Bailed due to userId mismatch");
                 return;
+            }*/
 
-            // TODO: Xref scanning?
-            perf = (AvatarPerformanceRating)manager.prop_AvatarPerformanceStats_0.field_Private_ArrayOf_EnumPublicSealedvaNoExGoMePoVe7v0_0[(int)AvatarPerformanceCategory.Overall];
-            perfString = PlayerUtils.CreatePerformanceString(perf);
-            
+            //manager
+
+            perf = (AvatarPerformanceRating)player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.prop_AvatarPerformanceStats_0.field_Private_ArrayOf_EnumPublicSealedvaNoExGoMePoVe7v0_0[(int)AvatarPerformanceCategory.Overall];
+            List<string> perfdeets = player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.prop_AvatarPerformanceStats_0.ToString().Split('\n').ToList();
+            int.TryParse(Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Poly Count")), @"\d+").Value, out int polycount);
+            int.TryParse(Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Skinned Mesh Count")), @"\d+").Value, out int skinnedmeshcount);
+            int.TryParse(Regex.Match(perfdeets.LastOrDefault(x => x.Contains("Mesh Count")), @"\d+").Value, out int meshcount);
+            int.TryParse(Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Material Count")), @"\d+").Value, out int matcount);
+            Vector3 bsize = player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.field_Private_AvatarPerformanceStats_0.field_Public_Nullable_1_Bounds_0.GetValueOrDefault().size;
+
+            partyFouls = 0;
+            string failReasons = "";
+            if (polycount > PlayerListConfig.polyLimit.Value)
+            {
+                partyFouls++;
+                failReasons += "Py";
+            }
+            else failReasons += "  ";
+            if ((meshcount + skinnedmeshcount) > PlayerListConfig.meshLimit.Value)
+            {
+                partyFouls++;
+                failReasons += "Me";
+            }
+            else failReasons += "  ";
+            if (matcount > PlayerListConfig.matLimit.Value)
+            {
+                partyFouls++;
+                failReasons += "Mt";
+            }
+            else failReasons += "  ";
+            if (bsize.magnitude > PlayerListConfig.boundsMagLimit.Value) //10x10x10 cube.
+            {
+                partyFouls++;
+                failReasons += "Bd";
+            }
+            else failReasons += "  ";
+
+            perfString = "<color=#" + PlayerUtils.GetPerformanceColor(perf) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
+
+            //PyMsMtBd
+            if (partyFouls == 0) jeffString = "<color=#00FF00>   OK   </color>";
+            else
+            {
+                jeffString = "<color=#FF0000>" + failReasons + "</color>";
+                partyFouls++;
+            }
+
+
             if (player.prop_PlayerNet_0 != null)
                 UpdateEntry(player.prop_PlayerNet_0, this, true);
-            
-            if (EntrySortManager.IsSortTypeInUse(EntrySortManager.SortType.AvatarPerf))
+
+            if (EntrySortManager.IsSortTypeInUse(EntrySortManager.SortType.AvatarPerf) || EntrySortManager.IsSortTypeInUse(EntrySortManager.SortType.Jeff))
                 EntrySortManager.SortPlayer(playerLeftPairEntry);
+
         }
         [HideFromIl2Cpp]
         public override void OnAvatarDownloadProgressed(AvatarLoadingBar loadingBar, float downloadPercentage, long fileSize)
@@ -161,10 +220,31 @@ namespace PlayerList.Entries
                 return;
 
             perf = AvatarPerformanceRating.None;
+
             if (downloadPercentage < 1)
+            {
                 perfString = ((downloadPercentage * 100).ToString("N1") + "%").PadRight(5);
+                partyFouls = 1;
+                if (PlayerListConfig.perfToggle.Value)
+                    jeffString = "<color=#888888> Loading</color>";
+                else
+                {
+                    string col = ((int)(downloadPercentage * 100) + 70).ToString("X");
+                    col = col + col + col;
+                    jeffString = "<color=#" + col + ">  " + ((downloadPercentage * 100).ToString("N1") + "%").PadRight(6) + "</color>";
+                }
+
+
+
+
+            }
             else
+            {
                 perfString = "100% ";
+                partyFouls = 1;
+                jeffString = "<color=#AAAAAA> Loaded </color>";
+            }
+
         }
 
         // So apparently if you don't want to name an enum directly in a harmony patch you have to use int as the type... good to know
@@ -187,6 +267,7 @@ namespace PlayerList.Entries
 
             StringBuilder tempString = new StringBuilder();
 
+            //
             try
             {
                 updateDelegate?.Invoke(playerNet, entry, ref tempString);
@@ -234,6 +315,10 @@ namespace PlayerList.Entries
         private static void AddPerf(PlayerNet playerNet, PlayerEntry entry, ref StringBuilder tempString)
         {
             tempString.Append(entry.perfString + separator);
+        }
+        private static void AddJeff(PlayerNet playerNet, PlayerEntry entry, ref StringBuilder tempString)
+        {
+            tempString.Append(entry.jeffString + separator);
         }
         private static void AddDistance(PlayerNet playerNet, PlayerEntry entry, ref StringBuilder tempString)
         {
@@ -300,7 +385,7 @@ namespace PlayerList.Entries
         {
             if (__instance.GetComponent<VRC_Pickup>() == null)
                 return;
-            
+
             // Its really important that this actually fires so everything in try catch
             try
             {
@@ -315,7 +400,7 @@ namespace PlayerList.Entries
                 string newOwner = null;
                 if (room.field_Private_Dictionary_2_Int32_Player_0.ContainsKey(__0))
                     newOwner = room.field_Private_Dictionary_2_Int32_Player_0[__0].field_Public_Player_0?.prop_APIUser_0?.id;
-                
+
                 int highestOwnedObjects = 0;
                 totalObjects = 0;
                 foreach (PlayerLeftPairEntry entry in EntryManager.playerLeftPairsEntries)

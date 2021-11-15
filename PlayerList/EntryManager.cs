@@ -9,6 +9,7 @@ using UnityEngine;
 using VRC;
 using VRC.Core;
 using VRChatUtilityKit.Utilities;
+using TMPro;
 
 using Object = UnityEngine.Object;
 
@@ -23,6 +24,23 @@ namespace PlayerList
         public static Dictionary<string, PlayerLeftPairEntry> idToEntryTable = new Dictionary<string, PlayerLeftPairEntry>();
         public static List<EntryBase> generalInfoEntries = new List<EntryBase>();
         public static List<EntryBase> entries = new List<EntryBase>();
+        
+
+        public struct deferredAvInstantiate
+        {
+            public VRCAvatarManager player;
+            public ApiAvatar avatar;
+            public GameObject gameObject;
+
+            public deferredAvInstantiate(VRCAvatarManager a, ApiAvatar b, GameObject c)
+            {
+                this.player = a;
+                this.avatar = b;
+                this.gameObject = c;
+            }
+        }
+
+        public static List<deferredAvInstantiate> AvInstBacklog = new List<deferredAvInstantiate>();
 
         public static void Init()
         {
@@ -97,9 +115,30 @@ namespace PlayerList
         }
         public static void OnAvatarInstantiated(VRCAvatarManager player, ApiAvatar avatar, GameObject gameObject)
         {
-            foreach (EntryBase entry in playerEntries)
+            //MelonLogger.Msg("EM: OnAvInst");
+            /*foreach (EntryBase entry in playerEntries)
                 entry.OnAvatarInstantiated(player, avatar, gameObject);
-            localPlayerEntry?.OnAvatarInstantiated(player, avatar, gameObject);
+            localPlayerEntry?.OnAvatarInstantiated(player, avatar, gameObject);*/
+            if (!idToEntryTable.TryGetValue(player.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id, out PlayerLeftPairEntry entry))
+            {
+                MelonLogger.Msg("EM: Key not found in dict: " + player.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.displayName);
+                AvInstBacklog.Add(new deferredAvInstantiate(player, avatar, gameObject));
+                return;
+            }
+            entry.playerEntry.OnAvatarInstantiated(player, avatar, gameObject);
+            if (AvInstBacklog.Count != 0)
+            {
+                MelonLogger.Msg("Addressing Backlog. Size: " + AvInstBacklog.Count.ToString());
+                foreach (deferredAvInstantiate item in AvInstBacklog)
+                {
+                    if (idToEntryTable.TryGetValue(item.player?.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id, out PlayerLeftPairEntry e))
+                    {
+                        e.playerEntry.OnAvatarInstantiated(player, avatar, gameObject);
+                        //AvInstBacklog.Remove(item);
+                    }
+                }
+                AvInstBacklog.Clear();
+            }
         }
         public static void OnAvatarDownloadProgressed(AvatarLoadingBar loadingBar, float downloadPercent, long fileSize)
         {
@@ -143,6 +182,12 @@ namespace PlayerList
             if (player.prop_APIUser_0 == null || player.prop_APIUser_0.IsSelf)
                 return;
 
+            if (player.prop_APIUser_0 == null)
+            {
+                MelonLogger.Error("Null Player Left!");
+                return;
+            }
+            MelonLogger.Msg("OPL: Removing " + player.field_Private_APIUser_0.displayName);
             if (!idToEntryTable.TryGetValue(player.prop_APIUser_0.id, out PlayerLeftPairEntry entry))
                 return;
 
@@ -175,6 +220,7 @@ namespace PlayerList
         public static void AddPlayerLeftPairEntry(PlayerLeftPairEntry entry)
         {
             playerLeftPairsEntries.Add(entry);
+            //idToEntryTable.Add(entry.playerEntry.userId, entry);
             if (!entry.playerEntry.isSelf)
                 playerEntries.Add(entry.playerEntry);
             AddEntry(entry);

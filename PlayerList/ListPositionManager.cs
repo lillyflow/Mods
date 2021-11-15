@@ -28,12 +28,12 @@ namespace PlayerList
         {
             GameObject temp = new GameObject("temp", new UnhollowerBaseLib.Il2CppReferenceArray<Il2CppSystem.Type>(new Il2CppSystem.Type[] { Il2CppType.Of<RectTransform>() }));
             RectTransform furthestTransform = temp.GetComponent<RectTransform>(); // Create new gameobject with recttransform on it
-            foreach (var child in Constants.quickMenu.transform)
+            /*foreach (var child in Constants.shortcutMenu.transform)
             {
                 RectTransform childRect = child.Cast<RectTransform>();
                 if (childRect.gameObject.activeSelf && childRect.anchoredPosition.x + childRect.rect.width > furthestTransform.anchoredPosition.x + furthestTransform.rect.width)
                     furthestTransform = childRect;
-            }
+            }*/
 
             PlayerListConfig.playerListPosition.Value = new Vector2(furthestTransform.anchoredPosition.x + (furthestTransform.rect.width / 2), MenuManager.playerListRect.anchoredPosition.y);
             CombineQMColliderAndPlayerListRect(useConfigValues: true);
