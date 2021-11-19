@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReloadAvatars", "ReloadAvat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInfoExtensions", "UserInfoExtensions\UserInfoExtensions.csproj", "{1427E621-2FE4-401F-BAFC-3C1607F4A4BA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ButtonMover", "ButtonMover\ButtonMover.csproj", "{A9449F5C-6235-4FE6-98B1-BFFA76620C29}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8AB1F895-4EEF-43B2-8C02-0553381CF3C2}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -30,8 +28,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvatarHider", "AvatarHider\AvatarHider.csproj", "{8DBA35B7-5FD2-498F-9858-06577BDCF1A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriggerESP", "TriggerESP\TriggerESP.csproj", "{37028168-78FC-4FA3-9358-70E7751C8788}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvatarDownloadPriority", "AvatarDownloadPriority\AvatarDownloadPriority.csproj", "{443C5C70-CB5F-4E60-B6EC-CA2906A68635}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RememberMe", "RememberMe\RememberMe.csproj", "{C72D5C6C-10ED-4CA9-8C96-9E460DFA96C0}"
 EndProject
