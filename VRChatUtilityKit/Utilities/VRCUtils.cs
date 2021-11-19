@@ -68,7 +68,7 @@ namespace VRChatUtilityKit.Utilities
         /// <summary>
         /// Returns the active user in the user info menu.
         /// </summary>
-        public static APIUser ActiveUserInUserInfoMenu => UserInfoInstance.field_Public_APIUser_0;
+        public static APIUser ActiveUserInUserInfoMenu => UserInfoInstance.field_Private_APIUser_0;
         /// <summary>
         /// Returns the active player in the user info menu.
         /// Will be null if the player isn't in the instance.
