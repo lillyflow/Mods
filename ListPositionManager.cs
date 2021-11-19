@@ -21,7 +21,7 @@ namespace PlayerList
         }
         public static void OnSnapToGridSizeChanged(int oldValue, int newValue)
         {
-            snapToGridSizeLabel.TextComponent.text = $"Snap Grid\nSize: {newValue}";
+            snapToGridSizeLabel.TextComponent.text = $"{newValue}";
         }
 
         public static void MovePlayerListToEndOfMenu()

@@ -8,12 +8,12 @@ namespace PlayerList
     {
         public static void AddListenerToShortcutMenu(Action onEnable, Action onDisable)
         {
-            EnableDisableListener shortcutMenuListener = Constants.shortcutMenu.GetComponent<EnableDisableListener>();
+            /*EnableDisableListener shortcutMenuListener = Constants.shortcutMenu.GetComponent<EnableDisableListener>();
             if (shortcutMenuListener == null)
                 shortcutMenuListener = Constants.shortcutMenu.AddComponent<EnableDisableListener>();
 
             shortcutMenuListener.OnEnabled += onEnable;
-            shortcutMenuListener.OnDisabled += onDisable;
+            shortcutMenuListener.OnDisabled += onDisable;*/
         }
     }
 }

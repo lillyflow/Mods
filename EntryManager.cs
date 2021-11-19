@@ -119,6 +119,9 @@ namespace PlayerList
             /*foreach (EntryBase entry in playerEntries)
                 entry.OnAvatarInstantiated(player, avatar, gameObject);
             localPlayerEntry?.OnAvatarInstantiated(player, avatar, gameObject);*/
+
+            //There's a race condition, sometimes an avatar instantiated event will happen before a player join event.
+            //If the player hasn't been added to the idToEntryTable yet, we'll add the information to a backlog to call when the player has been added.
             if (!idToEntryTable.TryGetValue(player.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id, out PlayerLeftPairEntry entry))
             {
                 MelonLogger.Msg("EM: Key not found in dict: " + player.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.displayName);
@@ -126,19 +129,7 @@ namespace PlayerList
                 return;
             }
             entry.playerEntry.OnAvatarInstantiated(player, avatar, gameObject);
-            if (AvInstBacklog.Count != 0)
-            {
-                MelonLogger.Msg("Addressing Backlog. Size: " + AvInstBacklog.Count.ToString());
-                foreach (deferredAvInstantiate item in AvInstBacklog)
-                {
-                    if (idToEntryTable.TryGetValue(item.player?.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id, out PlayerLeftPairEntry e))
-                    {
-                        e.playerEntry.OnAvatarInstantiated(player, avatar, gameObject);
-                        //AvInstBacklog.Remove(item);
-                    }
-                }
-                AvInstBacklog.Clear();
-            }
+            ProcessAvatarInstantiateBacklog();
         }
         public static void OnAvatarDownloadProgressed(AvatarLoadingBar loadingBar, float downloadPercent, long fileSize)
         {
@@ -176,17 +167,35 @@ namespace PlayerList
                 PlayerEntry playerEntry = EntryBase.CreateInstance<PlayerEntry>(template.transform.Find("RightPart").gameObject, new object[] { player });
                 AddPlayerLeftPairEntry(EntryBase.CreateInstance<PlayerLeftPairEntry>(template, new object[] { leftSidePlayerEntry, playerEntry }));
             }
+            //ProcessAvatarInstantiateBacklog();
+        }
+        protected static void ProcessAvatarInstantiateBacklog()
+        {
+            if (AvInstBacklog.Count != 0)
+            {
+                MelonLogger.Msg("Addressing Backlog. Size: " + AvInstBacklog.Count.ToString());
+                for (int i = AvInstBacklog.Count - 1; i >= 0; i--)
+                {
+                    if (idToEntryTable.TryGetValue(AvInstBacklog[i].player?.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id, out PlayerLeftPairEntry e))
+                    {
+                        e.playerEntry.OnAvatarInstantiated(AvInstBacklog[i].player, AvInstBacklog[i].avatar, AvInstBacklog[i].gameObject);
+                        AvInstBacklog.RemoveAt(i);
+                    }
+                }
+                //AvInstBacklog.Clear();
+            }
         }
         public static void OnPlayerLeft(Player player)
         {
-            if (player.prop_APIUser_0 == null || player.prop_APIUser_0.IsSelf)
-                return;
+            
 
             if (player.prop_APIUser_0 == null)
             {
                 MelonLogger.Error("Null Player Left!");
                 return;
             }
+            if (player.prop_APIUser_0.IsSelf)
+                return;
             MelonLogger.Msg("OPL: Removing " + player.field_Private_APIUser_0.displayName);
             if (!idToEntryTable.TryGetValue(player.prop_APIUser_0.id, out PlayerLeftPairEntry entry))
                 return;
@@ -268,7 +277,7 @@ namespace PlayerList
 
         public static void SetFontSize(int fontSize)
         {
-            MenuManager.fontSizeLabel.TextComponent.text = $"Font\nSize: {fontSize}";
+            MenuManager.fontSizeLabel.TextComponent.text = $"{fontSize}";
             foreach (EntryBase entry in entries)
                 if (entry.textComponent != null)
                     entry.textComponent.fontSize = fontSize;
