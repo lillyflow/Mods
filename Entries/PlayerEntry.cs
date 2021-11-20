@@ -150,6 +150,8 @@ namespace PlayerList.Entries
 
         public override void OnAvatarInstantiated(VRCAvatarManager manager, ApiAvatar avatar, GameObject gameObject)
         {
+            //This will throw an exception if it's not initialized, so it's handled where called instead.
+            //Vector3 bsize = player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.prop_AvatarPerformanceStats_0.field_Public_Nullable_1_Bounds_0.GetValueOrDefault().m_Extents;
             //JEFF time
             apiUser = player.prop_APIUser_0;
             userId = apiUser.id;
@@ -167,7 +169,12 @@ namespace PlayerList.Entries
             int.TryParse(Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Skinned Mesh Count")), @"\d+").Value, out int skinnedmeshcount);
             int.TryParse(Regex.Match(perfdeets.LastOrDefault(x => x.Contains("Mesh Count")), @"\d+").Value, out int meshcount);
             int.TryParse(Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Material Count")), @"\d+").Value, out int matcount);
-            Vector3 bsize = player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.field_Private_AvatarPerformanceStats_0.field_Public_Nullable_1_Bounds_0.GetValueOrDefault().size;
+            GroupCollection boundAxes = Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Bounds")), @"Extents: \(([ \d.]+), ([ \d.]+), ([ \d.]+)\)").Groups;
+            int.TryParse(boundAxes[0].Value, out int boundx);
+            int.TryParse(boundAxes[1].Value, out int boundy);
+            int.TryParse(boundAxes[2].Value, out int boundz);
+            Vector3 bsize = new Vector3(boundx, boundy, boundz);
+
 
             partyFouls = 0;
             string failReasons = "";

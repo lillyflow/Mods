@@ -44,12 +44,16 @@ namespace PlayerList
             public bool dashboard;
             public bool plsettings;
             public bool sort;
+            public bool userLocal;
+            public bool userRemote;
 
-            public menuStates(bool a, bool b, bool c)
+            public menuStates(bool a, bool b, bool c, bool d, bool e)
             {
                 dashboard = a;
                 plsettings = b;
                 sort = c;
+                userLocal = d;
+                userRemote = e;
             }
         }
         private static menuStates curMenuState;// = {false, false, false};
@@ -77,7 +81,7 @@ namespace PlayerList
         {
             entryWrapperValue = PlayerListConfig.currentBaseSort.GetType().GetProperty("Value");
             PlayerListConfig.OnConfigChanged += OnConfigChanged;
-            curMenuState = new menuStates( false, false, false );
+            curMenuState = new menuStates( false, false, false, false, false );
         }
         public static void OnUiManagerInit()
         {
@@ -271,13 +275,23 @@ namespace PlayerList
                 {
                     curMenuState.sort = state;
                 }
+                else if (page == Constants.selectedUserLocal)
+                {
+                    curMenuState.userLocal = state;
+                }
+                else if (page == Constants.selectedUserRemote)
+                {
+                    curMenuState.userRemote = state;
+                }
 
-                if (curMenuState.dashboard || curMenuState.plsettings || curMenuState.sort)
+                if (curMenuState.dashboard || curMenuState.plsettings || curMenuState.sort || curMenuState.userLocal || curMenuState.userRemote)
                 {
                     playerList.SetActive(
                         (curMenuState.dashboard && (!shouldStayHidden && !PlayerListConfig.onlyEnabledInConfig.Value)) ||
                         (curMenuState.plsettings && !shouldStayHidden) ||
-                        (curMenuState.sort)
+                        (curMenuState.sort) ||
+                        (curMenuState.userLocal && !shouldStayHidden) ||
+                        (curMenuState.userRemote && !shouldStayHidden)
                         );
                 }
                 else
@@ -288,7 +302,14 @@ namespace PlayerList
 
 
             });
-
+            UiManager.OnQuickMenuOpened += new Action(() => {
+                curMenuState.dashboard = true;
+                curMenuState.plsettings = false;
+                curMenuState.sort = false;
+                curMenuState.userLocal = false;
+                curMenuState.userRemote = false;
+                playerList.SetActive(!shouldStayHidden && !PlayerListConfig.onlyEnabledInConfig.Value);
+            });
             UiManager.OnQuickMenuClosed += new Action(PlayerListConfig.SaveEntries);
             
         }

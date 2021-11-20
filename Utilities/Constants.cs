@@ -11,6 +11,8 @@ namespace PlayerList.Utilities
     public class Constants
     {
         public static UIPage qmDashboard;
+        public static UIPage selectedUserLocal;
+        public static UIPage selectedUserRemote;
 
         public static GameObject quickMenu;
         public static Sprite checkSprite;
@@ -22,6 +24,8 @@ namespace PlayerList.Utilities
         public static void UIInit()
         {
             qmDashboard = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard").gameObject.GetComponent<UIPage>();
+            selectedUserLocal = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_SelectedUser_Local").gameObject.GetComponent<UIPage>();
+            selectedUserRemote = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_SelectedUser_Remote").gameObject.GetComponent<UIPage>();
             quickMenu = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject;
             //Texture2D source = 
             checkSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Modal_AddWorldToPlaylist/MenuPanel/ScrollRect/Viewport/VerticalLayoutGroup/Cell_QM_WorldPlaylistToggle 1/ButtonElement_CheckBox/Checkmark").GetComponent<Image>().activeSprite;

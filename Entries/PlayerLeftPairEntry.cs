@@ -63,7 +63,7 @@ namespace PlayerList.Entries
 
         public override void Remove()
         {
-            MelonLogger.Msg("PLPE: Removing " + _playerEntry.apiUser.displayName);
+            //MelonLogger.Msg("PLPE: Removing " + _playerEntry.apiUser.displayName);
             /*try
             {
                 if (_playerEntry.player != null)
