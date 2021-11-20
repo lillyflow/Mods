@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using MelonLoader;
 using PlayerList.Config;
@@ -7,10 +7,10 @@ using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 using VRC;
 using VRC.Core;
-using VRC.DataModel;
 using VRChatUtilityKit.Ui;
 using VRChatUtilityKit.Utilities;
 using VRCSDK2.Validation.Performance;
+using VRC.DataModel;
 
 namespace PlayerList.Entries
 {
@@ -151,7 +151,7 @@ namespace PlayerList.Entries
         private static void AddFps(Player player, LocalPlayerEntry entry, ref StringBuilder tempString)
         {
             if (entry.timeSinceLastUpdate.ElapsedMilliseconds >= 250)
-            {
+            { 
                 entry.fps = Mathf.Clamp((int)(1f / Time.deltaTime), -99, 999); // Clamp between -99 and 999
                 entry.timeSinceLastUpdate.Restart();
             }

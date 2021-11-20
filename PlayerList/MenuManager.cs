@@ -10,10 +10,11 @@ using PlayerList.Utilities;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.UI;
+using VRCSDK2;
 using VRChatUtilityKit.Components;
 using VRChatUtilityKit.Ui;
 using VRChatUtilityKit.Utilities;
-using VRCSDK2;
+using VRC.UI.Elements;
 
 
 namespace PlayerList
@@ -37,6 +38,25 @@ namespace PlayerList
         private static readonly Dictionary<EntrySortManager.SortType, SingleButton> sortTypeButtonTable = new Dictionary<EntrySortManager.SortType, SingleButton>();
         private static Image currentHighlightedSortType;
         private static PropertyInfo entryWrapperValue;
+        struct menuStates
+        {
+
+            public bool dashboard;
+            public bool plsettings;
+            public bool sort;
+            public bool userLocal;
+            public bool userRemote;
+
+            public menuStates(bool a, bool b, bool c, bool d, bool e)
+            {
+                dashboard = a;
+                plsettings = b;
+                sort = c;
+                userLocal = d;
+                userRemote = e;
+            }
+        }
+        private static menuStates curMenuState;// = {false, false, false};
 
         public static SingleButton SingleButtonWr(string title, Action act, string tooltip, string name, bool resize = false)
         {
@@ -61,6 +81,7 @@ namespace PlayerList
         {
             entryWrapperValue = PlayerListConfig.currentBaseSort.GetType().GetProperty("Value");
             PlayerListConfig.OnConfigChanged += OnConfigChanged;
+            curMenuState = new menuStates( false, false, false, false, false );
         }
         public static void OnUiManagerInit()
         {
@@ -95,16 +116,16 @@ namespace PlayerList
             }
             menuButton.SetActive(!PlayerListConfig.useTabMenu.Value);
             //if (PlayerListConfig.useTabMenu.Value && (tabButton != null && !tabButton.gameObject.activeSelf))
-            //tabButton.OpenTabMenu();
+                //tabButton.OpenTabMenu();
             tabButton?.gameObject.SetActive(PlayerListConfig.useTabMenu.Value);
         }
 
         public static void ToggleMenu()
         {
-            if (!sortMenu.gameObject.active && !tabButton.SubMenu.gameObject.active && !Constants.shortcutMenu.active) return;
+            if (!sortMenu.gameObject.active && !tabButton.SubMenu.gameObject.active && !Constants.qmDashboard.gameObject.active) return;
             menuToggleButton.ToggleComponent.Set(shouldStayHidden);
             shouldStayHidden = !shouldStayHidden;
-            if (sortMenu.gameObject.active || tabButton.SubMenu.gameObject.active || Constants.shortcutMenu.active) playerList.SetActive(!playerList.activeSelf);
+            if (sortMenu.gameObject.active || tabButton.SubMenu.gameObject.active || Constants.qmDashboard.gameObject.active) playerList.SetActive(!playerList.activeSelf);
         }
         public static void LoadAssetBundle()
         {
@@ -165,26 +186,38 @@ namespace PlayerList
 
             var Buttons2 = new List<IButtonGroupElement>();
 
-            Buttons2.Add(SingleButtonWr("Edit PlayerList Position", new Action(ListPositionManager.MovePlayerList), "Click to edit the position of the PlayerList", "EditPlayerListPosButton", true));
-
-            Buttons2.Add(SingleButtonWr("Move to Right of QuickMenu", new Action(ListPositionManager.MovePlayerListToEndOfMenu), "Move PlayerList to right side of menu, this can also serve as a reset position button", "LockPlayerListToRightButton", true));
+            
 
             /*Buttons2.Add(SingleButtonWr("1", new Action(() => PlayerListConfig.menuButtonPosition.Value = MenuButtonPositionEnum.TopRight), "Move PlayerList menu button to the top right", "1PlayerListMenuButton"));
             Buttons2.Add(SingleButtonWr("2", new Action(() => PlayerListConfig.menuButtonPosition.Value = MenuButtonPositionEnum.TopLeft), "Move PlayerList menu button to the top left", "2PlayerListMenuButton"));
             Buttons2.Add(SingleButtonWr("3", new Action(() => PlayerListConfig.menuButtonPosition.Value = MenuButtonPositionEnum.BottomLeft), "Move PlayerList menu button to the bottom left", "3PlayerListMenuButton"));
             Buttons2.Add(SingleButtonWr("4", new Action(() => PlayerListConfig.menuButtonPosition.Value = MenuButtonPositionEnum.BottomRight), "Move PlayerList menu button to the bottom right", "4PlayerListMenuButton"));*/
 
-            Buttons2.Add(SingleButtonWr("Snap Grid\nSize +", new Action(() => PlayerListConfig.snapToGridSize.Value += 10), "Increase the size of the snap to grid by 10", "IncreaseSnapGridSize", true));
+            
             Buttons2.Add(SingleButtonWr("Snap Grid\nSize -", new Action(() => PlayerListConfig.snapToGridSize.Value -= 10), "Decrease the size of the snap to grid by 10", "DecreaseSnapGridSize", true));
+            ListPositionManager.snapToGridSizeLabel = new Label($"{PlayerListConfig.snapToGridSize.Value}", "Snap Grid Size", "SnapToGridSizeLabel");
+            Buttons2.Add(ListPositionManager.snapToGridSizeLabel);
+            Buttons2.Add(SingleButtonWr("Snap Grid\nSize +", new Action(() => PlayerListConfig.snapToGridSize.Value += 10), "Increase the size of the snap to grid by 10", "IncreaseSnapGridSize", true));
             Buttons2.Add(SingleButtonWr("Reset Snap\nGrid Size", new Action(() => PlayerListConfig.snapToGridSize.Value = 420), "Set snap to grid to the default value (420)", "DefaultSnapGridSize", true));
-            //ListPositionManager.snapToGridSizeLabel = new Label(playerListMenus[1].gameObject, new Vector3(1, 1), $"Snap Grid\nSize: {PlayerListConfig.snapToGridSize.Value}", "SnapToGridSizeLabel", resize: true);
+            
+            
 
-            Buttons2.Add(SingleButtonWr("Font\nSize +", new Action(() => PlayerListConfig.fontSize.Value++), "Increase font size of the list by 1", "IncreaseFontSizeButton", true));
+            
             Buttons2.Add(SingleButtonWr("Font\nSize -", new Action(() => PlayerListConfig.fontSize.Value--), "Decrease font size of the list by 1", "DecreaseFontSizeButton", true));
-            Buttons2.Add(SingleButtonWr("Reset\nFont", new Action(() => PlayerListConfig.fontSize.Value = 35), "Set font size to the default value (35)", "DefaultFontSizeButton", true));
-            fontSizeLabel = new Label("", "", "FontSizeLabel");
+            fontSizeLabel = new Label("", "Font Size", "FontSizeLabel");
             EntryManager.SetFontSize(PlayerListConfig.fontSize.Value);
+            Buttons2.Add(fontSizeLabel);
+            Buttons2.Add(SingleButtonWr("Font\nSize +", new Action(() => PlayerListConfig.fontSize.Value++), "Increase font size of the list by 1", "IncreaseFontSizeButton", true));
+            Buttons2.Add(SingleButtonWr("Reset\nFont", new Action(() => PlayerListConfig.fontSize.Value = 35), "Set font size to the default value (35)", "DefaultFontSizeButton", true));
+            
+            
+            
+            Buttons2.Add(SingleButtonWr("Edit PlayerList Position", new Action(ListPositionManager.MovePlayerList), "Click to edit the position of the PlayerList", "EditPlayerListPosButton", true));
+
+            //Buttons2.Add(SingleButtonWr("Move to Right of QuickMenu", new Action(ListPositionManager.MovePlayerListToEndOfMenu), "Move PlayerList to right side of menu, this can also serve as a reset position button", "LockPlayerListToRightButton", true));
             tabButton.SubMenu.AddButtonGroup(new ButtonGroup("SizeButts", "Size & Position", Buttons2));
+
+
 
             var Buttons3 = new List<IButtonGroupElement>();
 
@@ -225,50 +258,69 @@ namespace PlayerList
         }
         public static void AddMenuListeners()
         {
-            // Add listeners
 
-            /*if (PlayerListMod.HasUIX)
+            UiManager.OnUIPageToggled += new Action<UIPage, bool>((page, state) =>
             {
-                typeof(UIXManager).GetMethod("AddListenerToShortcutMenu").Invoke(null, new object[2]
+                //MelonLogger.Msg("Page: " + page.name + " State: " + state.ToString());
+
+                if (page == Constants.qmDashboard)
                 {
-                    new Action(() => AttemptMenuHideShow(!shouldStayHidden && !PlayerListConfig.onlyEnabledInConfig.Value)),
-                    new Action(() => AttemptMenuHideShow(false))
-                });
-            }
-            else*/
-            {
-                EnableDisableListener shortcutMenuListener = Constants.shortcutMenu.AddComponent<EnableDisableListener>();
-                shortcutMenuListener.OnEnableEvent += new Action(() => AttemptMenuHideShow(!shouldStayHidden && !PlayerListConfig.onlyEnabledInConfig.Value));
-                shortcutMenuListener.OnDisableEvent += new Action(() => AttemptMenuHideShow(false));
-            }
+                    curMenuState.dashboard = state;
+                }
+                else if (page == tabButton.SubMenu.uiPage)
+                {
+                    curMenuState.plsettings = state;
+                }
+                else if (page == sortMenu.uiPage)
+                {
+                    curMenuState.sort = state;
+                }
+                else if (page == Constants.selectedUserLocal)
+                {
+                    curMenuState.userLocal = state;
+                }
+                else if (page == Constants.selectedUserRemote)
+                {
+                    curMenuState.userRemote = state;
+                }
 
-            //GameObject newElements = GameObject.Find("UserInterface/QuickMenu/QuickMenu_NewElements");
-            //GameObject Tabs = GameObject.Find("UserInterface/QuickMenu/QuickModeTabs");
+                if (curMenuState.dashboard || curMenuState.plsettings || curMenuState.sort || curMenuState.userLocal || curMenuState.userRemote)
+                {
+                    playerList.SetActive(
+                        (curMenuState.dashboard && (!shouldStayHidden && !PlayerListConfig.onlyEnabledInConfig.Value)) ||
+                        (curMenuState.plsettings && !shouldStayHidden) ||
+                        (curMenuState.sort) ||
+                        (curMenuState.userLocal && !shouldStayHidden) ||
+                        (curMenuState.userRemote && !shouldStayHidden)
+                        );
+                }
+                else
+                {
+                    playerList.SetActive(false);
+                }
 
+
+
+            });
+            UiManager.OnQuickMenuOpened += new Action(() => {
+                curMenuState.dashboard = true;
+                curMenuState.plsettings = false;
+                curMenuState.sort = false;
+                curMenuState.userLocal = false;
+                curMenuState.userRemote = false;
+                playerList.SetActive(!shouldStayHidden && !PlayerListConfig.onlyEnabledInConfig.Value);
+            });
             UiManager.OnQuickMenuClosed += new Action(PlayerListConfig.SaveEntries);
-
-            EnableDisableListener playerListMenuListener = tabButton.SubMenu.gameObject.AddComponent<EnableDisableListener>();
-            playerListMenuListener.OnEnableEvent += new Action(() =>
-            {
-                AttemptMenuHideShow(!shouldStayHidden);
-                //playerListRect.anchoredPosition = Converters.ConvertToUnityUnits(new Vector3(2.5f, 3.5f));
-                //newElements.SetActive(false);
-
-            });
-            playerListMenuListener.OnDisableEvent += new Action(() =>
-            {
-                AttemptMenuHideShow(false);
-                //playerListRect.anchoredPosition = PlayerListConfig.playerListPosition.Value;
-                //playerListRect.localPosition = playerListRect.localPosition.SetZ(25);
-                //newElements.SetActive(true);
-            });
+            
         }
 
         public static void AttemptMenuHideShow(bool show)
         {
             if (!show)
-                if (!sortMenu.gameObject.active && !tabButton.SubMenu.gameObject.active && !(Constants.shortcutMenu.active && !PlayerListConfig.onlyEnabledInConfig.Value)) playerList.SetActive(false);
-                else playerList.SetActive(true);
+            {
+                if (!sortMenu.gameObject.active && !tabButton.SubMenu.gameObject.active && !(Constants.qmDashboard.gameObject.active && !PlayerListConfig.onlyEnabledInConfig.Value)) playerList.SetActive(false);
+            }
+            else playerList.SetActive(true);
         }
 
 
@@ -300,15 +352,15 @@ namespace PlayerList
                 {
                     foreach (SingleButton butt in sortTypeButtonTable.Values)
                     {
-                        butt.sprite = Constants.blankSprite;
+                            butt.sprite = Constants.blankSprite;
                     }
                     button.sprite = Constants.checkSprite;
-
+                    
                 }));
             }
 
             EnableDisableListener listener = sortMenu.gameObject.AddComponent<EnableDisableListener>();
-            listener.OnEnableEvent += new Action(() =>
+            listener.OnEnableEvent += new Action(() => 
             {
                 EntrySortManager.SortType currentSortType = EntrySortManager.SortType.None;
                 if (EntrySortManager.currentComparisonProperty.Name.Contains("Base"))
@@ -322,7 +374,7 @@ namespace PlayerList
                     sortMenu.Text = "Upper Sort Type";
                 }
                 else if (EntrySortManager.currentComparisonProperty.Name.Contains("Highest"))
-                {
+                { 
                     currentSortType = PlayerListConfig.currentHighestSort.Value;
                     sortMenu.Text = "Highest Sort Type";
                 }
@@ -341,12 +393,12 @@ namespace PlayerList
         public static void CreateSubMenus()
         {
             // Initialize Movement menu
+            
 
-
-
+            
 
             // Initialize PlayerList Customization menu
-
+            
         }
 
         public static void CreateGeneralInfoSubMenus()
@@ -357,13 +409,13 @@ namespace PlayerList
             for (int i = 0; i < Math.Ceiling(EntryManager.generalInfoEntries.Count / 9f); i++)
             {
                 //SubMenu subMenu = new SubMenu("UserInterface/QuickMenu", $"PlayerListMenuPage{i + 5}");
-
+                
                 for (; totalMade < (9 * (i + 1)) && totalMade < EntryManager.generalInfoEntries.Count; totalMade++)
                 {
                     EntryBase entry = EntryManager.generalInfoEntries.ElementAt(totalMade);
                     Buttons.Add(ToggleButtonWr($"{entry.Name}", $"Disabled", new Action<bool>((state) => { entry.gameObject.SetActive(state); entry.prefEntry.Value = state; }), $"Toggle the {entry.Name} entry", $"Toggle the {entry.Name} entry", $"{entry.Name.Replace(" ", "")}EntryToggle", entry.prefEntry.Value, true));
                 }
-
+                
                 //playerListMenus.Add(subMenu);
             }
             tabButton.SubMenu.AddButtonGroup(new ButtonGroup("GenButts", "Info Sidebar", Buttons));

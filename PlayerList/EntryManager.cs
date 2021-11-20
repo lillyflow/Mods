@@ -26,21 +26,23 @@ namespace PlayerList
         public static List<EntryBase> entries = new List<EntryBase>();
         
 
-        public struct deferredAvInstantiate
+        public class deferredAvInstantiate
         {
             public VRCAvatarManager player;
             public ApiAvatar avatar;
             public GameObject gameObject;
+            public int numAttempts;
 
-            public deferredAvInstantiate(VRCAvatarManager a, ApiAvatar b, GameObject c)
+            public deferredAvInstantiate(VRCAvatarManager a, ApiAvatar b, GameObject c) 
             {
                 this.player = a;
                 this.avatar = b;
                 this.gameObject = c;
+                this.numAttempts = 0;
             }
         }
 
-        public static List<deferredAvInstantiate> AvInstBacklog = new List<deferredAvInstantiate>();
+        public static Dictionary<string, deferredAvInstantiate> AvInstBacklog = new Dictionary<string, deferredAvInstantiate>();
 
         public static void Init()
         {
@@ -119,26 +121,28 @@ namespace PlayerList
             /*foreach (EntryBase entry in playerEntries)
                 entry.OnAvatarInstantiated(player, avatar, gameObject);
             localPlayerEntry?.OnAvatarInstantiated(player, avatar, gameObject);*/
+
+            //There's a race condition, sometimes an avatar instantiated event will happen before a player join event.
+            //If the player hasn't been added to the idToEntryTable yet, we'll add the information to a backlog to call when the player has been added.
+            string playerid = player.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id;
             if (!idToEntryTable.TryGetValue(player.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id, out PlayerLeftPairEntry entry))
             {
-                MelonLogger.Msg("EM: Key not found in dict: " + player.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.displayName);
-                AvInstBacklog.Add(new deferredAvInstantiate(player, avatar, gameObject));
+                //MelonLogger.Msg("EM: Key not found in dict: " + player.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.displayName);
+                if (!AvInstBacklog.ContainsKey(playerid))
+                    AvInstBacklog.Add(playerid,  new deferredAvInstantiate(player, avatar, gameObject));
                 return;
             }
-            entry.playerEntry.OnAvatarInstantiated(player, avatar, gameObject);
-            if (AvInstBacklog.Count != 0)
+            try
             {
-                MelonLogger.Msg("Addressing Backlog. Size: " + AvInstBacklog.Count.ToString());
-                foreach (deferredAvInstantiate item in AvInstBacklog)
-                {
-                    if (idToEntryTable.TryGetValue(item.player?.field_Private_VRCPlayer_0.prop_Player_0.prop_APIUser_0?.id, out PlayerLeftPairEntry e))
-                    {
-                        e.playerEntry.OnAvatarInstantiated(player, avatar, gameObject);
-                        //AvInstBacklog.Remove(item);
-                    }
-                }
-                AvInstBacklog.Clear();
+                entry.playerEntry.OnAvatarInstantiated(player, avatar, gameObject);
             }
+            catch
+            {
+                if (!AvInstBacklog.ContainsKey(playerid))
+                    AvInstBacklog.Add(playerid, new deferredAvInstantiate(player, avatar, gameObject));
+                return;
+            }
+            ProcessAvatarInstantiateBacklog();
         }
         public static void OnAvatarDownloadProgressed(AvatarLoadingBar loadingBar, float downloadPercent, long fileSize)
         {
@@ -176,18 +180,57 @@ namespace PlayerList
                 PlayerEntry playerEntry = EntryBase.CreateInstance<PlayerEntry>(template.transform.Find("RightPart").gameObject, new object[] { player });
                 AddPlayerLeftPairEntry(EntryBase.CreateInstance<PlayerLeftPairEntry>(template, new object[] { leftSidePlayerEntry, playerEntry }));
             }
+            //ProcessAvatarInstantiateBacklog();
+        }
+        protected static void ProcessAvatarInstantiateBacklog()
+        {
+            if (AvInstBacklog.Count != 0)
+            {
+                MelonLogger.Msg("Addressing Backlog. Size: " + AvInstBacklog.Count.ToString());
+                var keys = new string[AvInstBacklog.Count];
+                AvInstBacklog.Keys.CopyTo(keys, 0);
+                foreach (var key in keys)
+                {
+                    
+                    if (idToEntryTable.TryGetValue(key, out PlayerLeftPairEntry e))
+                    {
+                        try
+                        {
+                            e.playerEntry.OnAvatarInstantiated(AvInstBacklog[key].player, AvInstBacklog[key].avatar, AvInstBacklog[key].gameObject);
+                            AvInstBacklog.Remove(key);
+                        }
+                        catch
+                        {
+                            //MelonLogger.Msg("OAI Failed!");
+                            AvInstBacklog[key].numAttempts++;
+                        }
+                    }
+                    else
+                    {
+                        AvInstBacklog[key].numAttempts++;
+
+                        if (AvInstBacklog[key].numAttempts > 1)
+                        {
+                            MelonLogger.Msg("Max attempts exceeded for backlog entry");
+                            AvInstBacklog.Remove(key);
+                        }
+                    }
+                }
+                //AvInstBacklog.Clear();
+            }
         }
         public static void OnPlayerLeft(Player player)
         {
-            if (player.prop_APIUser_0 == null || player.prop_APIUser_0.IsSelf)
-                return;
+            
 
             if (player.prop_APIUser_0 == null)
             {
                 MelonLogger.Error("Null Player Left!");
                 return;
             }
-            MelonLogger.Msg("OPL: Removing " + player.field_Private_APIUser_0.displayName);
+            if (player.prop_APIUser_0.IsSelf)
+                return;
+            //MelonLogger.Msg("OPL: Removing " + player.field_Private_APIUser_0.displayName);
             if (!idToEntryTable.TryGetValue(player.prop_APIUser_0.id, out PlayerLeftPairEntry entry))
                 return;
 
@@ -268,7 +311,7 @@ namespace PlayerList
 
         public static void SetFontSize(int fontSize)
         {
-            MenuManager.fontSizeLabel.TextComponent.text = $"Font\nSize: {fontSize}";
+            MenuManager.fontSizeLabel.TextComponent.text = $"{fontSize}";
             foreach (EntryBase entry in entries)
                 if (entry.textComponent != null)
                     entry.textComponent.fontSize = fontSize;

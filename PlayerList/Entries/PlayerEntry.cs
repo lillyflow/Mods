@@ -1,6 +1,6 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,11 +14,12 @@ using PlayerList.Utilities;
 using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 using VRC.Core;
-using VRC.DataModel;
 using VRC.SDKBase;
 using VRChatUtilityKit.Ui;
 using VRChatUtilityKit.Utilities;
 using VRCSDK2.Validation.Performance;
+using VRC.DataModel;
+
 using Player = VRC.Player;
 
 namespace PlayerList.Entries
@@ -47,7 +48,7 @@ namespace PlayerList.Entries
         protected static int highestPhotonIdLength = 0;
         protected static int highestOwnedObjectsLength = 0;
         protected static int totalObjects = 0;
-
+        
         public AvatarPerformanceRating perf;
         public string perfString;
         public string jeffString;
@@ -81,7 +82,7 @@ namespace PlayerList.Entries
             VRCUtils.OnEmmWorldCheckCompleted += (allowed) => OnStaticConfigChanged();
 
             PlayerListMod.Instance.HarmonyInstance.Patch(typeof(PhotonView).GetMethods().First(mb => mb.Name.StartsWith("Method_FamOrAssem_set_Void_Int32_")), new HarmonyMethod(typeof(PlayerEntry).GetMethod(nameof(OnOwnerShipTransferred), BindingFlags.NonPublic | BindingFlags.Static)));
-            PlayerListMod.Instance.HarmonyInstance.Patch(typeof(APIUser).GetMethod("IsFriendsWith"), new HarmonyMethod(typeof(PlayerEntry).GetMethod(nameof(OnIsFriend), BindingFlags.NonPublic | BindingFlags.Static)));
+            PlayerListMod.Instance.HarmonyInstance.Patch(typeof(APIUser).GetMethod("IsFriendsWith"), new HarmonyMethod(typeof(PlayerEntry).GetMethod(nameof(OnIsFriend), BindingFlags.NonPublic | BindingFlags.Static)));        
         }
 
         [HideFromIl2Cpp]
@@ -90,7 +91,7 @@ namespace PlayerList.Entries
             player = (Player)parameters[0];
             apiUser = player.prop_APIUser_0;
             userId = apiUser.id;
-
+            
             platform = platform = PlayerUtils.GetPlatform(player).PadRight(2);
             perf = AvatarPerformanceRating.None;
             perfString = "<color=#" + PlayerUtils.GetPerformanceColor(perf) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
@@ -149,6 +150,8 @@ namespace PlayerList.Entries
 
         public override void OnAvatarInstantiated(VRCAvatarManager manager, ApiAvatar avatar, GameObject gameObject)
         {
+            //This will throw an exception if it's not initialized, so it's handled where called instead.
+            //Vector3 bsize = player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.prop_AvatarPerformanceStats_0.field_Public_Nullable_1_Bounds_0.GetValueOrDefault().m_Extents;
             //JEFF time
             apiUser = player.prop_APIUser_0;
             userId = apiUser.id;
@@ -157,7 +160,7 @@ namespace PlayerList.Entries
                 MelonLogger.Msg("PE: OnAvInst: Bailed due to userId mismatch");
                 return;
             }*/
-
+                
             //manager
 
             perf = (AvatarPerformanceRating)player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.prop_AvatarPerformanceStats_0.field_Private_ArrayOf_EnumPublicSealedvaNoExGoMePoVe7v0_0[(int)AvatarPerformanceCategory.Overall];
@@ -166,7 +169,12 @@ namespace PlayerList.Entries
             int.TryParse(Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Skinned Mesh Count")), @"\d+").Value, out int skinnedmeshcount);
             int.TryParse(Regex.Match(perfdeets.LastOrDefault(x => x.Contains("Mesh Count")), @"\d+").Value, out int meshcount);
             int.TryParse(Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Material Count")), @"\d+").Value, out int matcount);
-            Vector3 bsize = player.prop_VRCPlayer_0.field_Private_VRCAvatarManager_0.field_Private_AvatarPerformanceStats_0.field_Public_Nullable_1_Bounds_0.GetValueOrDefault().size;
+            GroupCollection boundAxes = Regex.Match(perfdeets.FirstOrDefault(x => x.Contains("Bounds")), @"Extents: \(([ \d.]+), ([ \d.]+), ([ \d.]+)\)").Groups;
+            int.TryParse(boundAxes[0].Value, out int boundx);
+            int.TryParse(boundAxes[1].Value, out int boundy);
+            int.TryParse(boundAxes[2].Value, out int boundz);
+            Vector3 bsize = new Vector3(boundx, boundy, boundz);
+
 
             partyFouls = 0;
             string failReasons = "";
@@ -182,7 +190,7 @@ namespace PlayerList.Entries
                 failReasons += "Me";
             }
             else failReasons += "  ";
-            if (matcount > PlayerListConfig.matLimit.Value)
+            if (matcount > PlayerListConfig.matLimit.Value) 
             {
                 partyFouls++;
                 failReasons += "Mt";
@@ -195,7 +203,7 @@ namespace PlayerList.Entries
             }
             else failReasons += "  ";
 
-            perfString = "<color=#" + PlayerUtils.GetPerformanceColor(perf) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
+            perfString = "<color=#" +  PlayerUtils.GetPerformanceColor(perf) + ">" + PlayerUtils.ParsePerformanceText(perf) + "</color>";
 
             //PyMsMtBd
             if (partyFouls == 0) jeffString = "<color=#00FF00>   OK   </color>";
@@ -208,7 +216,7 @@ namespace PlayerList.Entries
 
             if (player.prop_PlayerNet_0 != null)
                 UpdateEntry(player.prop_PlayerNet_0, this, true);
-
+            
             if (EntrySortManager.IsSortTypeInUse(EntrySortManager.SortType.AvatarPerf) || EntrySortManager.IsSortTypeInUse(EntrySortManager.SortType.Jeff))
                 EntrySortManager.SortPlayer(playerLeftPairEntry);
 
@@ -234,7 +242,7 @@ namespace PlayerList.Entries
                     jeffString = "<color=#" + col + ">  " + ((downloadPercentage * 100).ToString("N1") + "%").PadRight(6) + "</color>";
                 }
 
-
+                    
 
 
             }

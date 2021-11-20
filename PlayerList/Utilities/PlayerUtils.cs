@@ -1,6 +1,6 @@
-using UnityEngine;
-using VRC;
+﻿using VRC;
 using VRC.DataModel;
+using UnityEngine;
 
 namespace PlayerList.Utilities
 {
@@ -82,7 +82,7 @@ namespace PlayerList.Utilities
                 default:
                     return rating.ToString().PadRight(5);
             }
-
+            
         }
     }
 }

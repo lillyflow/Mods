@@ -1,12 +1,19 @@
-using MelonLoader;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+
+using MelonLoader;
+
+using VRC.UI.Elements;
+
 
 namespace PlayerList.Utilities
 {
     public class Constants
     {
-        public static GameObject shortcutMenu;
+        public static UIPage qmDashboard;
+        public static UIPage selectedUserLocal;
+        public static UIPage selectedUserRemote;
+
         public static GameObject quickMenu;
         public static Sprite checkSprite;
         public static Sprite blankSprite;
@@ -16,7 +23,9 @@ namespace PlayerList.Utilities
 
         public static void UIInit()
         {
-            shortcutMenu = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard").gameObject;
+            qmDashboard = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard").gameObject.GetComponent<UIPage>();
+            selectedUserLocal = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_SelectedUser_Local").gameObject.GetComponent<UIPage>();
+            selectedUserRemote = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_SelectedUser_Remote").gameObject.GetComponent<UIPage>();
             quickMenu = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window").gameObject;
             //Texture2D source = 
             checkSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Modal_AddWorldToPlaylist/MenuPanel/ScrollRect/Viewport/VerticalLayoutGroup/Cell_QM_WorldPlaylistToggle 1/ButtonElement_CheckBox/Checkmark").GetComponent<Image>().activeSprite;
