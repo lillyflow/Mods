@@ -95,8 +95,8 @@ namespace VRChatUtilityKit.Ui
         {
             buttonGroup.ParentMenu = this;
             if (buttonGroup.Header != null)
-                buttonGroup.Header.rectTransform.SetParent(PageLayoutGroup.rectTransform);
-            buttonGroup.rectTransform.SetParent(PageLayoutGroup.rectTransform);
+                buttonGroup.Header.rectTransform.SetParent(PageLayoutGroup.rectTransform, false);
+            buttonGroup.rectTransform.SetParent(PageLayoutGroup.rectTransform, false);
             _buttonGroups.Add(buttonGroup);
         }
 

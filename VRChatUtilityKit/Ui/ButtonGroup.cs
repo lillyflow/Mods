@@ -83,7 +83,7 @@ namespace VRChatUtilityKit.Ui
         /// <param name="button">The button to add</param>
         public ButtonGroup AddButton(IButtonGroupElement button)
         {
-            button.rectTransform.SetParent(ButtonLayoutGroup.transform);
+            button.rectTransform.SetParent(ButtonLayoutGroup.transform, false);
             _buttons.Add(button);
 
             return this;
