@@ -214,7 +214,7 @@ namespace PlayerList
             
             Buttons2.Add(SingleButtonWr("Edit PlayerList Position", new Action(ListPositionManager.MovePlayerList), "Click to edit the position of the PlayerList", "EditPlayerListPosButton", true));
 
-            Buttons2.Add(SingleButtonWr("Move to Right of QuickMenu", new Action(ListPositionManager.MovePlayerListToEndOfMenu), "Move PlayerList to right side of menu, this can also serve as a reset position button", "LockPlayerListToRightButton", true));
+            //Buttons2.Add(SingleButtonWr("Move to Right of QuickMenu", new Action(ListPositionManager.MovePlayerListToEndOfMenu), "Move PlayerList to right side of menu, this can also serve as a reset position button", "LockPlayerListToRightButton", true));
             tabButton.SubMenu.AddButtonGroup(new ButtonGroup("SizeButts", "Size & Position", Buttons2));
 
 
