@@ -7,10 +7,10 @@ using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 using VRC;
 using VRC.Core;
+using VRC.DataModel;
 using VRChatUtilityKit.Ui;
 using VRChatUtilityKit.Utilities;
 using VRCSDK2.Validation.Performance;
-using VRC.DataModel;
 
 namespace PlayerList.Entries
 {
@@ -90,8 +90,6 @@ namespace PlayerList.Entries
             {
                 if (!emmNameSpoofEnabled)
                     updateDelegate += AddDisplayName;
-                else
-                    typeof(EmmManager).GetMethod("AddSelfToUpdateDelegate").Invoke(null, null);
             }
 
             GetPlayerColor();
