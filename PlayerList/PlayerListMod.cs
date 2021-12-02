@@ -8,9 +8,9 @@ using UnhollowerRuntimeLib;
 using UnityEngine;
 using VRChatUtilityKit.Components;
 
-[assembly: MelonInfo(typeof(PlayerList.PlayerListMod), "PlayerList", "2.0.2", "Adnezz", "https://github.com/Adnezz/PlayerList")]
+[assembly: MelonInfo(typeof(PlayerList.PlayerListMod), "PlayerList", "2.0.3", "Adnezz and LJ", "https://github.com/ljoonal/VRC-Mods-loukylor")]
 [assembly: MelonGame("VRChat", "VRChat")]
-[assembly: MelonOptionalDependencies("UIExpansionKit", "emmVRC")]
+[assembly: MelonOptionalDependencies("UIExpansionKit")]
 
 namespace PlayerList
 {
@@ -91,9 +91,6 @@ namespace PlayerList
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
             if (buildIndex != -1) return;
-
-            if (MelonHandler.Mods.Any(mod => mod.Info.Name == "emmVRCLoader"))
-                typeof(EmmManager).GetMethod("OnSceneWasLoaded").Invoke(null, null);
 
             //MenuManager.OnSceneWasLoaded();
             MelonCoroutines.Start(WaitForMenu());

@@ -3,15 +3,15 @@ using System.IO;
 using System.Reflection;
 using MelonLoader;
 using TriggerESP.Components;
-using UnhollowerRuntimeLib;
 using UIExpansionKit.API;
+using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.SDKBase;
 using VRC.Udon;
 using VRChatUtilityKit.Utilities;
 
-[assembly: MelonInfo(typeof(TriggerESP.TriggerESPMod), "TriggerESP", "1.0.3", "loukylor", "https://github.com/loukylor/VRC-Mods")]
+[assembly: MelonInfo(typeof(TriggerESP.TriggerESPMod), "TriggerESP", "1.0.4", "loukylor and LJ", "https://github.com/ljoonal/VRC-Mods-loukylor")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 namespace TriggerESP

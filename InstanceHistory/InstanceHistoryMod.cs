@@ -2,7 +2,7 @@
 using System.Linq;
 using MelonLoader;
 
-[assembly: MelonInfo(typeof(InstanceHistory.InstanceHistoryMod), "InstanceHistory", "1.0.9", "loukylor, Nirvash", "https://github.com/Nirv-git/VRC-Mods")]
+[assembly: MelonInfo(typeof(InstanceHistory.InstanceHistoryMod), "InstanceHistory", "1.1.0", "loukylor, Nirvash, LJ", "https://github.com/ljoonal/VRC-Mods-loukylor")]
 [assembly: MelonGame("VRChat", "VRChat")]
 [assembly: MelonAdditionalDependencies("UIExpansionKit")]
 

@@ -16,10 +16,10 @@ namespace RememberMe
     public static class BuildInfo
     {
         public const string Name = "RememberMe";
-        public const string Author = "Herp Derpinstine & dave-kun";
+        public const string Author = "Herp Derpinstine & dave-kun & LJ";
         public const string Company = "Lava Gang";
-        public const string Version = "1.0.6";
-        public const string DownloadLink = "https://github.com/HerpDerpinstine/RememberMe";
+        public const string Version = "1.0.7";
+        public const string DownloadLink = "https://github.com/ljoonal/VRC-Mods-loukylor";
     }
 
     public class RememberMe : MelonMod

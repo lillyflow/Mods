@@ -5,7 +5,7 @@ using UnityEngine;
 using VRC.Core;
 using VRChatUtilityKit.Utilities;
 
-[assembly: MelonInfo(typeof(CloningBeGone.CloningBeGoneMod), "CloningBeGone", "1.2.1", "loukylor (https://github.com/loukylor/CloningBeGone)")]
+[assembly: MelonInfo(typeof(CloningBeGone.CloningBeGoneMod), "CloningBeGone", "1.2.2", "loukylor and LJ", "https://github.com/ljoonal/VRC-Mods-loukylor")]
 [assembly: MelonGame("VRChat", "VRChat")]
 [assembly: MelonOptionalDependencies("UIExpansionKit")]
 
