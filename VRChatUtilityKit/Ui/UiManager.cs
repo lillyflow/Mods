@@ -90,7 +90,7 @@ namespace VRChatUtilityKit.Ui
         internal static MethodInfo _pushPageMethod;
         internal static MethodInfo _removePageMethod;
 
-        //private static MethodInfo _openQuickMenuPageMethod;
+        private static MethodInfo _openQuickMenuPageMethod;
         private static MethodInfo _openQuickMenuMethod;
 
         private static MethodInfo _closeMenuMethod;
@@ -143,15 +143,15 @@ namespace VRChatUtilityKit.Ui
             _openQuickMenuMethod = typeof(UIManagerImpl).GetMethods()
                 .First(method => method.Name.StartsWith("Method_Public_Void_Boolean_") && method.Name.Length <= 29 && XrefUtils.CheckUsing(method, "Method_Private_Void_") && !XrefUtils.CheckUsing(method, "SetActive"));
 
-            /*_openQuickMenuPageMethod = typeof(UIManagerImpl).GetMethods()
+            _openQuickMenuPageMethod = typeof(UIManagerImpl).GetMethods()
                 .First(method => method.Name.StartsWith("Method_Public_Virtual_Final_New_Void_String_") && XrefUtils.CheckUsing(method, _openQuickMenuMethod.Name, _openQuickMenuMethod.DeclaringType));
-            MelonLogger.Msg("2");
+
             // Patching the other method doesn't work for some reason you have to patch this
             MethodInfo _onQuickMenuOpenedMethod = typeof(UIManagerImpl).GetMethods()
-                .First(method => method.Name.StartsWith("Method_Private_Void_Boolean_") && !method.Name.Contains("_PDM_") && XrefUtils.CheckUsedBy(method, _openQuickMenuMethod.Name));*/
+                .First(method => method.Name.StartsWith("Method_Private_Void_Boolean_") && !method.Name.Contains("_PDM_") && XrefUtils.CheckUsedBy(method, _openQuickMenuMethod.Name));
 
-            MethodInfo _onQuickMenuOpenedMethod = typeof(UIManagerImpl).GetMethods()
-                .First(method => method.Name.StartsWith("Method_Private_Void_Boolean_") && !method.Name.Contains("_PDM_"));
+           /* MethodInfo _onQuickMenuOpenedMethod = typeof(UIManagerImpl).GetMethods()
+                .First(method => method.Name.StartsWith("Method_Private_Void_Boolean_") && !method.Name.Contains("_PDM_"));*/
             VRChatUtilityKitMod.Instance.HarmonyInstance.Patch(_onQuickMenuOpenedMethod, null, new HarmonyMethod(typeof(UiManager).GetMethod(nameof(OnQuickMenuOpen), BindingFlags.NonPublic | BindingFlags.Static)));
 
             _popupV2Small = typeof(VRCUiPopupManager).GetMethods()
@@ -289,6 +289,11 @@ namespace VRChatUtilityKit.Ui
         /// Opens the QuickMenu.
         /// </summary>
         public static void OpenQuickMenu() => _openQuickMenuMethod?.Invoke(UIManagerImpl.prop_UIManagerImpl_0, new object[1] { true });
+
+        /// <summary>
+        /// Opens the specified QuickMenu page.
+        /// </summary>
+        public static void OpenQuickMenuPage(string quickMenuPage) => _openQuickMenuPageMethod?.Invoke(UIManagerImpl.prop_UIManagerImpl_0, new object[1] { quickMenuPage });
 
         /// <summary>
         /// Closes the QuickMenu.
