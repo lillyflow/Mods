@@ -116,6 +116,34 @@ namespace VRChatUtilityKit.Utilities
             => CheckUsing(method, usingMethod => usingMethod != null && (type == null || usingMethod.DeclaringType == type) && usingMethod.Name.Contains(methodName));
 
         /// <summary>
+        /// Counts how many times the given method is used by.
+        /// Note: the methods passed into the predicate may be false.
+        /// </summary>
+        /// <param name="method">The method to check</param>
+        /// <param name="predicate">The predicate to check the methods against</param>
+        /// <returns>the number of times the given method is called by a method with the given name of the given type</returns>
+        public static int CheckUsedByCount(MethodBase method, Func<MethodBase, bool> predicate)
+        {
+            int methodCount = 0;
+            foreach (XrefInstance instance in XrefScanner.UsedBy(method))
+            {
+                if (instance.Type == XrefType.Method && predicate.Invoke(instance.TryResolve()))
+                    methodCount++;
+            }
+            return methodCount;
+        }
+
+        /// <summary>
+        /// Returns the number of times the given method is called by the other given method.
+        /// </summary>
+        /// <param name="method">The method to check</param>
+        /// <param name="methodName">The name of the method that uses the given method</param>
+        /// <param name="type">The type of the method that uses the given method</param>
+        /// <returns>the number of times the given method is called by a method with the given name of the given type</returns>
+        public static int CheckUsedByCount(MethodBase method, string methodName, Type type = null)
+            => CheckUsedByCount(method, usedByMethod => usedByMethod != null && (type == null || usedByMethod.DeclaringType == type) && usedByMethod.Name.Contains(methodName));
+
+        /// <summary>
         /// Dumps the Xref information on a method.
         /// This is for DEBUG PURPOSES ONLY.
         /// </summary>

@@ -141,7 +141,7 @@ namespace VRChatUtilityKit.Ui
             VRChatUtilityKitMod.Instance.HarmonyInstance.Patch(_closeQuickMenuMethod, null, new HarmonyMethod(typeof(UiManager).GetMethod(nameof(OnQuickMenuClose), BindingFlags.NonPublic | BindingFlags.Static)));
 
             _openQuickMenuMethod = typeof(UIManagerImpl).GetMethods()
-                .First(method => method.Name.StartsWith("Method_Public_Void_Boolean_") && method.Name.Length <= 29 && XrefUtils.CheckUsing(method, "Method_Private_Void_"));
+                .First(method => method.Name.StartsWith("Method_Public_Void_Boolean_") && method.Name.Length <= 29 && XrefUtils.CheckUsing(method, "Method_Private_Void_") && !XrefUtils.CheckUsing(method, "SetActive"));
 
             /*_openQuickMenuPageMethod = typeof(UIManagerImpl).GetMethods()
                 .First(method => method.Name.StartsWith("Method_Public_Virtual_Final_New_Void_String_") && XrefUtils.CheckUsing(method, _openQuickMenuMethod.Name, _openQuickMenuMethod.DeclaringType));
@@ -171,7 +171,8 @@ namespace VRChatUtilityKit.Ui
             _selectedUserManagerObject = GameObject.Find("_Application/UIManager/SelectedUserManager").GetComponent<UserSelectionManager>();
 
             _selectUserMethod = typeof(UserSelectionManager).GetMethods()
-                .First(method => method.Name.StartsWith("Method_Public_Void_APIUser_") && !method.Name.Contains("_PDM_") && XrefUtils.CheckUsedBy(method, "Method_Public_Virtual_Final_New_Void_IUser_"));
+                .First(method => method.Name.StartsWith("Method_Public_Void_APIUser_") && !method.Name.Contains("_PDM_")
+                && XrefUtils.CheckUsedByCount(method, "Method_Public_Virtual_Final_New_Void_IUser_") >= 3);
 
             MethodInfo[] pageMethods = typeof(UIPage).GetMethods()
                 .Where(method => method.Name.StartsWith("Method_Public_Void_UIPage_") && !method.Name.Contains("_PDM_"))
