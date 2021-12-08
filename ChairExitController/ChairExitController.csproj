@@ -1,20 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<AssemblyName>ChairExitController</AssemblyName>
-		<RootNamespace>ChairExitController</RootNamespace>
-	</PropertyGroup>
-	<ItemGroup>
-		<Reference Include="UnityEngine.InputLegacyModule">
-		  <HintPath>$(VRChatPath)MelonLoader\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
-		</Reference>
-		<Reference Include="VRCCore-Standalone">
-		  <HintPath>$(VRChatPath)MelonLoader\Managed\VRCCore-Standalone.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Copy SourceFiles="$(OutDir)ChairExitController.dll" DestinationFolder="$(VRChatPath)Mods" />
-	</Target>
-
+    <PropertyGroup>
+        <AssemblyName>ChairExitController</AssemblyName>
+        <RootNamespace>ChairExitController</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="UnityEngine.InputLegacyModule">
+            <HintPath>$(VRChatPath)MelonLoader\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+        </Reference>
+        <Reference Include="VRCCore-Standalone">
+            <HintPath>$(VRChatPath)MelonLoader\Managed\VRCCore-Standalone.dll</HintPath>
+        </Reference>
+    </ItemGroup>
 </Project>

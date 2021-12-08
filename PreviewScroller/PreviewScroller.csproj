@@ -1,31 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<AssemblyName>PreviewScroller</AssemblyName>
-		<RootNamespace>PreviewScroller</RootNamespace>
-	</PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>PreviewScroller</AssemblyName>
+        <RootNamespace>PreviewScroller</RootNamespace>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<Reference Include="Il2CppSystem">
-			<HintPath>$(VRChatPath)MelonLoader\Managed\Il2CppSystem.dll</HintPath>
-		</Reference>
-		<Reference Include="Il2CppSystem.Core">
-			<HintPath>$(VRChatPath)MelonLoader\Managed\Il2CppSystem.Core.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.UI">
-			<HintPath>$(VRChatPath)MelonLoader\Managed\UnityEngine.UI.dll</HintPath>
-		</Reference>
-		<Reference Include="VRChatUtilityKit">
-		  <HintPath>$(VRChatPath)Mods\VRChatUtilityKit.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Copy SourceFiles="$(OutDir)PreviewScroller.dll" DestinationFolder="$(VRChatPath)Mods" />
-	</Target>
-
+    <ItemGroup>
+        <Reference Include="Il2CppSystem">
+            <HintPath>$(VRChatPath)MelonLoader\Managed\Il2CppSystem.dll</HintPath>
+        </Reference>
+        <Reference Include="Il2CppSystem.Core">
+            <HintPath>$(VRChatPath)MelonLoader\Managed\Il2CppSystem.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+            <HintPath>$(VRChatPath)MelonLoader\Managed\UnityEngine.UI.dll</HintPath>
+        </Reference>
+        <Reference Include="VRChatUtilityKit">
+            <HintPath>$(VRChatPath)Mods\VRChatUtilityKit.dll</HintPath>
+        </Reference>
+    </ItemGroup>
 </Project>

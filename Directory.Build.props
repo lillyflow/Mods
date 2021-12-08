@@ -2,10 +2,21 @@
     <PropertyGroup>
         <LangVersion>9.0</LangVersion>
         <TargetFramework>net472</TargetFramework>
-        <VRChatPath>$(ProjectDir)../VRChat</VRChatPath>
+        <VRChatPath>$(MSBuildThisFileDirectory)VRChat</VRChatPath>
         <VRChatPath Condition="Exists('C:/Program Files (x86)/Steam/steamapps/common/VRChat/')">C:/Program Files (x86)/Steam/steamapps/common/VRChat/</VRChatPath>
         <VRChatPath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/VRChat/')">$(HOME)/.steam/steam/steamapps/common/VRChat/</VRChatPath>
+        <BaseOutputPath>$(MSBuildThisFileDirectory)bin</BaseOutputPath>
+        <Deterministic>true</Deterministic>
+        <CopyLocal>false</CopyLocal>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <DebugSymbols Condition="'$(Configuration)'=='Release'">false</DebugSymbols>
+        <DebugType Condition="'$(Configuration)'=='Release'">None</DebugType>
     </PropertyGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CopyModFiles)'=='true'">
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(VRChatPath)Mods" />
+    </Target>
 
     <ItemGroup>
         <Reference Include="Assembly-CSharp">
@@ -24,4 +35,10 @@
             <HintPath>$(VRChatPath)MelonLoader\Managed\UnityEngine.CoreModule.dll</HintPath>
         </Reference>
     </ItemGroup>
+    <!-- make all references non-private, so they won't be copied to the output folder -->
+    <Target Name="ClearReferenceCopyLocalPaths" AfterTargets="ResolveAssemblyReferences">
+        <ItemGroup>
+            <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" />
+        </ItemGroup>
+    </Target>
 </Project>
