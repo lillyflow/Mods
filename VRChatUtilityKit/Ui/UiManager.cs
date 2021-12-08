@@ -172,7 +172,8 @@ namespace VRChatUtilityKit.Ui
 
             _selectUserMethod = typeof(UserSelectionManager).GetMethods()
                 .First(method => method.Name.StartsWith("Method_Public_Void_APIUser_") && !method.Name.Contains("_PDM_")
-                && XrefUtils.CheckUsedByCount(method, "Method_Public_Virtual_Final_New_Void_IUser_") >= 2);
+                && XrefUtils.CheckUsedBy(method, "Method_Public_Void_VRCPlayer_")
+                && XrefUtils.CheckUsedBy(method, "Method_Public_Virtual_Final_New_Void_IUser_"));
 
             MethodInfo[] pageMethods = typeof(UIPage).GetMethods()
                 .Where(method => method.Name.StartsWith("Method_Public_Void_UIPage_") && !method.Name.Contains("_PDM_"))
