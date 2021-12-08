@@ -6,9 +6,6 @@
     "[csharp]": {
         "editor.tabSize": 4,
     },
-    "[xml]": {
-        "editor.tabSize": 2,
-    },
     "markdownlint.config": {
         "MD024": false
     },
