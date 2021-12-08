@@ -283,7 +283,7 @@ This is by no means everyone, but some attribution is better than none:
 - [Loukylor](https://github.com/loukylor) for a lot of things, as these mods were originally by them.
 - [knah](https://github.com/knah) for [Join Notifier's](https://github.com/knah/VRCMods) join/leave and asynchronous utilities.
 - [DubyaDude](https://github.com/DubyaDude) for [RubyButtonAPI](https://github.com/DubyaDude/RubyButtonAPI) as reference for the button API.
-- [Psychloor](https://github.com/Psychloor) for my risky functions check.
+- [Psychloor](https://github.com/Psychloor) for the risky functions check.
 - [Brycey92](https://github.com/Brycey92) for AvatarHider contributions.
 - [dave-kun](https://github.com/dave-kun) for RememberMe & AvatarHider Contributions.
 - [ImTiara](https://github.com/ImTiara) for the original version of AvatarHider
