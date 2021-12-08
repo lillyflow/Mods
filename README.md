@@ -292,7 +292,7 @@ This is by no means everyone, but some attribution is better than none:
 - [HerpDerpinstine](https://github.com/HerpDerpinstine) for being the original author of RememberMe
 - [neitri](https://github.com/netri) for the ["Distance Face Outline" shader](https://github.com/netri/Neitri-Unity-Shaders) that was modified to create the TriggerESP shader.
 - Potato for PreviewScroller contributions.
-- [Sarayalth](https://github.com/Sarayalth) for VRCUtilityKit contributions.
+- [Sarayalth](https://github.com/Sarayalth) for VRCUtilityKit & UserInfoExtensions contributions.
 - [ljoonal](https://github.com/ljoonal) for various tiny modifications & cleanup/management work.
 - [Nirv](https://github.com/Nirv-git) for InstanceHistory (& UserHistory) contributions that have been merged from [their repository](https://github.com/Nirv-git/VRC-Mods).
 - [Adnezz](https://github.com/Adnezz) for PlayerHistory contributions that have been merged from [their repository](https://github.com/Adnezz/PlayerList)
