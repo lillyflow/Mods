@@ -50,7 +50,7 @@ More detailed instructions and more mods can be found in the [VRChat Modding Gro
 
 ## AskToPortal
 
-[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
 
 Makes sure you want to enter a portal, every time you enter a portal.
 
@@ -66,7 +66,7 @@ You can also toggle the mod on and off and auto accept portals from friends, you
 
 ## AvatarHider
 
-[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
 
 Automatically hides avatars based on the distance away from you.
 There's no real reason to render avatars that you don't even pay attention to, right?
@@ -89,7 +89,7 @@ Press both triggers in VR, or q and e in desktop to leave chairs.
 
 ## CloningBeGone
 
-[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
 
 Turns off cloning when you join an instance.
 
@@ -101,18 +101,17 @@ Keep in mind however, that this requires the use of UIX and will overwrite the i
 
 ## InstanceHistory
 
-[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
+[![Optionally uses UIExpansionKit][UIXOptionalBadge]][UIXLink]
 
 Tracks and shows a history of the instances you've been to.
 
-It has an optinal dependency for UIX when opening the instance history menu.
-This means you can run with or without it.
 It is highly recommended to use UIX because it's just easier.
 Although there are preferences to change the position of the regular button if you don't like UIX.
 
 ## PlayerList
 
-[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
 
 Adds a player list to the QuickMenu.
 
@@ -150,7 +149,7 @@ The list may also be turned off on startup, and can always be toggled on using `
 
 ## PreviewScroller
 
-[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
 
 Let's you sort of scroll the avatar preview so you can control where it's facing.
 
@@ -181,8 +180,8 @@ You can also configure the mod to not affect the favorite users lists.
 
 ## ReloadAvatars
 
-[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
-[![Requires UIExpansionKit][UIExBadge]][UIExLink]
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
+[![Requires UIExpansionKit][UIXRequiredBadge]][UIXLink]
 
 Adds buttons to reload a single user's avatar or all users' avatar.
 
@@ -195,15 +194,15 @@ When "Remember Me" is checked off it will auto-fill the last saved VRChat Creden
 
 ## SelectYourself
 
-[![Requires UIExpansionKit][UIExBadge]][UIExLink]
+[![Requires UIExpansionKit][UIXRequiredBadge]][UIXLink]
 
 Adds a button that allows you to select yourself.
 The button can be toggled on and off using UIX.
 
 ## TriggerESP
 
-[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
-[![Requires UIExpansionKit][UIExBadge]][UIExLink]
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
+[![Requires UIExpansionKit][UIXRequiredBadge]][UIXLink]
 
 Will highlight all VRChat interactables as well as any Unity UI buttons.
 
@@ -217,18 +216,18 @@ Note that it disables itself in worlds that don't allow risky functions.
 
 ## UserHistory
 
-[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
+[![Optionally uses UIExpansionKit][UIXOptionalBadge]][UIXLink]
 
 Shows you when an user joined, and when clicking on them, opens when in the user page.
 It's basically a copy + paste of [InstanceHistory](#instancehistory).
 
-It has an optional dependency for UIX when opening the user history menu. This means you can run with or without it.
 It is highly recommended to use UIX because it's just easier, although there are preferences to change the position of the regular button if you don't like UIX.
 
 ## UserInfoExtensions
 
-[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
-[![Requires UIExpansionKit][UIExBadge]][UIExLink]
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
+[![Requires UIExpansionKit][UIXRequiredBadge]][UIXLink]
 
 Adds buttons to the to make VRChat more convenient.
 
@@ -301,7 +300,8 @@ This is by no means everyone, but some attribution is better than none:
 
 If you feel like the list is missing someone, do create a PR!
 
-[VRCUKBadge]: https://img.shields.io/badge/VRCUK-Required-informational?style=flat
+[VRCUKRequiredBadge]: https://img.shields.io/badge/VRCUK-Required-important?style=flat
 [VRCUKLink]: https://github.com/SleepyVRC/Mods/releases
-[UIExBadge]: https://img.shields.io/badge/UIX-Required-informational?style=flat
-[UIExLink]: https://github.com/knah/VRCMods/
+[UIXRequiredBadge]: https://img.shields.io/badge/UIX-Required-important?style=flat
+[UIXOptionalBadge]: https://img.shields.io/badge/UIX-Optional-informational?style=flat
+[UIXLink]: https://github.com/knah/VRCMods/
