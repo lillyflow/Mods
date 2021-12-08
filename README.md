@@ -1,80 +1,70 @@
-# Disclaimer
+# Sleepers VRC Mods<!-- omit in toc -->
+
+These are mods that weren't being maintained anymore, gathered together. So that hopefully as a community we can still maintain them.
+
+This repository was forked from Loukylor's mods after he stopped maintaining them.
+As they do a lot of good maintaining them was found to be important enough that this repo was created.
+
+The intention of the name change is to make it clear that this project hopes to have multiple people maintaining it instead of just a single person burning themselves out with the burden - Make sure to get enough sleep y'all modders!
+
+## Disclaimer<!-- omit in toc -->
 
 VRChat does **not** condone the use of mods, and, if found to be modifying the client, then you **will** be punished.
 
-**That being said,** there is no anticheat of any sort (file integrity check, position check, etc.) placed on the client.
-The only anticheat (if it could be called that) in VRChat is an API limiter, and Photon checks, and the mods listed in this repository, will not trigger any of those.
-The real only way to get punished on this game is to piss of the aforementioned anticheats, or be reported by a user with video evidence of you using a mod (whether this be you flying or verbally admitting you mod the game).
+That being said, there is no anticheat of any sort in the client as of writing this.
+There is an API limiter & Photon checks, and the mods listed in this repository avoid triggering those.
+The real only way to get punished on this game is to piss of the aforementioned checks, or be reported by a user with evidence of you using a mod.
 
-So just, stay safe, and don't be stupid and run around saying you use mods, and you'll be a-ok.
+**These mods are provided as-is without any warranty and we will not be held responsible for anything that using mods may cause**.
 
-Also, for my sake, **I am not responsible for any bans using my mods may cause**.
-I do my abselute best to make sure none of my mods, verified or unverified, will increase your chance of getting banned by any amount.
-And in fact, only one of my mods could trigger any anticheat in any way (UserInfoExtensions), but there are limits in place that completely prevent this.
-**But**, no matter how small, there is always a chance.
+## Installation<!-- omit in toc -->
 
-## Status
+1. Follow the instructions on the [MelonLoader wiki](https://melonwiki.xyz/#/) on installing MelonLoader (MelonLoader is the mod loader which will allow the mods to run).
+2. Download the mod(s) you would like to install.
+3. Drag'n'drop the downloaded mod(s) into the `Mods` folder in the `VRChat` folder.
 
-Loukylor has said that they do not have enough time to keep maintaining their mods.
-And that is totally fine.
-Since the mods are open source, I've tried to fork the project and fix them to a working order.
-
-I've tried to apply easy enough fixes myself and merge changes from others that've fixed some things.
-That being said tho, just like loukylor, I don't have too much time to spend on modding.
-So please please do create forks, so that I can scoop up your changes and try to keep loukylor's awesome creations working!
-
-## Installation
-
-1. Simply follow the instructions on the [MelonLoader wiki](https://melonwiki.xyz/#/) on installing MelonLoader **0.4.0** (MelonLoader is the mod loader which will allow my mods to run).
-2. Make sure you've installed version 0.4.0, as 0.2.7.4 will not function with VRChat.
-3. Then download the mod(s) you would like to install from the [releases](https://github.com/loukylor/VRC-Mods/releases) section of this repository.
-4. Allow the game to run once (this will set up a bunch of things MelonLoader uses)
-5. And finally, drag and drop the downloaded mod(s) into the newly created `Mods` folder in the `VRChat` folder and restart the game.
 More detailed instructions and more mods can be found in the [VRChat Modding Group Discord](https://discord.gg/rCqKSvR).
 
-## Mod List
+## Table of contents<!-- omit in toc -->
 
 - [AskToPortal](#asktoportal)
 - [AvatarHider](#avatarhider)
-- [ChairExitController](#chairexistcontroller)
+- [ChairExitController](#chairexitcontroller)
 - [CloningBeGone](#cloningbegone)
-- [InstanceHistory](#instancehistory) Merged [Nirv's version](https://github.com/Nirv-git/VRC-Mods).
-- [PlayerList](#playerlist) Merged [Adnezz's version](https://github.com/Adnezz/PlayerList).
+- [InstanceHistory](#instancehistory)
+- [PlayerList](#playerlist)
 - [PreviewScroller](#previewscroller)
 - [PrivateInstanceIcon](#privateinstanceicon)
 - [ReloadAvatars](#reloadavatars)
 - [RememberMe](#rememberme)
 - [SelectYourself](#selectyourself)
 - [TriggerESP](#triggeresp)
-- [UserHistory](#userhistory) Compiles but functionally broken still
+- [UserHistory](#userhistory)
 - [UserInfoExtensions](#userinfoextensions)
 - [VRChatUtilityKit](#vrchatutilitykit)
+  - [For Developers](#for-developers)
+  - [Licensing](#licensing)
+- [Credits](#credits)
 
 ## AskToPortal
 
-A mod that makees sure you want to enter a portal, every time you enter a portal
+[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
 
-### Features
+A mod that makes sure you want to enter a portal, every time you enter a portal
 
 This mod also contains many checks for portal droppers, or people who use a mod that drops portals maliciously.
 If the mod detects a portal dropper, it will give you the option of blacklisting the user until you restart your game.
 
 You can also toggle the mod on and off and auto accept portals from friends, yourself, and one's placed in the world itself (by the creator).
 
-### Pictures of user prompt
-
 ![Basic User Prompt](https://i.imgur.com/IiOnkCM.png)
 ![Detailed User Prompt](https://i.imgur.com/N4QHlbb.png)
 ![Basic User Prompt with Errors](https://i.imgur.com/fja7qNY.png)
 ![Detailed User Prompt with Errors](https://i.imgur.com/SJPALdl.png)
 
-### Requirements
-
-- [VRChatUtilityKit](https://github.com/loukylor/VRC-Mods/releases)
-
 ## AvatarHider
 
-The following is the original README:
+[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
 
 This mod will automatically hide avatars based on the distance away from you.
 There's no real reason to render avatars that you don't even pay attention to, right?
@@ -90,29 +80,6 @@ If a friend is using an unoptimized avatar and you would like AvatarHider to hid
 Then show your friends avatars that you would like to be ignored by AvatarHider.
 And set the friend with the unoptimized avatar to the "Use Safety Settings" in the QuickMenu.
 
-### Additions in my version
-
-I spent lots of time to make sure the mod runs well, and also can be more snappy.
-There is no longer any delay to hide an avatar and also there should be less performance hit in general.
-
-The other differences are all audio related.
-The "Disable Spawn Sounds" setting will now allow an avatar's spawn sounds to run once. This will only run for those who aren't always shwon.
-There are new settings "Max Audio Distance" and "Limit Audio Distance" that allow you to limit the max distance of an avatar's audio.
-This runs for all players.
-
-**Warning:** Limiting audio distance may break VRChat's spatialized audio sources.
-
-The last addition is there is now an option to always include hidden avatars, even if they're a friend and you set AvatarHider to ignore friends.
-
-### Credits
-
-This is a revived version of the mod [AvatarHider](https://github.com/ImTiara/AvatarHider), originally made by [ImTiara](https://github.com/ImTiara) so huge credits to them!
-In the previous repository, both [dave-kun](https://github.com/dave-kun) and [Brycey92](https://github.com/Brycey92) were contributor so credits to them too.
-
-### Requirements
-
-- [VRChatUtilityKit](https://github.com/loukylor/VRC-Mods/releases)
-
 ## ChairExitController
 
 Prevents you from falling out of chairs accidentally.
@@ -120,9 +87,9 @@ Press both triggers in VR, or q and e in desktop to leave chairs.
 
 ## CloningBeGone
 
-Turns off cloning when you join an instance.
+[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
 
-### Features
+Turns off cloning when you join an instance.
 
 You can configure whether you want cloning to be on or off based off instance type.
 So for example, you can have cloning on in Invite+ worlds and off in all the other instance types.
@@ -130,28 +97,20 @@ So for example, you can have cloning on in Invite+ worlds and off in all the oth
 You can also disable/enable cloning for a specific avatar. The buttons to control these can be toggled on and off.
 Keep in mind however, that this requires the use of UIX and will overwrite the instance type cloning.
 
-### Requirements
-
-- [VRChatUtilityKit](https://github.com/loukylor/VRC-Mods/releases)
-
 ## InstanceHistory
 
-A basic instance history mod
+[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
 
-### Features
+A basic instance history mod
 
 It has an optinal dependency for UIX when opening the instance history menu. This means you can run with or without it.
 It is highly recommnded to use UIX because it's just easier, although there are preferences to change the position of the regular button if you don't like UIX.
 
-### Requirements
-
-- [VRChatUtilityKit](https://github.com/loukylor/VRC-Mods/releases)
-
 ## PlayerList
 
-Adds a player list to the ShortcutMenu
+[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
 
-### Features
+Adds a player list to the ShortcutMenu
 
 Each entry to the player list is a button that will open the user in the QuickMenu on click.
 The player's name will be colored to the rank they are (OGTrustRanks compatible!), each entry also has the player's ping, fps, platform, avatar performance, distance from you, and number of owned objects.
@@ -182,39 +141,19 @@ The list can also be numbered, or ticked and can be condensed so more stuff fits
 
 The list may also be turned off on startup, and can always be toggled on using `left ctrl + f1`
 
-I also plan to add more entries, please ping or DM with ideas. I don't bite!
-Oh yea, also report any errors to me. You can make an issue or ping/DM me.
-
-### Credits
-
-- [KortyBoi](https://github.com/KortyBoi) as he let me use the layout from his player list, and helped me with getting some of the information.
-- Frostbyte for being a big meanie and telling me how to optimize things
-
-### Picture of List
-
 ![Picture of the List](https://i.imgur.com/jvfytTc.png)
-
-### Requirements
-
-- [VRChatUtilityKit](https://github.com/loukylor/VRC-Mods/releases)
 
 ## PreviewScroller
 
+[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+
 A mod that let's you sort of scroll the avatar preview so you can control where it's facing
 
-### GIF of Scrolling
-
 ![GIF of the Scrolling in Action](https://i.imgur.com/D2JVwnD.mp4)
-
-### Requirements
-
-- [VRChatUtilityKit](https://github.com/loukylor/VRC-Mods/releases)
 
 ## PrivateInstanceIcon
 
 Adds an icon to the social menu that shows if you can join a person or not.
-
-### Features
 
 Let's you configure what the mod does when a user is in a certain world type.
 There are 3 things the mods does:
@@ -233,22 +172,16 @@ Each of these behaviors can be applied to users in:
 
 You can also configure the mod to not affect the favorite users lists.
 
-### Picture of the Icon
-
 ![Picture of me with the icon on it](https://i.imgur.com/T0Z0uba.png)
 
 ## ReloadAvatars
 
+[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+[![Requires UIExpansionKit][UIExBadge]][UIExLink]
+
 Adds buttons to reload a single user's avatar or all users' avatar.
 
-### Features
-
 The buttons can each be toggled on and off using UIX
-
-### Requirements
-
-- [UIExpansionKit](https://github.com/knah/VRCMods/)
-- [VRChatUtilityKit](https://github.com/loukylor/VRC-Mods/releases)
 
 ## RememberMe
 
@@ -257,71 +190,45 @@ Mod for VRChat using MelonLoader
 Adds a "Remember Me" check-box to the Login screen.
 When "Remember Me" is checked off it will auto-fill the last saved VRChat Credentials.
 
-### Disclaimer
-
-I have not made any changes to this mod. All code is not my own, and I have received permission for this.
-
-### Credits
-
-- The original author of the mod, [HerpDerpinstine](https://github.com/HerpDerpinstine)
-- A contributor on the original repository, [dave-kun](https://github.com/dave-kun)
-
 ## SelectYourself
+
+[![Requires UIExpansionKit][UIExBadge]][UIExLink]
 
 Adds a button that allows you to select yourself
 
-### Features
-
 The button can be toggled on and off using UIX
-
-### Requirements
-
-- [UIExpansionKit](https://github.com/knah/VRCMods/)
 
 ## TriggerESP
 
-A trigger ESP that will highlight all VRChat interactables as well as any Unity UI buttons.
+[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+[![Requires UIExpansionKit][UIExBadge]][UIExLink]
 
-### Features
+A trigger ESP that will highlight all VRChat interactables as well as any Unity UI buttons.
 
 The color the ESP is customizable, and you can also set the color as random.
 The strength of the ESP is customizable as well.
 
 Note that it disables itself in worlds that don't allow risky functions.
 
-### Picture of the ESP
-
 ![Picture of Outline](https://i.imgur.com/QnawlKb.jpg)
 ![Picture of Wireframe](https://i.imgur.com/nnTN4na.jpg)
 
-### Requirements
-
-- [UIExpansionKit](https://github.com/knah/VRCMods/)
-- [VRChatUtilityKit](https://github.com/loukylor/VRC-Mods/releases)
-
-### Credites
-
-- The shader used was a heavily modified version of the "Distance Fade Outline Shader" found in <https://github.com/netri/Neitri-Unity-Shaders>
-
 ## UserHistory
+
+[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
 
 A mod that shows you when a user joined, and when clicking on them, opens when in the user page.
 It's basically a copy + paste of [InstanceHistory](#instancehistory)
 
-### Features
-
 It has an optinal dependency for UIX when opening the user history menu. This means you can run with or without it.
 It is highly recommnded to use UIX because it's just easier, although there are preferences to change the position of the regular button if you don't like UIX.
 
-### Requirements
-
-- [VRChatUtilityKit](https://github.com/loukylor/VRC-Mods/releases)
-
 ## UserInfoExtensions
 
-A mod that adds buttons to the to make VRChat more convenient
+[![Requires VRChatUtilityKit][VRCUKBadge]][VRCUKLink]
+[![Requires UIExpansionKit][UIExBadge]][UIExLink]
 
-### Features
+A mod that adds buttons to the to make VRChat more convenient
 
 Adding individually toggleable buttons that allow you to:
 
@@ -349,11 +256,6 @@ For avatars, you can see their:
 - time which they were last updated
 - version
 
-### Requirements
-
-- [UIExpansionKit](https://github.com/knah/VRCMods/)
-- [VRChatUtilityKit](https://github.com/loukylor/VRC-Mods/releases)
-
 ## VRChatUtilityKit
 
 Various sets of utilites for developers to use in their mods.
@@ -370,12 +272,33 @@ This library is licensed under LGPL v3.
 This means that you are allowed to reference the library in your code as long as you disclose source and have a license and copyright notice you will be fine.
 In the case that you would like to modify or include the library in your mod, you must use the same license as well as state any changes.
 
-If you are caught not properly following the license, I will not hesitate to take you repo or Discord account down.
+We will seek to punish license violations.
 
-Also note that I have used code licensed under GPL v3, however, I have been granted express permission to license this code under LGPL v3.
+There is some code that was originally licensed under GPL v3, however express permission has been granted to license said code under LGPL v3.
 
 ## Credits
 
-- [knah](https://github.com/knah) as I use [Join Notifier's](https://github.com/knah/VRCMods) join/leave and asynchronous utilities.
-- [DubyaDude](https://github.com/DubyaDude) as I used [RubyButtonAPI](https://github.com/DubyaDude/RubyButtonAPI) as reference for my button API.
-- [Psychloor](https://github.com/Psychloor) as I used his code as a template for my risky functions check.
+This is by no means everyone, but some attribution is better than none:
+
+- [Loukylor](https://github.com/loukylor) for a lot of things, as these mods were originally by them.
+- [knah](https://github.com/knah) for [Join Notifier's](https://github.com/knah/VRCMods) join/leave and asynchronous utilities.
+- [DubyaDude](https://github.com/DubyaDude) for [RubyButtonAPI](https://github.com/DubyaDude/RubyButtonAPI) as reference for the button API.
+- [Psychloor](https://github.com/Psychloor) for my risky functions check.
+- [Brycey92](https://github.com/Brycey92) for AvatarHider contributions.
+- [dave-kun](https://github.com/dave-kun) for RememberMe & AvatarHider Contributions.
+- [ImTiara](https://github.com/ImTiara) for the original version of AvatarHider
+- [KortyBoi](https://github.com/KortyBoi) for PlayerList's layout & help with getting some of the information.
+- Frostbyte for PlayerList optimization help
+- [HerpDerpinstine](https://github.com/HerpDerpinstine) for being the original author of RememberMe
+- [neitri](https://github.com/netri) for the ["Distance Face Outline" shader](https://github.com/netri/Neitri-Unity-Shaders) that was modified to create the TriggerESP shader.
+- Potato for PreviewScroller contributions.
+- [ljoonal](https://github.com/ljoonal) for various tiny modifications & cleanup/management work.
+- [Nirv](https://github.com/Nirv-git) for InstanceHistory (& UserHistory) contributions that have been merged from [their repository](https://github.com/Nirv-git/VRC-Mods).
+- [Adnezz](https://github.com/Adnezz) for PlayerHistory contributions that have been merged from [their repository](https://github.com/Adnezz/PlayerList)
+
+If you feel like the list is missing someone, do create a PR!
+
+[VRCUKBadge]: https://img.shields.io/badge/VRCUK-Required-informational?style=flat
+[VRCUKLink]: https://github.com/SleepyVRC/Mods/releases
+[UIExBadge]: https://img.shields.io/badge/UIEx-Required-informational?style=flat
+[UIExLink]: https://github.com/knah/VRCMods/

@@ -7,21 +7,12 @@ using UnhollowerRuntimeLib.XrefScans;
 using UnityEngine;
 using UnityEngine.UI;
 
-[assembly: MelonInfo(typeof(RememberMe.RememberMe), RememberMe.BuildInfo.Name, RememberMe.BuildInfo.Version, RememberMe.BuildInfo.Author, RememberMe.BuildInfo.DownloadLink)]
+[assembly: MelonInfo(typeof(RememberMe.RememberMe), "RememberMe", "1.0.7", "Sleepers", "https://github.com/SleepyVRC/Mods")]
 [assembly: MelonGame("VRChat", "VRChat")]
 [assembly: MelonOptionalDependencies("UIExpansionKit")]
 
 namespace RememberMe
 {
-    public static class BuildInfo
-    {
-        public const string Name = "RememberMe";
-        public const string Author = "Herp Derpinstine & dave-kun & LJ";
-        public const string Company = "Lava Gang";
-        public const string Version = "1.0.7";
-        public const string DownloadLink = "https://github.com/ljoonal/VRC-Mods-loukylor";
-    }
-
     public class RememberMe : MelonMod
     {
         private static MethodInfo VRCUiManager_Instance_get = null;

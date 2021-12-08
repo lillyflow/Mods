@@ -4,7 +4,7 @@ using MelonLoader;
 using UnityEngine;
 using VRC;
 
-[assembly: MelonInfo(typeof(ChairExitController.ChairExitControllerMod), "ChairExitController", "1.0.2", "loukylor and LJ", "https://github.com/ljoonal/VRC-Mods-loukylor")]
+[assembly: MelonInfo(typeof(ChairExitController.ChairExitControllerMod), "ChairExitController", "1.0.2", "Sleepers", "https://github.com/SleepyVRC/Mods")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 namespace ChairExitController

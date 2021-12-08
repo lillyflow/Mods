@@ -5,7 +5,7 @@ using UnityEngine;
 using VRC;
 using VRChatUtilityKit.Ui;
 
-[assembly: MelonInfo(typeof(SelectYourself.SelectYourselfMod), "SelectYourself", "1.0.6", "loukylor and LJ", "https://github.com/ljoonal/VRC-Mods-loukylor")]
+[assembly: MelonInfo(typeof(SelectYourself.SelectYourselfMod), "SelectYourself", "1.0.6", "Sleepers", "https://github.com/SleepyVRC/Mods")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 namespace SelectYourself
