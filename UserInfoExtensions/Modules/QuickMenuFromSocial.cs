@@ -35,7 +35,7 @@ namespace UserInfoExtensions.Modules
                     UiManager.CloseBigMenu();
                     UiManager.OpenQuickMenu();
 
-                    UiManager.OpenQuickMenuPage("QuickMenuHere");
+                    //UiManager.OpenQuickMenuPage("QuickMenuHere");
                     UiManager.OpenUserInQuickMenu(player.field_Private_APIUser_0);
 
                     return;
