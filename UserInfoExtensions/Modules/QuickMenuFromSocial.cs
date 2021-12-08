@@ -33,7 +33,6 @@ namespace UserInfoExtensions.Modules
                 if (player.prop_APIUser_0.id == VRCUtils.ActiveUserInUserInfoMenu.id)
                 {
                     UiManager.CloseBigMenu();
-                    UiManager.OpenQuickMenu();
 
                     UiManager.OpenQuickMenuPage("QuickMenuHere");
                     UiManager.OpenUserInQuickMenu(player.field_Private_APIUser_0);
