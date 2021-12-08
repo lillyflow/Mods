@@ -345,7 +345,7 @@ namespace VRChatUtilityKit.Ui
         /// </summary>
         /// <param name="rootPage">The page to open the submenu on</param>
         /// <param name="uiPage">The page to open</param>
-        public static void OpenSubMenu(UIPage rootPage, UIPage uiPage) => _pushPageMethod.Invoke(rootPage, new object[1] { uiPage });
+        public static void OpenSubMenu(UIPage rootPage, UIPage uiPage) => _pushPageMethod.Invoke(rootPage, new object[2] { uiPage, VRC.UI.Elements.UIPage.TransitionType.InPlace });
 
         /// <summary>
         /// Closes all sub menus of the given root page.
