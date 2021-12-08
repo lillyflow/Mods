@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 using UnhollowerRuntimeLib.XrefScans;
 using UnityEngine;
 using UnityEngine.UI;
@@ -150,7 +150,7 @@ namespace VRChatUtilityKit.Ui
             MethodInfo _onQuickMenuOpenedMethod = typeof(UIManagerImpl).GetMethods()
                 .First(method => method.Name.StartsWith("Method_Private_Void_Boolean_") && !method.Name.Contains("_PDM_") && XrefUtils.CheckUsedBy(method, _openQuickMenuMethod.Name));
 
-           /* MethodInfo _onQuickMenuOpenedMethod = typeof(UIManagerImpl).GetMethods()
+            /* MethodInfo _onQuickMenuOpenedMethod = typeof(UIManagerImpl).GetMethods()
                 .First(method => method.Name.StartsWith("Method_Private_Void_Boolean_") && !method.Name.Contains("_PDM_"));*/
             VRChatUtilityKitMod.Instance.HarmonyInstance.Patch(_onQuickMenuOpenedMethod, null, new HarmonyMethod(typeof(UiManager).GetMethod(nameof(OnQuickMenuOpen), BindingFlags.NonPublic | BindingFlags.Static)));
 
