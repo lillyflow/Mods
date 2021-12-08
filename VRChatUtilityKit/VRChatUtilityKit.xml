@@ -611,6 +611,11 @@
             Opens the QuickMenu.
             </summary>
         </member>
+        <member name="M:VRChatUtilityKit.Ui.UiManager.OpenQuickMenuPage(System.String)">
+            <summary>
+            Opens the specified QuickMenu page.
+            </summary>
+        </member>
         <member name="M:VRChatUtilityKit.Ui.UiManager.CloseQuickMenu">
             <summary>
             Closes the QuickMenu.
@@ -1220,6 +1225,24 @@
             <param name="methodName">The name of the method that is used by the given method</param>
             <param name="type">The type of the method that is used by the given method</param>
             <returns>true if any of the given method calls a method with the given name of the given type, otherwise false</returns>
+        </member>
+        <member name="M:VRChatUtilityKit.Utilities.XrefUtils.CheckUsedByCount(System.Reflection.MethodBase,System.Func{System.Reflection.MethodBase,System.Boolean})">
+            <summary>
+            Counts how many times the given method is used by.
+            Note: the methods passed into the predicate may be false.
+            </summary>
+            <param name="method">The method to check</param>
+            <param name="predicate">The predicate to check the methods against</param>
+            <returns>the number of times the given method is called by a method with the given name of the given type</returns>
+        </member>
+        <member name="M:VRChatUtilityKit.Utilities.XrefUtils.CheckUsedByCount(System.Reflection.MethodBase,System.String,System.Type)">
+            <summary>
+            Returns the number of times the given method is called by the other given method.
+            </summary>
+            <param name="method">The method to check</param>
+            <param name="methodName">The name of the method that uses the given method</param>
+            <param name="type">The type of the method that uses the given method</param>
+            <returns>the number of times the given method is called by a method with the given name of the given type</returns>
         </member>
         <member name="M:VRChatUtilityKit.Utilities.XrefUtils.DumpXrefInfo(System.Reflection.MethodBase)">
             <summary>
