@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using MelonLoader;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,33 +22,21 @@ namespace UserHistory
 
                 _playerIndex = value;
 
-                pageNumLabel.TextComponent.text = $"Page: {PageNum} of {LastPageNum}";
+                pageNumLabel.TextComponent.text = $"<size=30>Page: {PageNum} of {LastPageNum}</size>";
 
-                if (PageNum == LastPageNum || LastPageNum == 1)
-                    pageDown.gameObject.SetActive(false);
-                else
-                    pageDown.gameObject.SetActive(true);
-
-                if (PageNum == 1)
-                {
-                    pageUp.gameObject.SetActive(false);
-                }
-                else
-                {
-                    pageUp.gameObject.SetActive(true);
-                }
-
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < 12; i++)
                 {
 
                     if (_playerIndex + i >= UserManager.cachedPlayers.Count)
                     {
-                        buttons[i].gameObject.SetActive(false);
+                        buttons[i].TextComponent.text = "N/A";
+                        buttons[i].Tooltip.field_Public_String_0 = "N/A";
+                        buttons[i].ButtonComponent.onClick = new Button.ButtonClickedEvent();
                     }
                     else
                     {
                         UserManager.CachedPlayer player = UserManager.cachedPlayers[PlayerIndex + i];
-                        buttons[i].TextComponent.text = player.name;
+                        buttons[i].TextComponent.text = $"{player.name}\n{player.timeJoined:G}";
                         buttons[i].Tooltip.field_Public_String_0 = $"User: {player.name} joined on {player.timeJoined:G}";
                         buttons[i].ButtonComponent.onClick = new Button.ButtonClickedEvent();
                         buttons[i].ButtonComponent.onClick.AddListener(new Action(() =>
@@ -57,7 +46,6 @@ namespace UserHistory
                             else
                                 OnUserReceived(player.user);
                         }));
-                        buttons[i].gameObject.SetActive(true);
                     }
                 }
             }
@@ -65,22 +53,29 @@ namespace UserHistory
 
         private static void OnUserReceived(APIUser user)
         {
-            UiManager.OpenBigMenu(false);
-            UiManager.OpenUserInUserInfoPage(user.ToIUser());
+            if (!Config.openInQuickMenu.Value)
+            {
+                UiManager.OpenBigMenu(false);
+                UiManager.OpenUserInUserInfoPage(user.ToIUser());
+            }
+            else
+            {
+                UiManager.OpenUserInQuickMenu(user);
+            }
         }
         // 
         public static int PageNum
         {
-            get { return Mathf.CeilToInt((_playerIndex + 1) / 9f); }
+            get { return Mathf.CeilToInt((_playerIndex + 1) / 12f); }
         }
         public static int LastPageNum
         {
-            get { return Mathf.CeilToInt(UserManager.cachedPlayers.Count / 9f); }
+            get { return Mathf.CeilToInt(UserManager.cachedPlayers.Count / 12f); }
         }
 
         public static Transform openButton;
         public static SubMenu menu;
-        private static readonly SingleButton[] buttons = new SingleButton[9];
+        private static readonly SingleButton[] buttons = new SingleButton[12];
         private static SingleButton pageUp;
         private static SingleButton pageDown;
         private static Label pageNumLabel;
@@ -93,7 +88,7 @@ namespace UserHistory
 
             openButton = UnityEngine.Object.Instantiate(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/Header_H1/RightItemContainer/Button_QM_Expand"));
             openButton.name = "UserHistory_UI";
-            openButton.SetParent(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Dashboard/Header_H1"));
+            openButton.SetParent(UiManager.QMStateController.transform.Find("Container/Window/QMParent/"));
             openButton.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value, 0f);
             openButton.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             openButton.GetComponent<Button>().onClick.AddListener(new Action(() => OpenUserHistoryMenu()));
@@ -104,6 +99,8 @@ namespace UserHistory
             openButton.gameObject.SetActive(!(VRCUtils.IsUIXPresent && Config.useUIX.Value));
             Config.openButtonX.OnValueChanged += OnPositionChange;
             Config.openButtonY.OnValueChanged += OnPositionChange;
+
+            MelonCoroutines.Start(WaitForQM());
 
             ButtonGroup buttgroup = null;
             var allButtons = new System.Collections.Generic.List<IButtonGroupElement>();
@@ -144,6 +141,16 @@ namespace UserHistory
                 typeof(UIXManager).GetMethod("AddOpenButtonToUIX").Invoke(null, null);
 
             MelonLogger.Msg("UI Loaded!");
+        }
+
+        public static IEnumerator WaitForQM()
+        {
+            //Wait for the QM to open before cloning the button onto the Dashboard/Launch Pad Menu. This is because VRCUK uses that menu as a basis for it's custom TabMenus
+            while (GameObject.Find("/UserInterface/Canvas_QuickMenu(Clone)/Container/Window/MicButton") == null)
+                yield return new WaitForSeconds(1f);
+            openButton.SetParent(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Here/QMHeader_H1"));
+            openButton.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value, 0f); //300f, -60f
+            MelonLogger.Msg("Initialized QM Button!");
         }
 
         public static void OpenUserHistoryMenu()
