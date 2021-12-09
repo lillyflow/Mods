@@ -8,6 +8,7 @@
         <BaseOutputPath>$(MSBuildThisFileDirectory)bin</BaseOutputPath>
         <Deterministic>true</Deterministic>
         <CopyLocal>false</CopyLocal>
+        <CopyModFiles Condition="'$(CopyModFiles)'==''">true</CopyModFiles>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <DebugSymbols Condition="'$(Configuration)'=='Release'">false</DebugSymbols>
