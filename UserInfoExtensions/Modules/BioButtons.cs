@@ -192,9 +192,12 @@ namespace UserInfoExtensions.Modules
         public override void OnUserInfoOpen()
         {
             userLanguages.Clear();
-            foreach (string tag in VRCUtils.ActiveUserInUserInfoMenu.tags) //Cant use where here because Il2Cpp List and regular List
+            if (VRCUtils.ActiveUserInUserInfoMenu != null)
             {
-                if (tag.StartsWith("language_")) userLanguages.Add(languageLookup[tag.Substring(9)]);
+                foreach (string tag in VRCUtils.ActiveUserInUserInfoMenu.tags) //Cant use where here because Il2Cpp List and regular List
+                {
+                    if (tag.StartsWith("language_")) userLanguages.Add(languageLookup[tag.Substring(9)]);
+                }
             }
         }
 
