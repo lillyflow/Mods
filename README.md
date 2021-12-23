@@ -111,6 +111,8 @@ Let's you sort of scroll the avatar preview so you can control where it's facing
 
 ## PrivateInstanceIcon
 
+[![Requires VRChatUtilityKit][VRCUKRequiredBadge]][VRCUKLink]
+
 Adds an icon to the social menu that shows if you can join a person or not.
 
 Let's you configure what the mod does when a user is in a certain world type.
