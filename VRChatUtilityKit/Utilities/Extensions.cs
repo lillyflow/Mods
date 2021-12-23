@@ -1,7 +1,7 @@
-﻿using MelonLoader;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
+using MelonLoader;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using VRC.Core;
@@ -113,7 +113,7 @@ namespace VRChatUtilityKit.Utilities
                 }
                 catch (Exception ex)
                 {
-                    MelonLogger.Error("Error while invoking delegate:\n" + ex.ToString());
+                    VRChatUtilityKitMod.Instance.LoggerInstance.Error("Error while invoking delegate:\n" + ex.ToString());
                 }
             }
         }

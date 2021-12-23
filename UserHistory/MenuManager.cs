@@ -82,7 +82,7 @@ namespace UserHistory
 
         public static void UiInit()
         {
-            MelonLogger.Msg("Loading UI...");
+            UserHistoryMod.Instance.LoggerInstance.Msg("Loading UI...");
 
             menu = new SubMenu("UserHistoryMenu", "UserHistorySubMenu", "User History");
 
@@ -140,7 +140,7 @@ namespace UserHistory
             if (VRCUtils.IsUIXPresent)
                 typeof(UIXManager).GetMethod("AddOpenButtonToUIX").Invoke(null, null);
 
-            MelonLogger.Msg("UI Loaded!");
+            UserHistoryMod.Instance.LoggerInstance.Msg("UI Loaded!");
         }
 
         public static IEnumerator WaitForQM()
@@ -150,7 +150,7 @@ namespace UserHistory
                 yield return new WaitForSeconds(1f);
             openButton.SetParent(UiManager.QMStateController.transform.Find("Container/Window/QMParent/Menu_Here/QMHeader_H1"));
             openButton.localPosition = new Vector3(Config.openButtonX.Value, Config.openButtonY.Value, 0f); //300f, -60f
-            MelonLogger.Msg("Initialized QM Button!");
+            UserHistoryMod.Instance.LoggerInstance.Msg("Initialized QM Button!");
         }
 
         public static void OpenUserHistoryMenu()

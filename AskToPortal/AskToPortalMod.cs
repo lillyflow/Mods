@@ -30,7 +30,7 @@ namespace AskToPortal
             AskToPortalSettings.RegisterSettings();
             if (MelonHandler.Mods.Any(mod => mod.Info.Name == "Portal Confirmation"))
             {
-                MelonLogger.Warning("Use of Portal Confirmation by 404 was detected! AskToPortal is NOT Portal Confirmation. AskToPortal is simply a replacement for Portal Confirmation as 404 was BANNED from the VRChat Modding Group. If you wish to use this mod please DELETE Portal Confirmation.");
+                LoggerInstance.Warning("Use of Portal Confirmation by 404 was detected! AskToPortal is NOT Portal Confirmation. AskToPortal is simply a replacement for Portal Confirmation as 404 was BANNED from the VRChat Modding Group. If you wish to use this mod please DELETE Portal Confirmation.");
             }
             else
             {
@@ -42,7 +42,7 @@ namespace AskToPortal
 
                 VRCUtils.OnUiManagerInit += OnUiManagerInit;
 
-                MelonLogger.Msg("Initialized!");
+                LoggerInstance.Msg("Initialized!");
             }
         }
         private void OnUiManagerInit()

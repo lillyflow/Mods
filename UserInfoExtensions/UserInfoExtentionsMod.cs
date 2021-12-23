@@ -59,14 +59,14 @@ namespace UserInfoExtensions
 
             VRCUtils.OnUiManagerInit += OnUiManagerInit;
 
-            MelonLogger.Msg("Initialized!");
+            LoggerInstance.Msg("Initialized!");
         }
         public void OnUiManagerInit()
         {
             foreach (ModuleBase module in modules)
                 module.UiInit();
 
-            MelonLogger.Msg("UI Initialized!");
+            LoggerInstance.Msg("UI Initialized!");
         }
         public override void OnPreferencesSaved()
         {
