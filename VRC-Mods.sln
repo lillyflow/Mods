@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AskToPortal", "AskToPortal\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloningBeGone", "CloningBeGone\CloningBeGone.csproj", "{FFDCEEAA-A827-4729-AD90-1AA8D2B24F82}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayerList", "PlayerList\PlayerList.csproj", "{49172F14-8AA3-42FC-A224-FD4A00C9AB4A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReloadAvatars", "ReloadAvatars\ReloadAvatars.csproj", "{3303D413-1113-4B06-B250-D83AC07F16C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInfoExtensions", "UserInfoExtensions\UserInfoExtensions.csproj", "{1427E621-2FE4-401F-BAFC-3C1607F4A4BA}"
@@ -20,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InstanceHistory", "InstanceHistory\InstanceHistory.csproj", "{1DA36125-AA81-4222-83B9-A196ECE0233A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PreviewScroller", "PreviewScroller\PreviewScroller.csproj", "{19135271-DADE-4E05-B9A9-D02B843124E2}"
 EndProject
