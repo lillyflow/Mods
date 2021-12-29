@@ -1,9 +1,9 @@
-﻿using HarmonyLib;
-using MelonLoader;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
+using MelonLoader;
 using UnhollowerBaseLib.Attributes;
 using UnhollowerRuntimeLib.XrefScans;
 
@@ -27,9 +27,9 @@ namespace VRChatUtilityKit.Utilities
         public static HarmonyMethod PrintMethod => _printMethod;
         private static void Print(MethodInfo __originalMethod)
         {
-            MelonLogger.Msg(__originalMethod.Name);
-            MelonLogger.Msg(__originalMethod.DeclaringType.FullName);
-            MelonLogger.Msg("");
+            VRChatUtilityKitMod.Instance.LoggerInstance.Msg(__originalMethod.Name);
+            VRChatUtilityKitMod.Instance.LoggerInstance.Msg(__originalMethod.DeclaringType.FullName);
+            VRChatUtilityKitMod.Instance.LoggerInstance.Msg("");
         }
 
         /// <summary>
@@ -152,17 +152,17 @@ namespace VRChatUtilityKit.Utilities
         {
             try
             {
-                MelonLogger.Msg(ConsoleColor.Yellow, $"Scanning {method.Name}");
+                VRChatUtilityKitMod.Instance.LoggerInstance.Msg(ConsoleColor.Yellow, $"Scanning {method.Name}");
 
-                MelonLogger.Msg(ConsoleColor.Yellow, $"Checking UsedBy");
+                VRChatUtilityKitMod.Instance.LoggerInstance.Msg(ConsoleColor.Yellow, $"Checking UsedBy");
                 DumpScan(XrefScanner.UsedBy(method));
 
-                MelonLogger.Msg(ConsoleColor.Green, "Checking Using");
+                VRChatUtilityKitMod.Instance.LoggerInstance.Msg(ConsoleColor.Green, "Checking Using");
                 DumpScan(XrefScanner.XrefScan(method));
             }
             catch (Exception ex)
             {
-                MelonLogger.Error($"Failed while dumping {method.Name}:\n{ex}");
+                VRChatUtilityKitMod.Instance.LoggerInstance.Error($"Failed while dumping {method.Name}:\n{ex}");
             }
         }
 
@@ -172,9 +172,9 @@ namespace VRChatUtilityKit.Utilities
             {
                 if (instance.Type == XrefType.Global)
                 {
-                    MelonLogger.Msg(instance.Type);
-                    MelonLogger.Msg(instance.ReadAsObject().ToString());
-                    MelonLogger.Msg("");
+                    VRChatUtilityKitMod.Instance.LoggerInstance.Msg(instance.Type);
+                    VRChatUtilityKitMod.Instance.LoggerInstance.Msg(instance.ReadAsObject().ToString());
+                    VRChatUtilityKitMod.Instance.LoggerInstance.Msg("");
                     continue;
                 }
 
@@ -183,16 +183,16 @@ namespace VRChatUtilityKit.Utilities
                 {
                     if (resolvedMethod == null)
                     {
-                        MelonLogger.Msg("null");
-                        MelonLogger.Msg("null");
+                        VRChatUtilityKitMod.Instance.LoggerInstance.Msg("null");
+                        VRChatUtilityKitMod.Instance.LoggerInstance.Msg("null");
                     }
                     else
                     {
-                        MelonLogger.Msg(resolvedMethod.Name);
-                        MelonLogger.Msg(resolvedMethod.DeclaringType.FullName);
+                        VRChatUtilityKitMod.Instance.LoggerInstance.Msg(resolvedMethod.Name);
+                        VRChatUtilityKitMod.Instance.LoggerInstance.Msg(resolvedMethod.DeclaringType.FullName);
                     }
 
-                    MelonLogger.Msg("");
+                    VRChatUtilityKitMod.Instance.LoggerInstance.Msg("");
                 }
             }
         }

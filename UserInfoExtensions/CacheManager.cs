@@ -40,7 +40,7 @@ namespace UserInfoExtensions
                 }
                 catch (Exception ex)
                 {
-                    MelonLogger.Error("Failed while caching user from list:\n" + ex.ToString());
+                    UserInfoExtensionsMod.Instance.LoggerInstance.Error("Failed while caching user from list:\n" + ex.ToString());
                 }
             }
             else if (container.Model != null && container.Model.GetIl2CppType() == Il2CppType.Of<APIUser>())
@@ -51,7 +51,7 @@ namespace UserInfoExtensions
                 }
                 catch (Exception ex)
                 {
-                    MelonLogger.Error("Failed while caching user:\n" + ex.ToString());
+                    UserInfoExtensionsMod.Instance.LoggerInstance.Error("Failed while caching user:\n" + ex.ToString());
                 }
             }
         }

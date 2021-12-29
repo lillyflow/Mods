@@ -61,7 +61,7 @@ namespace UserHistory
                 s.hideFlags |= HideFlags.DontUnloadUnusedAsset;
                 return s;
             }
-            catch (System.Exception ex) { MelonLogger.Error("Failed to load image from asset bundle: " + imageName + "\n" + ex.ToString()); return null; }
+            catch (System.Exception ex) { UserHistoryMod.Instance.LoggerInstance.Error("Failed to load image from asset bundle: " + imageName + "\n" + ex.ToString()); return null; }
         }
     }
 }

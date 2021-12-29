@@ -21,7 +21,7 @@ namespace VRChatUtilityKit
 
         public override void OnApplicationStart()
         {
-            MelonLogger.Msg("Initializing...");
+            LoggerInstance.Msg("Initializing...");
             Instance = this;
             melonLoaderEventSubscribers = MelonHandler.Mods
                 .Select(mod => mod.Assembly.GetTypes())
@@ -43,7 +43,7 @@ namespace VRChatUtilityKit
             }
             catch (Exception ex)
             {
-                MelonLogger.Error("Error while initializing UiManager:\n" + ex.ToString());
+                LoggerInstance.Error("Error while initializing UiManager:\n" + ex.ToString());
             }
 
             foreach (object subscriber in melonLoaderEventSubscribers)
@@ -68,7 +68,7 @@ namespace VRChatUtilityKit
                 }
                 catch (Exception ex)
                 {
-                    MelonLogger.Error($"Exception during OnApplicationStart:\n{ex}");
+                    LoggerInstance.Error($"Exception during OnApplicationStart:\n{ex}");
                 }
             }
 
@@ -77,14 +77,14 @@ namespace VRChatUtilityKit
 
         private void OnUiManagerInit()
         {
-            MelonLogger.Msg("Initializing UI...");
+            LoggerInstance.Msg("Initializing UI...");
             try
             {
                 UiManager.UiInit();
             }
             catch (Exception ex)
             {
-                MelonLogger.Error("Error while initializing UiManager:\n" + ex.ToString());
+                LoggerInstance.Error("Error while initializing UiManager:\n" + ex.ToString());
             }
 
             foreach (object subscriber in melonLoaderEventSubscribers)
@@ -109,7 +109,7 @@ namespace VRChatUtilityKit
                 }
                 catch (Exception ex)
                 {
-                    MelonLogger.Error($"Exception during OnUiManagerInit:\n{ex}");
+                    LoggerInstance.Error($"Exception during OnUiManagerInit:\n{ex}");
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace VRChatUtilityKit
                 }
                 catch (Exception ex)
                 {
-                    MelonLogger.Error($"Exception during OnSceneWasLoaded:\n{ex}");
+                    LoggerInstance.Error($"Exception during OnSceneWasLoaded:\n{ex}");
                 }
             }
         }
@@ -167,7 +167,7 @@ namespace VRChatUtilityKit
                 }
                 catch (Exception ex)
                 {
-                    MelonLogger.Error($"Exception during OnSceneWasInitialized:\n{ex}");
+                    LoggerInstance.Error($"Exception during OnSceneWasInitialized:\n{ex}");
                 }
             }
         }
@@ -196,7 +196,7 @@ namespace VRChatUtilityKit
                 }
                 catch (Exception ex)
                 {
-                    MelonLogger.Error($"Exception during OnSceneWasUnloaded:\n{ex}");
+                    LoggerInstance.Error($"Exception during OnSceneWasUnloaded:\n{ex}");
                 }
             }
         }
@@ -225,7 +225,7 @@ namespace VRChatUtilityKit
                 }
                 catch (Exception ex)
                 {
-                    MelonLogger.Error($"Exception during OnApplicationQuit:\n{ex}");
+                    LoggerInstance.Error($"Exception during OnApplicationQuit:\n{ex}");
                 }
             }
         }

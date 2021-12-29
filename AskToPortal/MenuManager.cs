@@ -30,7 +30,7 @@ namespace AskToPortal
         public static void LoadAssetBundle()
         {
             // Stolen from UIExpansionKit (https://github.com/knah/VRCMods/blob/master/UIExpansionKit) #Imnotaskidiswear
-            MelonLogger.Msg("Loading UI...");
+            AskToPortalMod.Instance.LoggerInstance.Msg("Loading UI...");
             ClassInjector.RegisterTypeInIl2Cpp<AskToPortalPromptPage>();
             ClassInjector.RegisterTypeInIl2Cpp<AskToPortalPageDetailed>();
             ClassInjector.RegisterTypeInIl2Cpp<AskToPortalPageBasic>();

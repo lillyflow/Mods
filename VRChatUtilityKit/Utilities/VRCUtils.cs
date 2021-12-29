@@ -155,12 +155,12 @@ namespace VRChatUtilityKit.Utilities
                 switch (result)
                 {
                     case "allowed":
-                        MelonLogger.Msg("World allowed to use risky functions");
+                        VRChatUtilityKitMod.Instance.LoggerInstance.Msg("World allowed to use risky functions");
                         AreRiskyFunctionsAllowed = true;
                         return;
 
                     case "denied":
-                        MelonLogger.Msg("World NOT allowed to use risky functions");
+                        VRChatUtilityKitMod.Instance.LoggerInstance.Msg("World NOT allowed to use risky functions");
                         AreRiskyFunctionsAllowed = false;
                         return;
                 }
@@ -189,13 +189,13 @@ namespace VRChatUtilityKit.Utilities
             {
                 if (worldTag.ToLower().Contains("game") || worldTag.ToLower().Contains("club"))
                 {
-                    MelonLogger.Msg("World NOT allowed to use risky functions");
+                    VRChatUtilityKitMod.Instance.LoggerInstance.Msg("World NOT allowed to use risky functions");
                     AreRiskyFunctionsAllowed = false;
                     return;
                 }
             }
 
-            MelonLogger.Msg("World allowed to use risky functions");
+            VRChatUtilityKitMod.Instance.LoggerInstance.Msg("World allowed to use risky functions");
             AreRiskyFunctionsAllowed = true;
         }
 
